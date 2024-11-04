@@ -1,0 +1,19 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+  {% block head %}
+  <title>{% block title %}Mon Projet{% endblock %}</title>
+
+  {% block styles %}
+  <link href="{% static 'style.css'%}" rel="stylesheet" />
+  {% endblock %}
+
+  {% endblock%}
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
