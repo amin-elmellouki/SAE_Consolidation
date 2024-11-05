@@ -6,19 +6,23 @@ class Etudiant(models.Model):
     nom = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
 
-class Qcm(models.Model):
-    dateQ = models.DateField()
-    matiere = models.CharField(max_length=50)
+class Matiere(models.Model):
+    idMat = models.AutoField(primary_key=True)
+    nom = models.CharField(max_length=50)
 
-    class Meta:
-        unique_together = ('dateQ', 'matiere')
+class Qcm(models.Model):
+    dateQ = models.DateField(primary_key=True)
 
 class Conso(models.Model):
-    dateC = models.DateField()
-    matiere = models.CharField(max_length=50)
+    dateC = models.DateField(primary_key=True)
 
-    class Meta:
-        unique_together = ('dateC', 'matiere')
+class CorrespondQcm(models.Model):
+    qcm = models.ForeignKey(Qcm, on_delete=models.CASCADE, related_name="correspondances")
+    matiere = models.OneToOneField(Matiere, on_delete=models.CASCADE, related_name="qcm_unique")
+
+class CorrespondConso(models.Model):
+    conso = models.ForeignKey(Conso, on_delete=models.CASCADE, related_name="correspondances")
+    matiere = models.OneToOneField(Matiere, on_delete=models.CASCADE, related_name="conso_unique")
 
 class Bilan(models.Model):
     annee = models.IntegerField()
@@ -28,16 +32,16 @@ class Bilan(models.Model):
         unique_together = ('annee', 'numSem')
 
 class EstNote(models.Model):
-    numE = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    dateQ = models.ForeignKey(Qcm, on_delete=models.CASCADE)
+    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
+    qcm = models.ForeignKey(Qcm, on_delete=models.CASCADE)
     note = models.DecimalField(max_digits=4, decimal_places=2)
 
 class Participe(models.Model):
-    numE = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    dateC = models.ForeignKey(Conso, on_delete=models.CASCADE)
+    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
+    conso = models.ForeignKey(Conso, on_delete=models.CASCADE)
 
 class RepondreBilan(models.Model):
-    numE = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
+    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     bilan = models.ForeignKey(Bilan, on_delete=models.CASCADE)
     description = models.CharField(max_length=50)
     demande = models.CharField(max_length=3, choices=[('oui', 'Oui'), ('non', 'Non')])
