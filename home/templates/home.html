@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    <h1>Bienvenue {{user.username}} :3</h1>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Se déconnecter</button>
+    </form>
+{% endblock %}
