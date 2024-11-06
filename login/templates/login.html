@@ -1,40 +1,52 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Connexion {% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block content %}
-    <div class="left-part"></div>
-        <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
-        <p class="description">Conso<b>Lead</b> vous permet de gérer plus facilement<br>le soutien hebdomadaire proposé aux étudiants de BUT1.</p>
-        <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
-    </div>
+<div class="left-part">
+    <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
+    <p class="description">Conso<b>Lead</b> vous permet de gérer plus facilement<br>le soutien hebdomadaire proposé aux étudiants de BUT1.</p>
+    <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
+</div>
 
-    <div class="right-part">
-        <h1>Bienvenue !</h1>
-        <h3>Mot de passe</h3>
+<div class="right-part">
+    <h1>Bienvenue !</h1>
+    <h3>Mot de passe</h3>
 
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.password }}
-                {% if form.password.errors %}
-                    <div class="error-message">{{ form.password.errors }}</div>
-                {% endif %}
-            </div>
-
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="error-message">{{ message }}</div>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="error-message">
+                    {% for error in form.password.errors %}
+                        {% if "too short" in error %}
+                            <p>Le mot de passe est trop court, il doit contenir au moins 8 caractères.</p>
+                        {% elif "too common" in error %}
+                            <p>Le mot de passe est trop simple à deviner, veuillez en choisir un autre.</p>
+                        {% elif "entirely numeric" in error %}
+                            <p>Le mot de passe ne peut pas être entièrement composé de chiffres.</p>
+                        {% else %}
+                            <p>{{ error }}</p>
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
+        </div>
 
-            <div class="form-actions">
-                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-                <button type="submit" class="submit-button">Se connecter</button>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
             </div>
-        </form>
-    </div>
+        {% endif %}
+
+        <div class="form-actions">
+            <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            <button type="submit" class="submit-button">Se connecter</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
