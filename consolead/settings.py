@@ -132,4 +132,4 @@ LOGIN_REDIRECT_URL = '/'  # Ou l'URL de votre choix
 LOGOUT_REDIRECT_URL = '/login/'  # Redirection après déconnexion
 
 # Mot de passe "clé" pour accéder au site web
-UNIQUE_PASSWORD = '0123456789'
+UNIQUE_PASSWORD = '123'

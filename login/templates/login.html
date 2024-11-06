@@ -1,24 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %} Connexion {% endblock %}
 
 {% block content %}
-    <h1>Connexion</h1>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">Mot de passe :</label>
-            {{ form.password }}
-            {% if form.password.errors %}
-                <div class="error">{{ form.password.errors }}</div>
-            {% endif %}
-        </div>
+    <div class="left-part"></div>
+        <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
+        <p class="description">Conso<b>Lead</b> vous permet de gérer plus facilement<br>le soutien hebdomadaire proposé aux étudiants de BUT1.</p>
+        <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
+    </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="error">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        
-        <button type="submit">Se connecter</button>
-    </form>
+    <div class="right-part">
+        <h1>Bienvenue !</h1>
+        <h3>Mot de passe</h3>
+
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error-message">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                <button type="submit" class="submit-button">Se connecter</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
