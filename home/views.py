@@ -28,6 +28,6 @@ def load_bilan(request):
 def load_qcm(request):
     files = request.FILES.getlist('files')
     for file in files:
-        load_bilan_into_db(file)
+        load_qcm_into_db(file)
     
     return HttpResponseRedirect("/")

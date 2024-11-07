@@ -17,14 +17,29 @@
         {% csrf_token %}
         <button type="submit">Se déconnecter</button>
     </form>
-  
+
     <h1>Bilan</h1>
     <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
         <p>Glissez déposez un bilan <strong>ici</strong>.</p>
+        <!-- Bouton pour choisir un fichier -->
+        <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
+        <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
     </div>
     
     <h1>QCM</h1>
     <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
         <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
+        <!-- Bouton pour choisir des fichiers -->
+        <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
+        <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
     </div>
+
+    <input type=text list=browsers >
+    <datalist id=matieres >
+    {% for matiere in matieres %}
+        
+    {% endfor %}
+    <option> IE9
+    </datalist>
+
 {% endblock %}

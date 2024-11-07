@@ -62,28 +62,6 @@ class DemandeEn(models.Model):
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='demandes')
 
 
-def get_or_add_matiere(nom):
-    if Matiere.objects.filter(nomMat=nom).exists():
-        return Matiere.objects.get(nomMat=nom)
-    
-    matiere = Matiere(nomMat=nom)
-    matiere.save()
-    return matiere
-
-
-def get_or_add_student(num_e, nom_prenom, email):
-    if Etudiant.objects.filter(numE=num_e).exists():
-        return Etudiant.objects.get(numE=num_e)
-    
-    etudiant = Etudiant(
-        numE=num_e,
-        nomPrenom=nom_prenom,
-        email=email
-    )
-    etudiant.save()
-    return etudiant
-
-
 months = {
     'janvier': 1,
     'fevrier': 2,
@@ -99,56 +77,71 @@ months = {
     'décembre': 12,
 }
 
-def formar_date(date: str) -> str:
+def format_date(date: str) -> str:
     date = date.replace(',', '').split(' ')
     return f"{date[3]}-{months[date[2]]}-{date[1]}"
 
 
-# Gestion de l'ajout du bilan
-def get_or_add_bilan(date):
-    if Bilan.objects.filter(dateB=date).exists():
-        return Bilan.objects.get(dateB=date)
-    
-    bilan = Bilan(dateB=date)
-    bilan.save()
-    return bilan 
-
-
-def add_reponse_bilan(etudiant: Etudiant, bilan: Bilan, desc: str, demande: bool) -> RepondreBilan:
-     reponse = RepondreBilan(
-         etudiant=etudiant,
-         bilan=bilan,
-         desc=desc,
-         demande=demande
-     )
-     reponse.save()
-     return reponse
-
-
 def load_bilan_into_db(file):
-    reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="	")
+    reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="\t")
     
     for row in reader:
-        bilan = get_or_add_bilan(formar_date(row['Date']))
+        date_bilan = format_date(row['Date'])
+        bilan, _ = Bilan.objects.get_or_create(dateB=date_bilan)
         
-        etudiant = get_or_add_student(
-            row['Numéro d’identification'],
-            row['Nom complet de l’utilisateur'],
-            row['Adresse de courriel']
-            )
+        etudiant, _ = Etudiant.objects.get_or_create(
+            numE=row['Numéro d’identification'],
+            defaults={
+                'nomPrenom': row['Nom complet de l’utilisateur'],
+                'email': row['Adresse de courriel']
+            }
+        )
         
         demande_conso = row['Consolidation'] == 'Oui'
-        reponse = add_reponse_bilan(
-            etudiant,
-            bilan,
-            row['Précisions'],
-            demande_conso 
+        
+        reponse, _ = RepondreBilan.objects.get_or_create(
+            etudiant=etudiant,
+            bilan=bilan,
+            defaults={
+                'desc': row['Précisions'],
+                'demande': demande_conso
+            }
         )
         
         if demande_conso:
-            for matiere in row['Matière'].split("  "):
-                DemandeEn(reponse=reponse, matiere=get_or_add_matiere(matiere)).save()
+            for matiere_name in row['Matière'].split("  "):
+                matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name)
+                DemandeEn.objects.get_or_create(reponse=reponse, matiere=matiere)
 
 
-def load_qcm_into_db(file):
-    pass
+def load_qcm_into_db(file, nom_matiere):
+    reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="\t")
+    
+    for row in reader:
+        matiere, _ = Matiere.objects.get_or_create(nomMat=nom_matiere)
+        
+        date_qcm = format_date(row['Commencé le'])
+        qcm, _ = QCM.objects.get_or_create(dateQ=date_qcm, matiere=matiere)
+        
+        etudiant, _ = Etudiant.objects.get_or_create(
+            numE=row['Numéro d’identification'],
+            defaults={
+                'nomPrenom': f"{row['Nom de famille']} {row['Prénom']}",
+                'email': row['Adresse de courriel']
+            }
+        )
+        
+        try:
+            note = float(row['Note/20,00'].replace(',', '.'))
+        except ValueError:
+            raise ValidationError("La note n'est pas au format valide")
+        
+        est_note, _ = EstNote.objects.get_or_create(
+            etudiant=etudiant,
+            qcm=qcm,
+            defaults={'note': note}
+        )
+        
+        if est_note.note != note:
+            est_note.note = note
+            est_note.save()

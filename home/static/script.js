@@ -1,29 +1,35 @@
+var loadedFiles;
+
+function fileInputHandler(event, type) {
+    const files = event.target.files;
+    let url = type === 'bilan' ? loadBilanUrl : loadQcmUrl;
+    uploadFiles(files, url);
+}
+
 function dropHandler(ev, type) {
     console.log("File(s) dropped");
     
     ev.preventDefault();
 
-    // Récupération des fichiers
-    let files
+    let files;
     if (ev.dataTransfer.items) {
         files = [...ev.dataTransfer.items].map(item => item.getAsFile());
     } else {
         files = [...ev.dataTransfer.files];
     }
     
-    // Choix de l'url
-    let url;
     if (type === 'bilan') {
-        url = loadBilanUrl;
+        uploadFiles(files, loadBilanUrl);
     } else {
-        url = loadQcmUrl
+        loadedFiles = files;
     }
 
-    // Envoie
+
+function uploadFiles(files, url) {
     let formData = new FormData();
-    files.forEach((file, index) => {
-        formData.append(`files`, file);
-    });
+    for (let file of files) {
+        formData.append('files', file);
+    }
 
     fetch(url, {
         method: 'POST',
@@ -31,7 +37,15 @@ function dropHandler(ev, type) {
             "X-CSRFToken": getCookie("csrftoken")
         },
         body: formData
-    })
+    }).then(response => {
+        if (response.ok) {
+            console.log("Files uploaded successfully.");
+        } else {
+            console.error("File upload failed.");
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+    });
 }
 
 function getCookie(name) {
