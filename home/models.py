@@ -42,7 +42,7 @@ class EstNote(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
     note = models.DecimalField(max_digits=5, decimal_places=2)
-    
+
     class Meta:
         unique_together = ('etudiant', 'qcm')
 
@@ -52,7 +52,7 @@ class RepondreBilan(models.Model):
     bilan = models.ForeignKey(Bilan, on_delete=models.CASCADE)
     desc = models.TextField()
     demande = models.TextField()
-    
+
     class Meta:
         unique_together = ('etudiant', 'bilan')
 
@@ -62,7 +62,7 @@ class DemandeEn(models.Model):
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='demandes')
 
 
-months = {
+MONTHS = {
     'janvier': 1,
     'fevrier': 2,
     'mars': 3,
@@ -79,7 +79,7 @@ months = {
 
 def format_date(date: str) -> str:
     date = date.replace(',', '').split(' ')
-    return f"{date[3]}-{months[date[2]]}-{date[1]}"
+    return f"{date[3]}-{MONTHS[date[2]]}-{date[1]}"
 
 
 def load_bilan_into_db(file):
