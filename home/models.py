@@ -77,16 +77,22 @@ MONTHS = {
     'décembre': 12,
 }
 
-def format_date(date: str) -> str:
+def format_bilan_date(date: str) -> str:
     date = date.replace(',', '').split(' ')
     return f"{date[3]}-{MONTHS[date[2]]}-{date[1]}"
+
+
+def format_qcm_date(date: str) -> str:
+    date = date.split(" ")
+    print(date)
+    return f"{date[2]}-{MONTHS[date[1]]}-{date[0]}"
 
 
 def load_bilan_into_db(file):
     reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="\t")
     
     for row in reader:
-        date_bilan = format_date(row['Date'])
+        date_bilan = format_bilan_date(row['Date'])
         bilan, _ = Bilan.objects.get_or_create(dateB=date_bilan)
         
         etudiant, _ = Etudiant.objects.get_or_create(
@@ -110,17 +116,19 @@ def load_bilan_into_db(file):
         
         if demande_conso:
             for matiere_name in row['Matière'].split("  "):
-                matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name)
+                matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name.strip())
                 DemandeEn.objects.get_or_create(reponse=reponse, matiere=matiere)
 
 
 def load_qcm_into_db(file, nom_matiere):
     reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="\t")
     
+    matiere = Matiere.objects.get(nomMat=nom_matiere)
     for row in reader:
-        matiere, _ = Matiere.objects.get_or_create(nomMat=nom_matiere)
+        if row['Nom de famille'] == 'Moyenne globale':
+            continue
         
-        date_qcm = format_date(row['Commencé le'])
+        date_qcm = format_qcm_date(row['Commencé le'])
         qcm, _ = QCM.objects.get_or_create(dateQ=date_qcm, matiere=matiere)
         
         etudiant, _ = Etudiant.objects.get_or_create(

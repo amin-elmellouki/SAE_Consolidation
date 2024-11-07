@@ -2,8 +2,12 @@ var loadedFiles;
 
 function fileInputHandler(event, type) {
     const files = event.target.files;
-    let url = type === 'bilan' ? loadBilanUrl : loadQcmUrl;
-    uploadFiles(files, url);
+    
+    if (type === 'bilan') {
+        uploadFiles(files, loadBilanUrl);
+    } else {
+        loadedFiles = files;
+    }
 }
 
 function dropHandler(ev, type) {
@@ -18,17 +22,24 @@ function dropHandler(ev, type) {
         files = [...ev.dataTransfer.files];
     }
     
+    console.log(type)
     if (type === 'bilan') {
         uploadFiles(files, loadBilanUrl);
     } else {
         loadedFiles = files;
     }
+}
 
-
-function uploadFiles(files, url) {
+function uploadFiles(files, url, mat=null) {
     let formData = new FormData();
     for (let file of files) {
         formData.append('files', file);
+    }
+
+    console.log(mat)
+    if (mat) {
+        console.log("Ajout de matiere dans le formulaire")
+        formData.append('matiere', mat)
     }
 
     fetch(url, {
@@ -46,6 +57,11 @@ function uploadFiles(files, url) {
     }).catch(error => {
         console.error("Error:", error);
     });
+}
+
+function sendQcm() {
+    var e = document.getElementById('matiere-select')
+    uploadFiles(loadedFiles, loadQcmUrl, e.options[e.selectedIndex].text);
 }
 
 function getCookie(name) {

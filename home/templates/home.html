@@ -34,12 +34,14 @@
         <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
     </div>
 
-    <input type=text list=browsers >
-    <datalist id=matieres >
-    {% for matiere in matieres %}
+    <select name="matieres" id="matiere-select">
+        <option value="">--Please choose an option--</option>
         
-    {% endfor %}
-    <option> IE9
-    </datalist>
+        {% for matiere in matieres %}
+            <option value="{{ matiere.nomMat }}"> {{matiere.nomMat}} </option>
+        {% endfor %}
+    </select>
+
+    <button onclick="sendQcm();">Envoyer QCM</button>
 
 {% endblock %}
