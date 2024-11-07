@@ -122,7 +122,6 @@ def add_reponse_bilan(etudiant: Etudiant, bilan: Bilan, desc: str, demande: bool
          demande=demande
      )
      reponse.save()
-     print('Bilan ajouté')
      return reponse
 
 

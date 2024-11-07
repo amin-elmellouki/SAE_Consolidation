@@ -6,7 +6,8 @@
 <link href="{% static 'style-home.css'%}" rel="stylesheet"/>
 <script src="{% static 'script.js'%}"></script>
 <script>
-    const loadBilanUrl = "{% url 'load_qcm' %}";
+    const loadBilanUrl = "{% url 'load_bilan' %}";
+    const loadQcmUrl = "{% url 'load_qcm' %}";
 </script>
 {% endblock %}
 
@@ -19,11 +20,11 @@
   
     <h1>Bilan</h1>
     <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
-        <p>Drag one or more files to this <i>drop zone</i>.</p>
+        <p>Glissez déposez un bilan <strong>ici</strong>.</p>
     </div>
     
     <h1>QCM</h1>
     <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
-        <p>Drag one or more files to this <i>drop zone</i>.</p>
+        <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
     </div>
 {% endblock %}

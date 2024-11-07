@@ -13,7 +13,7 @@ function dropHandler(ev, type) {
     
     // Choix de l'url
     let url;
-    if (type === "bilan") {
+    if (type === 'bilan') {
         url = loadBilanUrl;
     } else {
         url = loadQcmUrl
