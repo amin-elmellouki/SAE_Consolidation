@@ -1,6 +1,5 @@
 import csv
 
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -42,7 +41,7 @@ class EstNote(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
     note = models.DecimalField(max_digits=5, decimal_places=2)
-    
+
     class Meta:
         unique_together = ('etudiant', 'qcm')
 
@@ -52,7 +51,7 @@ class RepondreBilan(models.Model):
     bilan = models.ForeignKey(Bilan, on_delete=models.CASCADE)
     desc = models.TextField()
     demande = models.TextField()
-    
+
     class Meta:
         unique_together = ('etudiant', 'bilan')
 
@@ -62,29 +61,17 @@ class DemandeEn(models.Model):
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='demandes')
 
 
-def get_or_add_matiere(nom):
-    if Matiere.objects.filter(nomMat=nom).exists():
-        return Matiere.objects.get(nomMat=nom)
-    
-    matiere = Matiere(nomMat=nom)
-    matiere.save()
+def get_or_add_matiere(nom: str) -> Matiere:
+    matiere, _ = Matiere.objects.get_or_create(nomMat=nom)
     return matiere
 
 
-def get_or_add_student(num_e, nom_prenom, email):
-    if Etudiant.objects.filter(numE=num_e).exists():
-        return Etudiant.objects.get(numE=num_e)
-    
-    etudiant = Etudiant(
-        numE=num_e,
-        nomPrenom=nom_prenom,
-        email=email
-    )
-    etudiant.save()
+def get_or_add_student(num_e: str, nom_prenom: str, email: str) -> Etudiant:
+    etudiant, _ = Etudiant.objects.get_or_create(numE=num_e, defaults={'nomPrenom': nom_prenom, 'email': email})
     return etudiant
 
 
-months = {
+MONTHS = {
     'janvier': 1,
     'fevrier': 2,
     'mars': 3,
@@ -99,56 +86,58 @@ months = {
     'décembre': 12,
 }
 
-def formar_date(date: str) -> str:
-    date = date.replace(',', '').split(' ')
-    return f"{date[3]}-{months[date[2]]}-{date[1]}"
+
+def format_date(date: str) -> str:
+    parts = date.replace(',', '').split(' ')
+    return f"{parts[3]}-{MONTHS[parts[2]]}-{parts[1]}"
 
 
-# Gestion de l'ajout du bilan
-def get_or_add_bilan(date):
-    if Bilan.objects.filter(dateB=date).exists():
-        return Bilan.objects.get(dateB=date)
-    
-    bilan = Bilan(dateB=date)
-    bilan.save()
-    return bilan 
+def get_or_add_bilan(date: str) -> Bilan:
+    bilan, _ = Bilan.objects.get_or_create(dateB=date)
+    return bilan
 
 
 def add_reponse_bilan(etudiant: Etudiant, bilan: Bilan, desc: str, demande: bool) -> RepondreBilan:
-     reponse = RepondreBilan(
-         etudiant=etudiant,
-         bilan=bilan,
-         desc=desc,
-         demande=demande
-     )
-     reponse.save()
-     return reponse
+    reponse = RepondreBilan.objects.create(
+        etudiant=etudiant,
+        bilan=bilan,
+        desc=desc,
+        demande=demande
+    )
+    return reponse
 
 
-def load_bilan_into_db(file):
-    reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="	")
+def load_bilan_into_db(file) -> None:
+    reader = csv.DictReader(file.read().decode('utf-8').splitlines(), delimiter="\t")
     
     for row in reader:
-        bilan = get_or_add_bilan(formar_date(row['Date']))
+        date_bilan = format_date(row['Date'])
+        bilan, _ = Bilan.objects.get_or_create(dateB=date_bilan)
         
-        etudiant = get_or_add_student(
-            row['Numéro d’identification'],
-            row['Nom complet de l’utilisateur'],
-            row['Adresse de courriel']
-            )
+        etudiant, _ = Etudiant.objects.get_or_create(
+            numE=row['Numéro d’identification'],
+            defaults={
+                'nomPrenom': row['Nom complet de l’utilisateur'],
+                'email': row['Adresse de courriel']
+            }
+        )
         
         demande_conso = row['Consolidation'] == 'Oui'
-        reponse = add_reponse_bilan(
-            etudiant,
-            bilan,
-            row['Précisions'],
-            demande_conso 
+        
+        reponse, _ = RepondreBilan.objects.get_or_create(
+            etudiant=etudiant,
+            bilan=bilan,
+            defaults={
+                'desc': row['Précisions'],
+                'demande': demande_conso
+            }
         )
         
         if demande_conso:
-            for matiere in row['Matière'].split("  "):
-                DemandeEn(reponse=reponse, matiere=get_or_add_matiere(matiere)).save()
+            for matiere_name in row['Matière'].split("  "):
+                matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name)
+                DemandeEn.objects.get_or_create(reponse=reponse, matiere=matiere)
 
 
-def load_qcm_into_db(file):
+def load_qcm_into_db(file) -> None:
     pass

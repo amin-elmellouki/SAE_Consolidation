@@ -19,7 +19,7 @@ function dropHandler(ev, type) {
         url = loadQcmUrl
     }
 
-    // Envoie
+    // Envoi
     let formData = new FormData();
     files.forEach((file, index) => {
         formData.append(`files`, file);
