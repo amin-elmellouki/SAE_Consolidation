@@ -6,9 +6,8 @@
   {% block head %}
   <title>{% block title %}Mon Projet{% endblock %}</title>
 
-  {% block styles %}
   <link href="{% static 'style.css'%}" rel="stylesheet" />
-  {% endblock %}
+  {% block styles %} {% endblock %}
 
   {% endblock%}
 </head>

@@ -1,5 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Home {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-home.css'%}" rel="stylesheet"/>
+<script src="{% static 'script.js'%}"></script>
+<script>
+    const loadBilanUrl = "{% url 'load_qcm' %}";
+</script>
+{% endblock %}
 
 {% block content %}
     <h1>Bienvenue {{user.username}} :3</h1>
@@ -7,4 +16,16 @@
         {% csrf_token %}
         <button type="submit">Se déconnecter</button>
     </form>
+  
+    <h1>Bilan</h1>
+    <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
+        <p>Drag one or more files to this <i>drop zone</i>.</p>
+    </div>
+    
+    <h1>QCM</h1>
+    <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
+        <p>Drag one or more files to this <i>drop zone</i>.</p>
+    </div>
+    
+    
 {% endblock %}
