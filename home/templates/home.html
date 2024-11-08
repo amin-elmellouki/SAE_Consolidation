@@ -20,7 +20,7 @@
     </form>
 
     <section>
-        <h1>Bilan</h1>
+        <h2>Bilan</h2>
         <div style="display: none;" id="succ-bilan" class="message success">
             <p>Bilan chargé dans la base de données</p>
         </div>
@@ -30,15 +30,15 @@
         </div>
 
         <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
+            <span class="material-symbols-rounded">upload_file</span>
             <p>Glissez déposez un bilan <strong>ici</strong>.</p>
-            <!-- Bouton pour choisir un fichier -->
             <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
             <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
         </div>
     </section>
     
     <section>
-        <h1>QCM</h1>
+        <h2>QCM</h2>
         <div style="display: none;" id="succ-qcm" class="message success">
             <p>Bilan chargé dans la base de données</p>
         </div>
@@ -48,8 +48,8 @@
         </div>
         <div style="display:flex">
             <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
+                <span class="material-symbols-rounded">upload_file</span>
                 <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
-                <!-- Bouton pour choisir des fichiers -->
                 <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
                 <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
             </div>
