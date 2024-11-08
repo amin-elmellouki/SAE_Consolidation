@@ -1,5 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Home {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-home.css'%}" rel="stylesheet"/>
+<script src="{% static 'script.js'%}"></script>
+<script>
+    const loadBilanUrl = "{% url 'load_bilan' %}";
+    const loadQcmUrl = "{% url 'load_qcm' %}";
+</script>
+{% endblock %}
 
 {% block content %}
     <h1>Bienvenue {{user.username}} :3</h1>
@@ -7,4 +17,31 @@
         {% csrf_token %}
         <button type="submit">Se déconnecter</button>
     </form>
+
+    <h1>Bilan</h1>
+    <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
+        <p>Glissez déposez un bilan <strong>ici</strong>.</p>
+        <!-- Bouton pour choisir un fichier -->
+        <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
+        <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
+    </div>
+    
+    <h1>QCM</h1>
+    <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
+        <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
+        <!-- Bouton pour choisir des fichiers -->
+        <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
+        <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
+    </div>
+
+    <select name="matieres" id="matiere-select">
+        <option value="">--Please choose an option--</option>
+        
+        {% for matiere in matieres %}
+            <option value="{{ matiere.nomMat }}"> {{matiere.nomMat}} </option>
+        {% endfor %}
+    </select>
+
+    <button onclick="sendQcm();">Envoyer QCM</button>
+
 {% endblock %}
