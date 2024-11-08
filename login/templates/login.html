@@ -16,26 +16,10 @@
         <h1>Bienvenue !</h1>
         <h2>Mot de passe</h2>
 
-        <form method="post" class="login-form">
+        <form method="post">
             {% csrf_token %}
-            <div class="form-group">
-                {{ form.password }}
-                {% if form.password.errors %}
-                    <div class="error-message">
-                        {% for error in form.password.errors %}
-                            {% if "too short" in error %}
-                                <p>Le mot de passe est trop court, il doit contenir au moins 8 caractères.</p>
-                            {% elif "too common" in error %}
-                                <p>Le mot de passe est trop simple à deviner, veuillez en choisir un autre.</p>
-                            {% elif "entirely numeric" in error %}
-                                <p>Le mot de passe ne peut pas être entièrement composé de chiffres.</p>
-                            {% else %}
-                                <p>{{ error }}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
+            {{ form.as_p }}
+            <button type="submit">Se connecter</button>
 
             {% if messages %}
                 <div class="messages">
@@ -44,11 +28,6 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
-            <div class="form-actions">
-                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-                <button type="submit" class="submit-button">Se connecter</button>
-            </div>
         </form>
     </div>
 </div>

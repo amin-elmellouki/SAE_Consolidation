@@ -61,18 +61,18 @@ html, body {
     margin-top: 120px;
     margin-bottom: 85px;
 }
-
+  
 button {
-    background-color: #6654ca;
+    background: linear-gradient(90deg, rgba(71,85,198,1) 0%, rgba(175,86,188,1) 100%);
     color: white;
     border: none;
     padding: 15px 50px;
     border-radius: 20px;
-    cursor: grab;
     position: absolute;
     right: 10px;
     font-size: 1.2rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 a {
