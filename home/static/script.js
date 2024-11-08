@@ -51,12 +51,19 @@ function uploadFiles(files, url, mat=null) {
     }).then(response => {
         if (response.ok) {
             console.log("Files uploaded successfully.");
+            showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), false)
         } else {
             console.error("File upload failed.");
+            showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), true)
         }
     }).catch(error => {
         console.error("Error:", error);
+        showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), true)
     });
+}
+
+function showMessage(type, err) {
+    document.getElementById(`${(err) ? ("err") : ("succ")}-${type}`).style.display = 'flex';
 }
 
 function sendQcm() {
