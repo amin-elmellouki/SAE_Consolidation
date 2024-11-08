@@ -92,6 +92,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -130,3 +133,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login redirect
 LOGIN_REDIRECT_URL = '/'  # Ou l'URL de votre choix
 LOGOUT_REDIRECT_URL = '/login/'  # Redirection après déconnexion
+
+
+
+from django.contrib.auth.hashers import make_password
+# Mot de passe "clé" pour accéder au site web
+UNIQUE_PASSWORD = '123'
+UNIQUE_PASSWORD_HASH = make_password(UNIQUE_PASSWORD)

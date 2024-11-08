@@ -1,9 +1,8 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-
-from .views import CustomLoginView
+from . import views
 
 urlpatterns = [
-    path('login/', CustomLoginView.as_view(), name='login'),
+    path('login/', views.password_login_view, name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]
