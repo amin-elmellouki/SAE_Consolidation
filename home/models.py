@@ -9,8 +9,11 @@ class Matiere(models.Model):
 
 
 class QCM(models.Model):
-    dateQ = models.DateField(primary_key=True)
+    dateQ = models.DateField()
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name="qcms")
+
+    class Meta:
+        unique_together = ('dateQ', 'matiere')
 
 
 class Etudiant(models.Model):
