@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Connexion{% endblock %}
-{% block styles %}<link href="{% static 'loginstyle.css' %}" rel="stylesheet" />{% endblock %}
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'loginstyle.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -14,13 +19,10 @@
 
     <div class="right-part">
         <h1>Bienvenue !</h1>
-        <h2>Mot de passe</h2>
-
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Se connecter</button>
-
             {% if messages %}
                 <div class="messages">
                     {% for message in messages %}
@@ -28,7 +30,60 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        </form>
+        </form>        
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordField = document.querySelector("input[name='password']");
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "error-message";
+        errorMessage.style.display = "none"; // Cacher les erreurs par défaut
+        passwordField.parentNode.appendChild(errorMessage);
+
+        // Fonction de validation (logique adaptée de validators.py)
+        const validatePassword = (password) => {
+            const errors = [];
+
+            if (password.length < 8) {
+                errors.push("Le mot de passe doit contenir au moins 8 caractères.");
+            }
+            if (!/[A-Z]/.test(password)) {
+                errors.push("Le mot de passe doit contenir une lettre majuscule.");
+            }
+            if (!/[a-z]/.test(password)) {
+                errors.push("Le mot de passe doit contenir une lettre minuscule.");
+            }
+            if (!/\d/.test(password)) {
+                errors.push("Le mot de passe doit contenir un chiffre.");
+            }
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                errors.push("Le mot de passe doit contenir un caractère spécial (!@#$%^&*...).");
+            }
+            if (/\s/.test(password)) {
+                errors.push("Le mot de passe ne doit pas contenir d'espaces.");
+            }
+            if (/(\w)\1/.test(password)) {
+                errors.push("Le mot de passe ne doit pas contenir de répétitions consécutives.");
+            }
+            return errors;
+        };
+
+        // Écoute les changements sur le champ mot de passe
+        passwordField.addEventListener("input", function () {
+            const password = passwordField.value;
+            const errors = validatePassword(password);
+
+            if (errors.length > 0) {
+                passwordField.classList.add("invalid");
+                errorMessage.style.display = "block";
+                errorMessage.innerHTML = errors.join("<br>");
+            } else {
+                passwordField.classList.remove("invalid");
+                errorMessage.style.display = "none";
+            }
+        });
+    });
+</script>
+
 {% endblock %}
