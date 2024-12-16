@@ -1,34 +1,119 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Connexion{% endblock %}
-{% block styles %}<link href="{% static 'loginstyle.css' %}" rel="stylesheet" />{% endblock %}
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'loginstyle.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="left-part">
         <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
-        <p class="description">Conso<b>Lead</b> vous permet de gérer plus facilement<br>le soutien hebdomadaire proposé aux étudiants de BUT1.</p>
+        <p class="description">
+            Conso<b>Lead</b> vous permet de gérer plus facilement<br>
+            le soutien hebdomadaire proposé aux étudiants de BUT1.
+        </p>
         <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
     </div>
 
     <div class="right-part">
         <h1>Bienvenue !</h1>
-        <h2>Mot de passe</h2>
-
-        <form method="post">
+        <form method="post" id="login-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div id="global-errors" class="error-message" style="display: none;"></div>
+            <div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
             <button type="submit">Se connecter</button>
-
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="error-message">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const usernameField = document.querySelector("input[name='username']");
+        const passwordField = document.querySelector("input[name='password']");
+        const globalErrorsContainer = document.getElementById("global-errors");
+        const loginForm = document.getElementById("login-form");
+
+        // Créer un conteneur pour afficher les erreurs de mot de passe
+        const passwordErrorMessage = document.createElement("div");
+        passwordErrorMessage.className = "error-message";
+        passwordErrorMessage.style.display = "none";
+        passwordField.parentNode.appendChild(passwordErrorMessage);
+
+        // Fonction de validation pour le mot de passe
+        const validatePassword = (password) => {
+            const errors = [];
+            if (password.length < 8) errors.push("Le mot de passe doit contenir au moins 8 caractères.");
+            if (!/[A-Z]/.test(password)) errors.push("Le mot de passe doit contenir une lettre majuscule.");
+            if (!/[a-z]/.test(password)) errors.push("Le mot de passe doit contenir une lettre minuscule.");
+            if (!/\d/.test(password)) errors.push("Le mot de passe doit contenir un chiffre.");
+            if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) errors.push("Le mot de passe doit contenir un caractère spécial.");
+            if (/\s/.test(password)) errors.push("Le mot de passe ne doit pas contenir d'espaces.");
+            return errors;
+        };
+
+        // Validation dynamique pour le champ username
+        usernameField.addEventListener("input", function () {
+            const username = usernameField.value.trim();
+            if (username === "") {
+                usernameField.classList.add("invalid");
+                usernameField.setCustomValidity("Le champ nom d'utilisateur ne peut pas être vide.");
+            } else {
+                usernameField.classList.remove("invalid");
+                usernameField.setCustomValidity("");
+            }
+            usernameField.reportValidity();
+        });
+
+        // Validation dynamique pour le champ mot de passe
+        passwordField.addEventListener("input", function () {
+            const errors = validatePassword(passwordField.value);
+            if (errors.length > 0) {
+                passwordField.classList.add("invalid");
+                passwordErrorMessage.style.display = "block";
+                passwordErrorMessage.innerHTML = errors.join("<br>");
+            } else {
+                passwordField.classList.remove("invalid");
+                passwordErrorMessage.style.display = "none";
+            }
+        });
+
+        // Gestion des erreurs globales avant la soumission du formulaire
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Empêche la soumission immédiate
+            const username = usernameField.value.trim();
+            const password = passwordField.value;
+
+            let errors = [];
+            if (username === "") {
+                errors.push("Le nom d'utilisateur ne peut pas être vide.");
+            }
+            if (validatePassword(password).length > 0) {
+                errors.push("Le mot de passe est invalide.");
+            }
+
+            if (errors.length > 0) {
+                globalErrorsContainer.style.display = "block";
+                globalErrorsContainer.innerHTML = errors.join("<br>");
+            } else {
+                globalErrorsContainer.style.display = "none";
+                loginForm.submit(); // Soumet le formulaire si tout est bon
+            }
+        });
+    });
+</script>
 {% endblock %}
