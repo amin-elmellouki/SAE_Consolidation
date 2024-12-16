@@ -15,7 +15,6 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-
 @login_required(login_url="/login/")
 def load_bilan(request):
     files = request.FILES.getlist('files')

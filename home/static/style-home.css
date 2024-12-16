@@ -37,21 +37,29 @@ select {
     margin-bottom: 10px;    
 }
 
-body {
-    background: linear-gradient(90deg, rgba(71,85,198,1) 0%, rgba(175,86,188,1) 100%);
-}
-
 h1 {
     margin-top: 0px;
 }
 
-main {
+
+main, header {
     margin: 10px;
     border-radius: 16px;
     padding: 30px;
     background-color: white;
     margin-left: 20%;
     margin-right: 20%;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+}
+
+header * {
+    margin: 0;
 }
 
 .message {

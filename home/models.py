@@ -156,3 +156,25 @@ def load_qcm_into_db(file, nom_matiere):
         if est_note.note != note:
             est_note.note = note
             est_note.save()
+
+
+def get_bilan(date):
+    reponses_bilan = RepondreBilan.objects.filter(
+        bilan=Bilan.objects.get(dateB=date)
+    )
+    
+    for reponse_bilan in reponses_bilan:
+        notes = EstNote.objects.filter(etudiant=Etudiant.objects.get(numE=reponse_bilan.etudiant.numE))
+        notes_dict = {}
+        
+        for note in notes:
+            notes_dict[note.qcm.matiere.nomMat] = note.note
+        
+        yield {
+            'numE': reponse_bilan.etudiant.numE,
+            'nom': reponse_bilan.etudiant.nomPrenom.split(' ')[0],
+            'prenom': reponse_bilan.etudiant.nomPrenom.split(' ')[1],
+            'desc': reponse_bilan.desc,
+            'demande': reponse_bilan.demande,
+            'notes': notes_dict
+        }

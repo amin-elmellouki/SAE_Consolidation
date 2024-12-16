@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Bilan {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <th>Numéro étudiant</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        {% for matiere, note in bilans.0.notes.items %}
+            <th>QCM {{ matiere }} (/20)</th>
+        {% endfor %}
+        <th>Demande conso.</th>
+        <th>Commentaires</th>
+        <!--TODO Mettre absent-->
+    </thead>
+
+    <tbody>
+        {% for bilan in bilans %}
+            <tr>
+                <td>{{ bilan.numE }}</td>
+                <td>{{ bilan.nom }}</td>
+                <td>{{ bilan.prenom }}</td>
+                {% for matiere, note in bilan.notes.items %}
+                    <td>{{ note }}</td>
+                {% endfor %}
+                <td>{{ bilan.demande }}</td>   
+                <td>{{ bilan.desc }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

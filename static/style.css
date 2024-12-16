@@ -115,3 +115,7 @@ body {
 :is(h1, h2, h3, h4, h5, h6) {
     color: rgba(0, 0, 0, 0.7);
 }
+
+body {
+  background: linear-gradient(90deg, rgba(71,85,198,1) 0%, rgba(175,86,188,1) 100%);
+}

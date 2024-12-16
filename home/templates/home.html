@@ -4,7 +4,7 @@
 
 {% block styles %} 
 <link href="{% static 'style-home.css'%}" rel="stylesheet"/>
-<script src="{% static 'script.js'%}"></script>
+<script src="{% static 'script-home.js'%}"></script>
 <script>
     const loadBilanUrl = "{% url 'load_bilan' %}";
     const loadQcmUrl = "{% url 'load_qcm' %}";
@@ -12,13 +12,15 @@
 {% endblock %}
 
 {% block content %}
-<main>
+<header>
     <h1>Bienvenue {{user.username}}</h1>
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Se déconnecter</button>
     </form>
+</header>
 
+<main>
     <section>
         <h2>Bilan</h2>
         <div style="display: none;" id="succ-bilan" class="message success">
