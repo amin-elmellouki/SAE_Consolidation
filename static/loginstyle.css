@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 html, body {
     height: 100%;
@@ -6,7 +5,6 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
-    overflow: hidden; /* Pour éviter les barres de scroll lors des animations */
 }
 
 :is(h1, h2, h3, h4, h5, h6) {
@@ -46,7 +44,7 @@ html, body {
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    /* box-shadow: 0 0 30px rgba(0,0,0,0.3); */
     z-index: 2;
 }
 
@@ -69,21 +67,19 @@ html, body {
 }
 
 .right-part {
+    display: flex;
+    flex-direction: column; /* Organise les enfants verticalement */
+    justify-content: center; /* Centre les enfants verticalement */
+    align-items: center; /* Centre horizontalement (si nécessaire) */
     background-color: #eaeaea;
     flex: 1;
-    height: 90%;
+    height: 85%; /* Assure que la partie droite prend toute la hauteur */
     padding: 40px;
     box-sizing: border-box;
     border-radius: 0 0 0 50px;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-    position: relative;
     overflow: hidden;
     animation: slideUp 1s 0.3s forwards ease-out;
-
-    display: flex; /* Centrage vertical */
-    flex-direction: column;
-    justify-content: center; /* Centrer verticalement */
-    align-items: center; /* Centrer horizontalement */
 }
 
 /* Animation d'entrée */
@@ -121,7 +117,7 @@ button {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
-    align-self: center; /* Centrer horizontalement */
+    align-self: unset;
     transition: 
         transform 0.2s ease, 
         box-shadow 0.3s ease,
@@ -132,7 +128,7 @@ button {
 button:hover {
     box-shadow: 0 8px 20px rgba(71, 85, 198, 0.4);
     background: linear-gradient(90deg, rgba(55, 65, 160, 1) 0%, rgba(155, 76, 168, 1) 100%); /* Changement de couleur */
-    color: #f0f0f0; /* Changement subtil de la couleur du texte */
+    color: #ffffff; /* Changement subtil de la couleur du texte */
 }
 
 button:active {
@@ -145,8 +141,6 @@ button:focus {
     outline: 2px solid rgba(71, 85, 198, 0.7);
     box-shadow: 0 0 10px rgba(71, 85, 198, 0.5);
 }
-
-
 
 a {
     display: block;
@@ -168,12 +162,13 @@ a:hover {
 }
 
 form {
-    width: 100%;
-    max-width: 400px; /* Centrer les champs de connexion */
     display: flex;
     flex-direction: column;
     gap: 20px; /* Espacement entre les champs */
+    width: 100%;
+    max-width: 400px; /* Limite la largeur */
 }
+
 
 /* Ajout d'effets sur les champs du formulaire, s'ils existent dans le template */
 input[type="text"], input[type="password"] {
@@ -189,18 +184,22 @@ input[type="text"], input[type="password"] {
 
 input[type="text"]:focus, input[type="password"]:focus {
     outline: none;
-    border-color: rgba(0,0,0,0.7);
+    border-color: rgba(71, 85, 198, 1);;
 }
 
 input.invalid {
-    border: 2px solid red;
-    background-color: #ffe6e6;
-    box-shadow: 0 0 5px red;
+    border: none;
+    border-bottom: 2px solid rgb(255, 0, 0);
+    background: transparent;
+    padding: 5px;
+    width: 300px;
+    margin-bottom: 10px; /* Espacement supplémentaire */
+    transition: border-color 0.3s ease;
 }
 
 .error-message {
     color: red;
     font-size: 0.9rem;
-    margin-top: 5px;
-    line-height: 1.4;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
