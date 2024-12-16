@@ -4,7 +4,7 @@
 
 {% block styles %} 
 <link href="{% static 'style-home.css'%}" rel="stylesheet"/>
-<script src="{% static 'script-home.js'%}"></script>
+<script src="{% static 'script.js'%}"></script>
 <script>
     const loadBilanUrl = "{% url 'load_bilan' %}";
     const loadQcmUrl = "{% url 'load_qcm' %}";
@@ -21,53 +21,62 @@
 </header>
 
 <main>
-    <section>
-        <h2>Bilan</h2>
-        <div style="display: none;" id="succ-bilan" class="message success">
-            <p>Bilan chargé dans la base de données</p>
-        </div>
+    <div class="load">
+        <section>
+            <h2>Bilan</h2>
+            <div style="display: none;" id="succ-bilan" class="message success">
+                <p>Bilan chargé dans la base de données</p>
+            </div>
 
-        <div style="display: none;" id="err-bilan" class="message error">
-            <p>Erreur lors du chargement dans la base de données</p>
-        </div>
+            <div style="display: none;" id="err-bilan" class="message error">
+                <p>Erreur lors du chargement dans la base de données</p>
+            </div>
 
-        <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
-            <span class="material-symbols-rounded">upload_file</span>
-            <p>Glissez déposez un bilan <strong>ici</strong>.</p>
-            <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
-            <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
-        </div>
-    </section>
-    
-    <section>
-        <h2>QCM</h2>
-        <div style="display: none;" id="succ-qcm" class="message success">
-            <p>Bilan chargé dans la base de données</p>
-        </div>
-
-        <div style="display: none;" id="err-qcm" class="message error">
-            <p>Erreur lors du chargement dans la base de données</p>
-        </div>
-        <div style="display:flex">
-            <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
+            <div class="drop_zone" id="bilan_drop_zone" ondrop="dropHandler(event, 'bilan');" ondragover="event.preventDefault();">
                 <span class="material-symbols-rounded">upload_file</span>
-                <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
-                <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
-                <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
+                <p>Glissez déposez un bilan <strong>ici</strong>.</p>
+                <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
+                <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
             </div>
+        </section>
         
-            <div style="padding:10px;">
-                <select style="display:block" name="matieres" id="matiere-select">
-                    <option value="">Choisissez une matière</option>
-                    
-                    {% for matiere in matieres %}
-                        <option value="{{ matiere.nomMat }}"> {{matiere.nomMat}} </option>
-                    {% endfor %}
-                </select>
-            
-                <button onclick="sendQcm();">Envoyer QCM</button>
+        <section>
+            <h2>QCM</h2>
+            <div style="display: none;" id="succ-qcm" class="message success">
+                <p>Bilan chargé dans la base de données</p>
             </div>
-        </div>
-    </section>
+
+            <div style="display: none;" id="err-qcm" class="message error">
+                <p>Erreur lors du chargement dans la base de données</p>
+            </div>
+            <div style="display:flex">
+                <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
+                    <span class="material-symbols-rounded">upload_file</span>
+                    <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
+                    <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
+                    <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
+                </div>
+            
+                <div style="padding:10px;">
+                    <select style="display:block" name="matieres" id="matiere-select">
+                        <option value="">Choisissez une matière</option>
+                        
+                        {% for matiere in matieres %}
+                            <option value="{{ matiere.nomMat }}"> {{matiere.nomMat}} </option>
+                        {% endfor %}
+                    </select>
+                
+                    <button onclick="sendQcm();">Envoyer QCM</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside>
+        <h2>Selectionner une semaine</h2>
+        {% for date in semaines %}
+            <a href="/bilan/{{ date }}"> {{ date }} </a>
+        {% endfor %}
+    </aside>
 </main>
 {% endblock %}

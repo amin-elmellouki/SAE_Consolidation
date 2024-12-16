@@ -80,6 +80,10 @@ MONTHS = {
     'décembre': 12,
 }
 
+def get_weeks():
+    return Bilan.objects.all()
+    
+
 def format_bilan_date(date: str) -> str:
     date = date.replace(',', '').split(' ')
     return f"{date[3]}-{MONTHS[date[2]]}-{date[1]}"
@@ -87,7 +91,6 @@ def format_bilan_date(date: str) -> str:
 
 def format_qcm_date(date: str) -> str:
     date = date.split(" ")
-    print(date)
     return f"{date[2]}-{MONTHS[date[1]]}-{date[0]}"
 
 
