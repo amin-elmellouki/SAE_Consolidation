@@ -12,6 +12,7 @@
         <th>Numéro étudiant</th>
         <th>Nom</th>
         <th>Prénom</th>
+        <th>Groupe</th>
         {% for matiere, note in bilans.0.notes.items %}
             <th>QCM {{ matiere }} (/20)</th>
         {% endfor %}
@@ -28,6 +29,7 @@
                 <td>{{ bilan.numE }}</td>
                 <td>{{ bilan.nom }}</td>
                 <td>{{ bilan.prenom }}</td>
+                <td>{{ bilan.groupe }}</td>
                 {% for matiere, note in bilan.notes.items %}
                     <td>{{ note }}</td>
                 {% endfor %}

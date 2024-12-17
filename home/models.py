@@ -20,6 +20,7 @@ class Etudiant(models.Model):
     numE = models.CharField(primary_key=True, max_length=100)
     nomPrenom = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
+    groupe = models.CharField(max_length=3)
 
 
 class Conso(models.Model):
@@ -105,7 +106,8 @@ def load_bilan_into_db(file):
             numE=row['Numéro d’identification'],
             defaults={
                 'nomPrenom': row['Nom complet de l’utilisateur'],
-                'email': row['Adresse de courriel']
+                'email': row['Adresse de courriel'],
+                'groupe': row['Groupes'],
             }
         )
         
@@ -177,6 +179,7 @@ def get_bilan(date):
             'numE': reponse_bilan.etudiant.numE,
             'nom': reponse_bilan.etudiant.nomPrenom.split(' ')[0],
             'prenom': reponse_bilan.etudiant.nomPrenom.split(' ')[1],
+            'groupe': reponse_bilan.etudiant.groupe,
             'desc': reponse_bilan.desc,
             'demande': reponse_bilan.demande,
             'notes': notes_dict
