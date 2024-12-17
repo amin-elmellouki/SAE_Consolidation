@@ -17,7 +17,9 @@
         {% endfor %}
         <th>Demande conso.</th>
         <th>Commentaires</th>
-        <!--TODO Mettre absent-->
+        {% for matiere, note in bilans.0.notes.items %}
+            <th>Conso. {{ matiere }}</th>
+        {% endfor %}
     </thead>
 
     <tbody>
@@ -29,8 +31,9 @@
                 {% for matiere, note in bilan.notes.items %}
                     <td>{{ note }}</td>
                 {% endfor %}
-                <td>{{ bilan.demande }}</td>   
+                <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td>   
                 <td>{{ bilan.desc }}</td>
+                <td><input type="checkbox"></td>
             </tr>
         {% endfor %}
     </tbody>
