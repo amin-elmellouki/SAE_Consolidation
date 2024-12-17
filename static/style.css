@@ -138,3 +138,18 @@ button:hover, a:hover {
   background-color: #e0e0e0;
   transform: scale(1.05);
 }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  margin: 10px;
+  border-radius: 16px;
+  padding: 30px;
+  background-color: white;
+}
+
+header * {
+  margin: 0;
+}

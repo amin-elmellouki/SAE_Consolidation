@@ -70,22 +70,11 @@ aside a {
     flex-grow: 1;
 }
 
-.load, header, aside {
+.load, aside {
     margin: 10px;
     border-radius: 16px;
     padding: 30px;
     background-color: white;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
-}
-
-header * {
-    margin: 0;
 }
 
 .message {
