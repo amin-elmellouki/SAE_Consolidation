@@ -27,6 +27,9 @@ Connexion
             {% csrf_token %}
             <div id="global-errors" class="error-message" style="display: none;"></div>
             <div>
+                <div id="global-errors" class="error-message">
+                    {{ form.non_field_errors }}
+                </div>                
                 {{ form.username.label_tag }}
                 {{ form.username }}
                 {{ form.username.errors }}
