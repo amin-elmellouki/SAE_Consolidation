@@ -121,21 +121,21 @@ body {
 }
 
 button {
-  border: none;
-  border-radius: 8px;
-  background-color: purple;
-  background: linear-gradient(90deg, rgba(71,85,198,1) 0%, rgba(175,86,188,1) 100%);
-  padding: 10px;
-  color: white;
   cursor: pointer;
 }
 
 button, a {
+  background-color: rgba(71,85,198,1);
+  color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  text-decoration: none;
   transition: background-color 0.3s ease, transform 0.2s;
 }
 
-button:hover, a:hover {
-  background-color: #e0e0e0;
+button:hover {
+  filter: brightness(1.2);
   transform: scale(1.05);
 }
 
