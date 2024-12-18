@@ -35,7 +35,9 @@
                 {% endfor %}
                 <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td> 
                 <td>{{ bilan.desc }}</td>
-                {% if bilan.notes %} <td><input type="checkbox"></td> {% endif %}  
+                {% for note in bilan.notes %}
+                    <td><input type="checkbox"></td>
+                {% endfor %}
             </tr>
         {% endfor %}
     </tbody>

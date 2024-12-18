@@ -171,14 +171,13 @@ def get_bilan(date):
     for reponse_bilan in reponses_bilan:
         notes_dict = {}
         
-        if current_qcm := QCM.objects.filter(dateQ=date).first():
-            notes = EstNote.objects.filter(
-                etudiant=Etudiant.objects.get(numE=reponse_bilan.etudiant.numE),
-                qcm=current_qcm
-                )
-        
-            for note in notes:
-                notes_dict[note.qcm.matiere.nomMat] = note.note
+        notes = EstNote.objects.filter(
+            etudiant=Etudiant.objects.get(numE=reponse_bilan.etudiant.numE),
+            qcm__dateQ=date
+        )
+
+        for note in notes:
+            notes_dict[note.qcm.matiere.nomMat] = note.note
 
         yield {
             'numE': reponse_bilan.etudiant.numE,
