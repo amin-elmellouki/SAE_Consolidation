@@ -4,22 +4,23 @@
 
 {% block styles %} 
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
+<script src="{% static 'sort.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<table>
+<table class="sortable">
     <thead>
-        <th>Numéro étudiant</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Groupe</th>
+        <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
+        <th><button>Nom <span aria-hidden="true"></span></button></th>
+        <th><button>Prénom <span aria-hidden="true"></span></button></th>
+        <th><button>Groupe <span aria-hidden="true"></span></button></th>
         {% for matiere, note in bilans.0.notes.items %}
-            <th>QCM {{ matiere }} (/20)</th>
+            <th><button>QCM {{ matiere }} (/20) <span aria-hidden="true"></span></button></th>
         {% endfor %}
-        <th>Demande conso.</th>
-        <th>Commentaires</th>
+        <th><button>Demande conso. <span aria-hidden="true"></span></button></th>
+        <th class="no-sort">Commentaires</th>
         {% for matiere, note in bilans.0.notes.items %}
-            <th>Conso. {{ matiere }}</th>
+            <th><button>Conso. {{ matiere }}</button></th>
         {% endfor %}
     </thead>
 

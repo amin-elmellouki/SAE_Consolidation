@@ -64,3 +64,44 @@ tr:last-of-type td:first-of-type {
 tr:last-of-type td:last-of-type {
     border-bottom-right-radius: 16px;
 }
+
+/* Copier coller */
+table.sortable th button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Gère l'espacement entre le texte et l'icône */
+    width: 100%; /* Assure que le bouton remplit la largeur de la cellule */
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+table.sortable th button span {
+    display: inline-block;
+    margin-left: 5px; 
+    font-size: 0.9em; 
+    line-height: 1; 
+    white-space: nowrap;
+}
+
+table.sortable th button span::after {
+    display: inline-block;
+    margin-left: 5px; 
+}
+
+table.sortable th button span::after {
+    content: "▶";
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+table.sortable th[aria-sort="ascending"] span::after {
+    content: "▲";
+    color: currentcolor;
+}
+
+table.sortable th[aria-sort="descending"] span::after {
+    content: "▼";
+    color: currentcolor;
+}
