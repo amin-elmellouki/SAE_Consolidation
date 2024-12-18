@@ -1,3 +1,18 @@
+/**
+ * Variables CSS globales
+ * Ces variables permettent de maintenir une cohérence des couleurs, des vitesses de transition
+ * et autres paramètres à travers tout le style.
+ */:root {
+    --primary-color: #4755c6;
+    --secondary-color: #af56bc;
+    --error-color: red;
+    --transition-speed: 0.3s;
+}
+
+/**
+ * Réinitialisation de base
+ * Assure une base uniforme pour tous les navigateurs.
+ */
 html, body {
     height: 100%;
     width: 100%;
@@ -6,33 +21,42 @@ html, body {
     font-family: 'Inter', sans-serif;
 }
 
+/**
+ * Styles pour les titres
+ * Uniformise la couleur des titres et applique une transition fluide lors des changements.
+ */
 :is(h1, h2, h3, h4, h5, h6) {
     color: rgba(0, 0, 0, 0.7);
-    transition: color 0.3s ease;
+    transition: color var(--transition-speed) ease;
 }
 
+/**
+ * Conteneur principal
+ * Dispose les éléments enfants en flexbox pour assurer une mise en page fluide et réactive.
+ */
 .container {
     display: flex;
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
-    opacity: 0;
-    animation: fadeIn 1s forwards ease-in-out;
+    animation: fadeIn var(--transition-speed) forwards ease-in-out;
 }
 
+/* Animation pour faire apparaître le conteneur */
 @keyframes fadeIn {
     to {
         opacity: 1;
     }
 }
 
+/**
+ * Section gauche
+ * Mise en page avec un dégradé animé pour un effet esthétique.
+ */
 .left-part {
-    background: linear-gradient(to bottom right, #4356ce, #bd4fc1);
+    background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
     background-size: 200% 200%;
     animation: gradientAnimation 10s ease-in-out infinite alternate;
-    
     color: white;
     display: flex;
     flex: 1;
@@ -45,6 +69,7 @@ html, body {
     z-index: 2;
 }
 
+/* Animation pour les transitions de dégradé */
 @keyframes gradientAnimation {
     0% {
         background-position: left top;
@@ -54,6 +79,10 @@ html, body {
     }
 }
 
+/**
+ * Footer de la section gauche
+ * Placé en bas de la section avec une opacité réduite pour ne pas distraire l'utilisateur.
+ */
 .left-part .left-bottom-footer {
     position: absolute;
     bottom: 0;
@@ -63,6 +92,10 @@ html, body {
     opacity: 0.8;
 }
 
+/**
+ * Section droite
+ * Dispose les éléments au centre avec une mise en page épurée et une légère ombre pour un effet visuel.
+ */
 .right-part {
     display: flex;
     flex-direction: column;
@@ -76,9 +109,10 @@ html, body {
     border-radius: 0 0 0 50px;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    animation: slideUp 1s 0.3s forwards ease-out;
+    animation: slideUp var(--transition-speed) 0.3s forwards ease-out;
 }
 
+/* Animation pour faire glisser la section vers le haut */
 @keyframes slideUp {
     from {
         transform: translateY(50px);
@@ -92,7 +126,7 @@ html, body {
 
 .right-part * {
     margin-top: 20px;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
 }
 
 .right-part h1 {
@@ -102,8 +136,13 @@ html, body {
     color: rgba(0, 0, 0, 0.8);
 }
 
+/**
+ * Boutons
+ * Définition d'un style moderne avec des dégradés et des ombres. 
+ * Les transitions ajoutent un effet interactif.
+ */
 button {
-    background: linear-gradient(90deg, rgba(71, 85, 198, 1) 0%, rgba(175, 86, 188, 1) 100%);
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     border: none;
     padding: 12px 20px;
@@ -113,40 +152,27 @@ button {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
-    align-self: unset;
     transition: 
-        transform 0.2s ease, 
-        box-shadow 0.3s ease,
-        background 0.3s ease, 
-        color 0.3s ease;
+        transform var(--transition-speed) ease, 
+        box-shadow var(--transition-speed) ease,
+        background var(--transition-speed) ease, 
+        color var(--transition-speed) ease;
 }
 
 button:hover {
     box-shadow: 0 8px 20px rgba(71, 85, 198, 0.4);
-    background: linear-gradient(90deg, rgba(55, 65, 160, 1) 0%, rgba(155, 76, 168, 1) 100%);
-    color: #ffffff;
+    background: linear-gradient(90deg, #3741a0 0%, #9b4ca8 100%);
 }
 
 button:active {
     transform: translateY(0);
     box-shadow: 0 4px 10px rgba(71, 85, 198, 0.2);
-    background: linear-gradient(90deg, rgba(45, 55, 140, 1) 0%, rgba(135, 66, 148, 1) 100%);
+    background: linear-gradient(90deg, #2d378c 0%, #874294 100%);
 }
 
-button:focus {
+button:focus-visible {
     outline: 2px solid rgba(71, 85, 198, 0.7);
     box-shadow: 0 0 10px rgba(71, 85, 198, 0.5);
-}
-
-a {
-    display: block;
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: rgba(0, 0, 0, 0.9);
 }
 
 .logo {
@@ -165,6 +191,10 @@ form {
     max-width: 400px;
 }
 
+/**
+ * Champs de formulaire
+ * Conserve un style minimaliste avec des transitions pour un effet interactif.
+ */
 input[type="text"], input[type="password"] {
     border: none;
     border-bottom: 2px solid rgba(0,0,0,0.3);
@@ -172,26 +202,24 @@ input[type="text"], input[type="password"] {
     padding: 5px;
     width: 300px;
     margin-bottom: 10px;
-    transition: border-color 0.3s ease;
+    transition: border-color var(--transition-speed) ease;
 }
 
 input[type="text"]:focus, input[type="password"]:focus {
     outline: none;
-    border-color: rgba(71, 85, 198, 1);
+    border-color: var(--primary-color);
 }
 
 input.invalid {
-    border: none;
-    border-bottom: 2px solid rgb(255, 0, 0);
-    background: transparent;
-    padding: 5px;
-    width: 300px;
-    margin-bottom: 10px;
-    transition: border-color 0.3s ease;
+    border-bottom: 2px solid var(--error-color);
 }
 
+/**
+ * Messages d'erreur
+ * Mise en avant des erreurs avec une couleur rouge et une police distincte.
+ */
 .error-message {
-    color: red;
+    color: var(--error-color);
     font-size: 0.9rem;
     margin-bottom: 15px;
     font-weight: bold;

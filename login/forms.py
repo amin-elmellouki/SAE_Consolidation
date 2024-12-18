@@ -4,20 +4,22 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
 class UsernamePasswordLoginForm(AuthenticationForm):
+    INVALID_CREDENTIALS_MESSAGE = _("La combinaison nom d'utilisateur et mot de passe est invalide.")
+    
     username = forms.CharField(
         widget=forms.TextInput(attrs={
-            'placeholder': "Entrez votre nom d'utilisateur",
-            'style': 'width: 220px;'
+            'placeholder': _("Entrez votre nom d'utilisateur"),
+            'class': 'form-input username-input'
         }),
-        label=""
+        label=''
     )
-
+    
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Entrez votre mot de passe',
-            'style': 'width: 220px;'
+            'placeholder': _("Entrez votre mot de passe"),
+            'class': 'form-input password-input'
         }),
-        label=""
+        label=''
     )
 
     def clean(self):
@@ -25,18 +27,17 @@ class UsernamePasswordLoginForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
 
         user = authenticate(username=username, password=password)
-        if user is None:
+        if not user:
             raise forms.ValidationError(
-                _("La combinaison nom d'utilisateur et mot de passe est invalide."),
+                self.INVALID_CREDENTIALS_MESSAGE,
                 code='invalid_login'
             )
-        # Vérification supplémentaire : permet aux superutilisateurs de bypass les règles
-        if user.is_superuser:
-            self.cleaned_data['user'] = user
-            return self.cleaned_data
 
         self.cleaned_data['user'] = user
         return self.cleaned_data
 
     def get_user(self):
+        """
+        Retourne l'utilisateur authentifié.
+        """
         return self.cleaned_data.get('user')
