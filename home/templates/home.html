@@ -64,11 +64,15 @@
         </section>
     </div>
 
-    <aside>
-        <h2>Selectionner une semaine</h2>
-        {% for date in semaines %}
-            <a href="/bilan/{{ date }}"> {{ date }} </a>
-        {% endfor %}
+    <aside class="bilan-list">
+        <h2 class="bilan-title">Selectionner une semaine</h2>
+        <div class="bilan-scrollable">
+            {% for date in semaines %}
+                <a href="/bilan/{{ date }}"> {{ date }} </a>
+            {% endfor %}
+        </div>
     </aside>
+    
+    
 </main>
 {% endblock %}
