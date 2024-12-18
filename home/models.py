@@ -170,7 +170,6 @@ def get_bilan(date):
     
     for reponse_bilan in reponses_bilan:
         notes_dict = {}
-        
         notes = EstNote.objects.filter(
             etudiant=Etudiant.objects.get(numE=reponse_bilan.etudiant.numE),
             qcm__dateQ=date
@@ -179,6 +178,11 @@ def get_bilan(date):
         for note in notes:
             notes_dict[note.qcm.matiere.nomMat] = note.note
 
+        matieres_demandees = ", ".join(
+            demande.matiere.nomMat 
+            for demande in DemandeEn.objects.filter(reponse=reponse_bilan)
+        )
+
         yield {
             'numE': reponse_bilan.etudiant.numE,
             'nom': reponse_bilan.etudiant.nomPrenom.split(' ')[0],
@@ -186,5 +190,6 @@ def get_bilan(date):
             'groupe': reponse_bilan.etudiant.groupe,
             'desc': reponse_bilan.desc,
             'demande': reponse_bilan.demande,
+            'demande_en': matieres_demandees,
             'notes': notes_dict,
         }
