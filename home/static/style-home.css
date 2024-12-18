@@ -63,7 +63,7 @@ aside {
 }
 
 aside a {
-    width: 75%;
+    width: 70%;
     text-align: center;
     display: block;
 }
@@ -89,14 +89,17 @@ aside a {
     overflow-y: auto; 
     padding: 5px;
     padding-right: 20px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .bilan-scrollable a {
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    width: 100%; 
+    width: 95%; 
     height: 50px; 
     margin-bottom: 5px; 
     box-sizing: border-box; 
