@@ -193,3 +193,6 @@ def get_bilan(date):
             'demande_en': matieres_demandees,
             'notes': notes_dict,
         }
+
+def get_etudiant(numero_etudiant: str) -> Etudiant:
+    return Etudiant.objects.get(numE=numero_etudiant)

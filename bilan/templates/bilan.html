@@ -5,9 +5,12 @@
 {% block styles %} 
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
 <script src="{% static 'sort.js' %}"></script>
+<script src="{% static 'send.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+<button class="white-button" onclick="sendToConso()"><span style="margin-right: 10px;" class="material-symbols-rounded ">send</span> Send</button>
+
 <div>
     <table class="sortable">
         <thead>

@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
-class LoginConfig(AppConfig):
+
+class CompteRenduConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'login'
+    name = 'compte_rendu'
