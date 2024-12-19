@@ -1,0 +1,86 @@
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom right, #4755c6, #af56bc);
+    animation: gradientAnimation 10s ease-in-out infinite alternate;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+    color: rgb(255, 255, 255);
+    transition: color var(--transition-speed) ease;
+}
+
+.forgot-password-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.forgot-password-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px;
+    text-align: center;
+    width: 400px;
+}
+
+.forgot-password-box h2 {
+    background: #2d2d47;
+    color: white;
+    padding: 15px;
+    border-radius: 5px 5px 0 0;
+    font-size: 20px;
+    margin: -30px -40px 20px -40px;
+}
+
+.form-table {
+    width: 100%;
+    border-spacing: 0;
+    margin-top: 10px;
+}
+
+.form-table td {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.form-table input[type="email"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-table button {
+    background: #6a11cb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.form-table button:hover {
+    background: #5e0ebb;
+}
+
+.back-to-login {
+    display: block;
+    margin-top: 15px;
+    color: #6a11cb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-to-login:hover {
+    text-decoration: underline;
+}
