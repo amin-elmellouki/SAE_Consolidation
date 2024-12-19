@@ -5,6 +5,7 @@
 {% block styles %} 
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
 <script src="{% static 'sort.js' %}"></script>
+<script src="{% static 'send.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,6 +24,8 @@
             <th><button>Conso. {{ matiere }}</button></th>
         {% endfor %}
     </thead>
+
+    <button onclick="sendToConso()">Envoyer</button>
 
     <tbody>
         {% for bilan in bilans %}

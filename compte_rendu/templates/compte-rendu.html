@@ -5,5 +5,23 @@
 {% block styles %}{% endblock %}
 
 {% block content %}
+{% for matiere, etudiants in data.items %}
+    <h3>Conso de {{ matiere }}</h3>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Numéro étudiant</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for numero in etudiants %}
+                <tr>
+                    <td>{{ numero }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
 {% endblock %}
