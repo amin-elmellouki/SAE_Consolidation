@@ -8,7 +8,10 @@ body {
 }
 
 div {
-    overflow-y: scroll;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 80vh;
+    max-width: 90vw;
     border-collapse: collapse;
     border-radius: 16px;
     margin: 10px;
@@ -26,6 +29,10 @@ table {
 
 th, td {
     text-align: left;
+}
+
+.warning {
+    color: red;
 }
 
 th:first-of-type {

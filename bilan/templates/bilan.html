@@ -20,7 +20,7 @@
             {% endfor %}
             <th><button>Demande conso. <span aria-hidden="true"></span></button></th>
             <th> Matières demandées </th>
-            <th class="no-sort">Commentaires</th>
+            <th class="no-sort desc">Commentaires</th>
             {% for matiere, note in bilans.0.notes.items %}
                 <th>Conso. {{ matiere }}</th>
             {% endfor %}
@@ -34,10 +34,10 @@
                     <td>{{ bilan.prenom }}</td>
                     <td>{{ bilan.groupe }}</td>
                     {% for matiere, note in bilan.notes.items %}
-                        <td>{{ note }}</td>
+                        <td {% if note < 9 %} class="warning" {% endif %}>{{ note }}</td>
                     {% endfor %}
                     <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td>
-                    <td> {{ bilan.demande_en }} </td>
+                    <td>{{ bilan.demande_en }}</td>
                     <td>{{ bilan.desc }}</td>
                     {% for note in bilan.notes %}
                         <td><input type="checkbox"></td>
