@@ -1,86 +1,144 @@
+/* Variables globales */
+:root {
+    --primary-color: #4755c6;
+    --secondary-color: #9b4ca8;
+    --transition-speed: 0.3s;
+}
 
-
-html, body {
-    height: 100%;
-    width: 100%;
+/* Corps de la page */
+body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(to bottom right, #4755c6, #af56bc);
-    animation: gradientAnimation 10s ease-in-out infinite alternate;
+    background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-:is(h1, h2, h3, h4, h5, h6) {
-    color: rgb(255, 255, 255);
-    transition: color var(--transition-speed) ease;
-}
-
+/* Conteneur principal */
 .forgot-password-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     height: 100%;
 }
 
+/* Boîte principale */
 .forgot-password-box {
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 30px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 50px 60px;
     text-align: center;
-    width: 400px;
+    width: 550px;
 }
 
 .forgot-password-box h2 {
     background: #2d2d47;
     color: white;
-    padding: 15px;
-    border-radius: 5px 5px 0 0;
-    font-size: 20px;
-    margin: -30px -40px 20px -40px;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    font-size: 26px;
+    margin: -50px -60px 40px -60px;
 }
 
+/* Formulaire */
 .form-table {
     width: 100%;
     border-spacing: 0;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .form-table td {
-    text-align: center;
-    padding: 10px 0;
+    padding: 15px 10px;
+    text-align: left;
 }
 
-.form-table input[type="email"] {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+/* Champ email */
+input[type="email"] {
+    border: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    background: transparent;
+    padding: 12px;
+    width: 96%;
+    font-size: 18px;
+    transition: border-color var(--transition-speed) ease;
 }
 
-.form-table button {
-    background: #6a11cb;
+input[type="email"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+input[type="email"].invalid {
+    border-bottom: 2px solid red;
+}
+
+button {
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 14px;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.3rem;
+    font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 0; /* Supprime le margin-top */
+    transition: 
+        transform var(--transition-speed) ease, 
+        box-shadow var(--transition-speed) ease,
+        background var(--transition-speed) ease, 
+        color var(--transition-speed) ease;
+    width: 70%;
+    max-width: 300px;
 }
 
-.form-table button:hover {
-    background: #5e0ebb;
+button:hover {
+    box-shadow: 0 10px 25px rgba(71, 85, 198, 0.4);
+    background: linear-gradient(90deg, #3741a0 0%, #9b4ca8 100%);
 }
 
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 15px rgba(71, 85, 198, 0.2);
+    background: linear-gradient(90deg, #2d378c 0%, #874294 100%);
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(71, 85, 198, 0.7);
+    box-shadow: 0 0 15px rgba(71, 85, 198, 0.5);
+}
+
+.submit-row {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Ajuste la hauteur du conteneur */
+}
+
+
+
+/* Lien de retour */
 .back-to-login {
     display: block;
-    margin-top: 15px;
-    color: #6a11cb;
+    margin-top: 20px;
+    color: var(--primary-color);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .back-to-login:hover {
     text-decoration: underline;
+}
+
+/* Mascotte */
+.mascot img {
+    height: 150px;
+    width: auto;
+    margin-top: 20px;
 }
