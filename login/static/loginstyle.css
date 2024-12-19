@@ -112,17 +112,17 @@ html, body {
     border-radius: 0 0 0 50px;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    animation: slideUp var(--transition-speed) 0.3s forwards ease-out;
+    animation: slideLeft var(--transition-speed) 0.3s forwards ease-out;
 }
 
 /* Animation pour faire glisser la section vers le haut */
-@keyframes slideUp {
+@keyframes slideLeft {
     from {
-        transform: translateY(50px);
+        transform: translateX(50px);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translate(0);
         opacity: 1;
     }
 }
