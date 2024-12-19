@@ -8,7 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<button class="white-button" onclick="print()"><span style="margin-right: 10px;" class="material-symbols-rounded ">print</span> Imprimer</button>
+<div style="display: flex; align-items: center;">
+    <button class="white-button" onclick="location.reload();"><span style="margin-right: 10px;" class="material-symbols-rounded ">arrow_back</span> Retour</button>
+    <button class="white-button" onclick="print()"><span style="margin-right: 10px;" class="material-symbols-rounded ">print</span> Imprimer</button>
+</div>
 
 <main style="display: flex; flex-wrap: wrap;">
     {% for matiere, etudiants in data.items %}
