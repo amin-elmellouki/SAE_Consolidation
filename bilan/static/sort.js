@@ -152,9 +152,14 @@ class SortableTable {
   }
 }
 
-window.addEventListener('load', function () {
+function setUpTables() {
+  console.log("Tables set up")
   var sortableTables = document.querySelectorAll('table.sortable');
   for (var i = 0; i < sortableTables.length; i++) {
     new SortableTable(sortableTables[i]);
   }
+}
+
+window.addEventListener('load', () => {
+  setUpTables();
 });

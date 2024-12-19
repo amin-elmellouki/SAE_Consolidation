@@ -2,6 +2,8 @@ import json
 
 from django.shortcuts import redirect, render
 
+from home.models import get_etudiant
+
 
 def compte_rendu(request):
     if request.method != "POST":
@@ -10,6 +12,8 @@ def compte_rendu(request):
     body = request.body.decode('utf-8') 
     data = json.loads(body)
     
-    print(data)
+    for matiere, etudiants in data.items():
+        data[matiere] = [get_etudiant(numero) for numero in etudiants]
+    
     return render(request, 'compte-rendu.html', {'data': data})
 

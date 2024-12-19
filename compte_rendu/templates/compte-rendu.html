@@ -2,26 +2,39 @@
 {% load static %}
 {% block title %} Home {% endblock %}
 
-{% block styles %}{% endblock %}
+{% block styles %}
+<link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
+<script src="{% static 'sort.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-{% for matiere, etudiants in data.items %}
-    <h3>Conso de {{ matiere }}</h3>
+<button class="white-button" onclick="print()"><span style="margin-right: 10px;" class="material-symbols-rounded ">print</span> Imprimer</button>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Numéro étudiant</th>
-            </tr>
-        </thead>
+<main style="display: flex; flex-wrap: wrap;">
+    {% for matiere, etudiants in data.items %}
+        <section style="margin: 10px;">
+            <h3 style="color: white;">Conso de {{ matiere }}</h3>
 
-        <tbody>
-            {% for numero in etudiants %}
-                <tr>
-                    <td>{{ numero }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endfor %}
+            <table style="margin: 0px;" class="sortable">
+                <thead>
+                    <tr>
+                        <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
+                        <th class="no-sort">Nom, prénom <span aria-hidden="true"></span></th>
+                        <th><button>Groupe <span aria-hidden="true"></span></button></th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    {% for etudiant in etudiants %}
+                        <tr>
+                            <td>{{ etudiant.numE }}</td>
+                            <td>{{ etudiant.nomPrenom }}</td>
+                            <td>{{ etudiant.groupe }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    {% endfor %}
+</main>
 {% endblock %}

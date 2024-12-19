@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block content %}
+<button class="white-button" onclick="sendToConso()"><span style="margin-right: 10px;" class="material-symbols-rounded ">send</span> Send</button>
+
 <table class="sortable">
     <thead>
         <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
@@ -25,7 +27,6 @@
         {% endfor %}
     </thead>
 
-    <button onclick="sendToConso()">Envoyer</button>
 
     <tbody>
         {% for bilan in bilans %}

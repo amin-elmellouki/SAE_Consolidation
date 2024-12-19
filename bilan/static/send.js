@@ -36,14 +36,14 @@ function sendToConso() {
     })
     .then(response => {
         if (response.redirected) {
-            // Si le serveur a renvoyé une redirection
             window.location.href = response.url;
         } else {
-            return response.text(); // Récupérer le contenu HTML
+            return response.text();
         }
     })
     .then(html => {
-        document.body.innerHTML = html; // Remplacer le contenu de la page
+        document.body.innerHTML = html;
+        setUpTables();
     })
     .catch(error => console.error('Erreur lors de la requête POST :', error));
 }
