@@ -1,5 +1,27 @@
 var loadedFiles;
 
+function autoSetMat() {
+    var comboBox = document.getElementById('matiere-select') 
+    var options = comboBox.options;
+
+    console.log(loadedFiles)
+    for (file in loadedFiles) {
+        for (option in options) {
+            if (options[option].innerText == "") {
+                continue;
+            }
+
+            if (loadedFiles[file].name.includes(options[option].innerText)) {
+                console.log(options[option])
+                comboBox.selectedIndex = option;
+                return;
+            }
+        }
+    }
+
+    console.log("Pas trouvé")
+}
+
 function fileInputHandler(event, type) {
     const files = event.target.files;
     
@@ -7,6 +29,7 @@ function fileInputHandler(event, type) {
         uploadFiles(files, loadBilanUrl);
     } else {
         loadedFiles = files;
+        autoSetMat();
     }
 }
 
@@ -27,6 +50,7 @@ function dropHandler(ev, type) {
         uploadFiles(files, loadBilanUrl);
     } else {
         loadedFiles = files;
+        autoSetMat();
     }
 }
 
