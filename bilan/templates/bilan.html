@@ -11,40 +11,43 @@
 {% block content %}
 <button class="white-button" onclick="sendToConso()"><span style="margin-right: 10px;" class="material-symbols-rounded ">send</span> Send</button>
 
-<table class="sortable">
-    <thead>
-        <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
-        <th><button>Nom <span aria-hidden="true"></span></button></th>
-        <th><button>Prénom <span aria-hidden="true"></span></button></th>
-        <th><button>Groupe <span aria-hidden="true"></span></button></th>
-        {% for matiere, note in bilans.0.notes.items %}
-            <th><button>QCM {{ matiere }} (/20) <span aria-hidden="true"></span></button></th>
-        {% endfor %}
-        <th><button>Demande conso. <span aria-hidden="true"></span></button></th>
-        <th class="no-sort">Commentaires</th>
-        {% for matiere, note in bilans.0.notes.items %}
-            <th><button>Conso. {{ matiere }}</button></th>
-        {% endfor %}
-    </thead>
+<div>
+    <table class="sortable">
+        <thead>
+            <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
+            <th><button>Nom <span aria-hidden="true"></span></button></th>
+            <th><button>Prénom <span aria-hidden="true"></span></button></th>
+            <th><button>Groupe <span aria-hidden="true"></span></button></th>
+            {% for matiere, note in bilans.0.notes.items %}
+                <th><button>QCM {{ matiere }} (/20) <span aria-hidden="true"></span></button></th>
+            {% endfor %}
+            <th><button>Demande conso. <span aria-hidden="true"></span></button></th>
+            <th> Matières demandées </th>
+            <th class="no-sort desc">Commentaires</th>
+            {% for matiere, note in bilans.0.notes.items %}
+                <th>Conso. {{ matiere }}</th>
+            {% endfor %}
+        </thead>
 
-
-    <tbody>
-        {% for bilan in bilans %}
-            <tr>
-                <td>{{ bilan.numE }}</td>
-                <td>{{ bilan.nom }}</td>
-                <td>{{ bilan.prenom }}</td>
-                <td>{{ bilan.groupe }}</td>
-                {% for matiere, note in bilan.notes.items %}
-                    <td>{{ note }}</td>
-                {% endfor %}
-                <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td> 
-                <td>{{ bilan.desc }}</td>
-                {% for note in bilan.notes %}
-                    <td><input type="checkbox"></td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <tbody>
+            {% for bilan in bilans %}
+                <tr>
+                    <td>{{ bilan.numE }}</td>
+                    <td>{{ bilan.nom }}</td>
+                    <td>{{ bilan.prenom }}</td>
+                    <td>{{ bilan.groupe }}</td>
+                    {% for matiere, note in bilan.notes.items %}
+                        <td {% if note < 9 %} class="warning" {% endif %}>{{ note }}</td>
+                    {% endfor %}
+                    <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td>
+                    <td>{{ bilan.demande_en }}</td>
+                    <td>{{ bilan.desc }}</td>
+                    {% for note in bilan.notes %}
+                        <td><input type="checkbox"></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
