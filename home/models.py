@@ -20,6 +20,7 @@ class Etudiant(models.Model):
     numE = models.CharField(primary_key=True, max_length=100)
     nomPrenom = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
+    groupe = models.CharField(max_length=3)
 
 
 class Conso(models.Model):
@@ -80,6 +81,10 @@ MONTHS = {
     'décembre': 12,
 }
 
+def get_weeks():
+    return Bilan.objects.all()
+    
+
 def format_bilan_date(date: str) -> str:
     date = date.replace(',', '').split(' ')
     return f"{date[3]}-{MONTHS[date[2]]}-{date[1]}"
@@ -87,7 +92,6 @@ def format_bilan_date(date: str) -> str:
 
 def format_qcm_date(date: str) -> str:
     date = date.split(" ")
-    print(date)
     return f"{date[2]}-{MONTHS[date[1]]}-{date[0]}"
 
 
@@ -102,7 +106,8 @@ def load_bilan_into_db(file):
             numE=row['Numéro d’identification'],
             defaults={
                 'nomPrenom': row['Nom complet de l’utilisateur'],
-                'email': row['Adresse de courriel']
+                'email': row['Adresse de courriel'],
+                'groupe': row['Groupes'],
             }
         )
         
@@ -156,3 +161,33 @@ def load_qcm_into_db(file, nom_matiere):
         if est_note.note != note:
             est_note.note = note
             est_note.save()
+
+
+def get_bilan(date):
+    reponses_bilan = RepondreBilan.objects.filter(
+        bilan=Bilan.objects.get(dateB=date)
+    )
+    
+    for reponse_bilan in reponses_bilan:
+        notes_dict = {}
+        
+        notes = EstNote.objects.filter(
+            etudiant=Etudiant.objects.get(numE=reponse_bilan.etudiant.numE),
+            qcm__dateQ=date
+        )
+
+        for note in notes:
+            notes_dict[note.qcm.matiere.nomMat] = note.note
+
+        yield {
+            'numE': reponse_bilan.etudiant.numE,
+            'nom': reponse_bilan.etudiant.nomPrenom.split(' ')[0],
+            'prenom': reponse_bilan.etudiant.nomPrenom.split(' ')[1],
+            'groupe': reponse_bilan.etudiant.groupe,
+            'desc': reponse_bilan.desc,
+            'demande': reponse_bilan.demande,
+            'notes': notes_dict,
+        }
+
+def get_etudiant(numero_etudiant: str) -> Etudiant:
+    return Etudiant.objects.get(numE=numero_etudiant)

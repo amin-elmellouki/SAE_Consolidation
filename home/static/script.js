@@ -64,6 +64,9 @@ function uploadFiles(files, url, mat=null) {
 
 function showMessage(type, err) {
     document.getElementById(`${(err) ? ("err") : ("succ")}-${type}`).style.display = 'flex';
+    setTimeout(() => {
+        location.reload();
+    }, 3000);
 }
 
 function sendQcm() {

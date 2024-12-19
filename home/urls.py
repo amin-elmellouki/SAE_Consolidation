@@ -3,7 +3,6 @@ from django.urls import path
 
 from .views import home, load_bilan, load_qcm
 
-
 urlpatterns = [
     path('', home, name='home'),
     path('load_bilan', load_bilan, name='load_bilan'),

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login',
     'home',
+    'bilan',
+    'compte_rendu',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +139,7 @@ LOGOUT_REDIRECT_URL = '/login/'  # Redirection après déconnexion
 
 
 from django.contrib.auth.hashers import make_password
+
 # Mot de passe "clé" pour accéder au site web
 UNIQUE_PASSWORD = '123'
 UNIQUE_PASSWORD_HASH = make_password(UNIQUE_PASSWORD)

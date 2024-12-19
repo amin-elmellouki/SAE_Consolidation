@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header %}
+<header>
+    <h1>Bienvenue {{user.username}}</h1>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Se déconnecter</button>
+    </form>
+</header>
+{% endblock %}
+
+{% block content %}{% endblock %}

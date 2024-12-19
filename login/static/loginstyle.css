@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 /**
  * Variables CSS globales
  * Ces variables permettent de maintenir une cohérence des couleurs, des vitesses de transition
  * et autres paramètres à travers tout le style.
- */:root {
+ */
+:root {
     --primary-color: #4755c6;
     --secondary-color: #af56bc;
     --error-color: red;
