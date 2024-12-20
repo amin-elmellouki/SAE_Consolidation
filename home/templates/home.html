@@ -44,7 +44,7 @@
             <div style="display:flex">
                 <div class="drop_zone" id="qcm_drop_zone" ondrop="dropHandler(event, 'qcm');" ondragover="event.preventDefault();">
                     <span class="material-symbols-rounded">upload_file</span>
-                    <p>Glissez déposez un ou plusieurs qcm <strong>ici</strong>.</p>
+                    <p>Glissez déposez un qcm <strong>ici</strong>.</p>
                     <input type="file" id="qcm_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'qcm');">
                     <button type="button" onclick="document.getElementById('qcm_file_input').click();">Choisir un fichier</button>
                 </div>
@@ -54,7 +54,7 @@
                         <option value="">Choisissez une matière</option>
                         
                         {% for matiere in matieres %}
-                            <option value="{{ matiere.nomMat }}"> {{matiere.nomMat}} </option>
+                            <option value="{{ matiere.nomMat }}">{{matiere.nomMat}}</option>
                         {% endfor %}
                     </select>
                 
@@ -72,7 +72,5 @@
             {% endfor %}
         </div>
     </aside>
-    
-    
 </main>
 {% endblock %}

@@ -1,34 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Connexion{% endblock %}
-{% block styles %}<link href="{% static 'loginstyle.css' %}" rel="stylesheet" />{% endblock %}
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'loginstyle.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="left-part">
         <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
-        <p class="description">Conso<b>Lead</b> vous permet de gérer plus facilement<br>le soutien hebdomadaire proposé aux étudiants de BUT1.</p>
+        <p class="description">
+            Conso<b>Lead</b> vous permet de gérer plus facilement<br>
+            le soutien hebdomadaire proposé aux étudiants de BUT1.
+        </p>
         <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
     </div>
 
     <div class="right-part">
         <h1>Bienvenue !</h1>
-        <h2>Mot de passe</h2>
-
-        <form method="post">
+        <form method="post" id="login-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div id="global-errors" class="error-message" aria-live="polite" style="display: none;"></div>
+            <div>
+                <div id="field-errors" class="error-message">
+                    {{ form.non_field_errors }}
+                </div>                
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
             <button type="submit">Se connecter</button>
-
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="error-message">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
         </form>
     </div>
 </div>
+
 {% endblock %}

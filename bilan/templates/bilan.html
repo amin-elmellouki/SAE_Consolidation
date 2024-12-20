@@ -7,9 +7,16 @@
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
 <script src="{% static 'sort.js' %}"></script>
 <script src="{% static 'color.js' %}"></script>
+<script src="{% static 'send.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+
+<div style="display: flex; align-items: center;">
+    <button class="white-button" onclick="location.href = '/'"><span style="margin-right: 10px;" class="material-symbols-rounded ">arrow_back</span> Retour</button>
+    <button class="white-button" onclick="sendToConso()"><span style="margin-right: 10px;" class="material-symbols-rounded ">send</span>Envoyer</button>
+</div>
+
 <div>
     <table class="sortable">
         <thead>
