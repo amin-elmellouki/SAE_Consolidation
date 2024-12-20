@@ -154,31 +154,14 @@ button {
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
-    transition: 
-        transform var(--transition-speed) ease, 
-        box-shadow var(--transition-speed) ease,
-        background var(--transition-speed) ease, 
-        color var(--transition-speed) ease;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 button:hover {
-    box-shadow: 0 8px 20px rgba(71, 85, 198, 0.4);
-    background: linear-gradient(90deg, #3741a0 0%, #9b4ca8 100%);
-}
-
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(71, 85, 198, 0.2);
-    background: linear-gradient(90deg, #2d378c 0%, #874294 100%);
-}
-
-button:focus-visible {
-    outline: 2px solid rgba(71, 85, 198, 0.7);
-    box-shadow: 0 0 10px rgba(71, 85, 198, 0.5);
-}
-
+    filter: brightness(1.2);
+    transform: scale(1.05);
+  }
 .logo {
     padding-top: 80px;
     padding-bottom: 150px;
