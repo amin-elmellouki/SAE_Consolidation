@@ -126,13 +126,14 @@ button {
 }
 
 button, a {
-  background-color: rgba(71,85,198,1);
-  color: #e0e0e0;
+  background: linear-gradient(90deg, #4755c6 0%, #af56bc 100%);
+  color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   padding: 10px;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.2s;
+  font-weight: 600;
 }
 
 button:hover {
