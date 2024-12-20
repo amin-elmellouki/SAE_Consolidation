@@ -163,6 +163,23 @@ def load_qcm_into_db(file, nom_matiere):
             est_note.save()
 
 
+def get_notes_by_stu(num_etud):
+    notes_by_mat = EstNote.objects.filter(
+        etudiant__numE=num_etud).select_related('qcm__matiere', 'etudiant')
+
+    res = {}
+    for est_note in notes_by_mat:
+        matiere = est_note.qcm.matiere.nomMat
+        note = est_note.note
+        
+        if matiere in res:
+            res[matiere].append(note)
+        else:
+            res[matiere] = [note]
+
+    return res
+
+
 def get_bilan(date):
     reponses_bilan = RepondreBilan.objects.filter(
         bilan=Bilan.objects.get(dateB=date)
@@ -183,6 +200,8 @@ def get_bilan(date):
             for demande in DemandeEn.objects.filter(reponse=reponse_bilan)
         )
 
+        notes_by_mat = get_notes_by_stu(reponse_bilan.etudiant.numE)
+
         yield {
             'numE': reponse_bilan.etudiant.numE,
             'nom': reponse_bilan.etudiant.nomPrenom.split(' ')[0],
@@ -192,4 +211,5 @@ def get_bilan(date):
             'demande': reponse_bilan.demande,
             'demande_en': matieres_demandees,
             'notes': notes_dict,
+            'notes_by_mat': notes_by_mat,
         }

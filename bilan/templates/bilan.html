@@ -1,10 +1,12 @@
 {% extends "base-header.html" %}
 {% load static %}
+{% load bilan_filters %}
 {% block title %} Bilan {% endblock %}
 
 {% block styles %} 
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
 <script src="{% static 'sort.js' %}"></script>
+<script src="{% static 'color.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +36,20 @@
                     <td>{{ bilan.prenom }}</td>
                     <td>{{ bilan.groupe }}</td>
                     {% for matiere, note in bilan.notes.items %}
-                        <td {% if note < 9 %} class="warning" {% endif %}>{{ note }}</td>
+                        <td class="student-info">{{ note }}
+                            <table class="info-table">
+                                <thead>
+                                    <th>Historique QCM {{ matiere }}</th>
+                                </thead>
+                                <tbody>
+                                    {% for note_mat in bilan.notes_by_mat|get:matiere %}
+                                        <tr>
+                                            <td data-note="{{ note }}">{{ note_mat }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
                     {% endfor %}
                     <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %}</td>
                     <td>{{ bilan.demande_en }}</td>
@@ -46,5 +61,22 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+        const cells = document.querySelectorAll('td[data-note]');
+        
+        cells.forEach(cell => {
+          const value = parseFloat(cell.getAttribute('data-note'));
+          
+          if (value >= 15) {
+            cell.style.color = 'green';
+          } else if (value >= 10) {
+            cell.style.color = '#9acd32';
+          } else if (value >= 5) {
+            cell.style.color = 'orange';
+          } else {
+            cell.style.color = 'red';
+          }
+        });
+    </script>
 </div>
 {% endblock %}
