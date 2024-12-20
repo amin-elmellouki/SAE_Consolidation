@@ -43,6 +43,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     animation: fadeIn var(--transition-speed) forwards ease-in-out;
+    background-color: #eaeaea;
 }
 
 /* Animation pour faire apparaître le conteneur */
