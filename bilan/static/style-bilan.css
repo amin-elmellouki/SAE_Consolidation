@@ -16,6 +16,7 @@ div {
     border-radius: 16px;
     margin: 10px;
     margin-top: 20px;
+    position: relative;
 }
 
 table {
@@ -31,8 +32,14 @@ th, td {
     text-align: left;
 }
 
-.warning {
-    color: red;
+.info-table {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    position: absolute;
+}
+
+.student-info:hover .info-table {
+    display: table;
 }
 
 th:first-of-type {
