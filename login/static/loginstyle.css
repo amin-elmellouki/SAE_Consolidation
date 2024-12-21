@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
 /**
  * Variables CSS globales
- * Ces variables permettent de maintenir une cohérence des couleurs, des vitesses de transition
- * et autres paramètres à travers tout le style.
+ * Ces variables centralisent les couleurs, transitions et autres propriétés pour assurer
+ * une cohérence et faciliter la maintenance du code.
  */
 :root {
     --primary-color: #4755c6;
@@ -14,7 +12,7 @@
 
 /**
  * Réinitialisation de base
- * Assure une base uniforme pour tous les navigateurs.
+ * Supprime les marges/paddings par défaut et applique une police uniforme.
  */
 html, body {
     height: 100%;
@@ -24,19 +22,13 @@ html, body {
     font-family: 'Inter', sans-serif;
 }
 
-/**
- * Styles pour les titres
- * Uniformise la couleur des titres et applique une transition fluide lors des changements.
- */
+/* Transition de couleur uniforme pour tous les titres */
 :is(h1, h2, h3, h4, h5, h6) {
     color: rgba(0, 0, 0, 0.7);
     transition: color var(--transition-speed) ease;
 }
 
-/**
- * Conteneur principal
- * Dispose les éléments enfants en flexbox pour assurer une mise en page fluide et réactive.
- */
+/* Conteneur principal avec animation d'apparition */
 .container {
     display: flex;
     width: 100%;
@@ -46,34 +38,29 @@ html, body {
     background-color: #eaeaea;
 }
 
-/* Animation pour faire apparaître le conteneur */
 @keyframes fadeIn {
     to {
         opacity: 1;
     }
 }
 
-/**
- * Section gauche
- * Mise en page avec un dégradé animé pour un effet esthétique.
- */
+/* Dégradé animé pour la section gauche */
 .left-part {
     background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
     background-size: 200% 200%;
-    animation: gradientAnimation 10s ease-in-out infinite alternate;
+    animation: gradientAnimation 8s ease-in-out infinite alternate;
     color: white;
     display: flex;
     flex: 1;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px;
+    padding: 5%;
     box-sizing: border-box;
     position: relative;
     z-index: 2;
 }
 
-/* Animation pour les transitions de dégradé */
 @keyframes gradientAnimation {
     0% {
         background-position: left top;
@@ -83,32 +70,33 @@ html, body {
     }
 }
 
-/**
- * Footer de la section gauche
- * Placé en bas de la section avec une opacité réduite pour ne pas distraire l'utilisateur.
- */
+/* Ajustement de la taille et de l'alignement des descriptions */
+.description {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Footer de la section gauche */
 .left-part .left-bottom-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     margin: 0;
     text-align: left;
-    opacity: 0.8;
 }
 
-/**
- * Section droite
- * Dispose les éléments au centre avec une mise en page épurée et une légère ombre pour un effet visuel.
- */
+/* Animation fluide de glissement pour la section droite */
 .right-part {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #eaeaea;
+    background-color: #fafafa;
     flex: 1;
     height: 85%;
-    padding: 40px;
+    padding: 5%;
     box-sizing: border-box;
     border-radius: 0 0 0 50px;
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
@@ -116,7 +104,6 @@ html, body {
     animation: slideLeft var(--transition-speed) 0.3s forwards ease-out;
 }
 
-/* Animation pour faire glisser la section vers le haut */
 @keyframes slideLeft {
     from {
         transform: translateX(50px);
@@ -128,8 +115,9 @@ html, body {
     }
 }
 
+/* Transition appliquée à tous les enfants de la section droite */
 .right-part * {
-    margin-top: 20px;
+    margin-top: 5%;
     transition: all var(--transition-speed) ease;
 }
 
@@ -140,16 +128,13 @@ html, body {
     color: rgba(0, 0, 0, 0.8);
 }
 
-/**
- * Boutons
- * Définition d'un style moderne avec des dégradés et des ombres. 
- * Les transitions ajoutent un effet interactif.
- */
+
+/* Boutons avec transition et mise en évidence au survol */
 button {
     background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 3% 5%;
     border-radius: 20px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -161,7 +146,9 @@ button {
 button:hover {
     filter: brightness(1.2);
     transform: scale(1.05);
-  }
+}
+
+/* Alignement et taille des logos */
 .logo {
     padding-top: 80px;
     padding-bottom: 150px;
@@ -170,6 +157,7 @@ button:hover {
     max-width: 100%;
 }
 
+/* Formulaires avec style minimaliste */
 form {
     display: flex;
     flex-direction: column;
@@ -178,13 +166,9 @@ form {
     max-width: 400px;
 }
 
-/**
- * Champs de formulaire
- * Conserve un style minimaliste avec des transitions pour un effet interactif.
- */
 input[type="text"], input[type="password"] {
     border: none;
-    border-bottom: 2px solid rgba(0,0,0,0.3);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     background: transparent;
     padding: 5px;
     width: 300px;
@@ -197,22 +181,20 @@ input[type="text"]:focus, input[type="password"]:focus {
     border-color: var(--primary-color);
 }
 
-input.invalid {
-    border-bottom: 2px solid var(--error-color);
+/* Conteneur pour afficher/masquer les mots de passe */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-/**
- * Messages d'erreur
- * Mise en avant des erreurs avec une couleur rouge et une police distincte.
- */
-.error-message {
-    color: var(--error-color);
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.error-message ul {
-    list-style: none;
-    padding: 0;
+.toggle-password {
+    position: absolute;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #5D55C4;
+    margin-top: 10px;
+    transition: none;
 }

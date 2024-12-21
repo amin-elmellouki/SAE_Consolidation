@@ -7,11 +7,12 @@ Connexion
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'loginstyle.css' %}">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Section gauche avec logo et description -->
     <div class="left-part">
         <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
         <p class="description">
@@ -21,11 +22,15 @@ Connexion
         <p class="left-bottom-footer">© 2024 ConsoLead - Tous droits réservés.</p>
     </div>
 
+    <!-- Section droite contenant le formulaire de connexion -->
     <div class="right-part">
         <h1>Bienvenue !</h1>
         <form method="post" id="login-form">
             {% csrf_token %}
+            <!-- Conteneur pour afficher les erreurs globales du formulaire -->
             <div id="global-errors" class="error-message" aria-live="polite" style="display: none;"></div>
+
+            <!-- Champ de saisie pour le nom d'utilisateur -->
             <div>
                 <div id="field-errors" class="error-message">
                     {{ form.non_field_errors }}
@@ -34,14 +39,24 @@ Connexion
                 {{ form.username }}
                 {{ form.username.errors }}
             </div>
+
+            <!-- Champ de saisie pour le mot de passe -->
             <div>
                 {{ form.password.label_tag }}
-                {{ form.password }}
+                <div class="password-container">
+                    {{ form.password }}
+                    <button type="button" class="toggle-password" aria-label="Afficher/masquer le mot de passe">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
                 {{ form.password.errors }}
-            </div>
+            </div>            
+
             <button type="submit">Se connecter</button>
         </form>
     </div>
 </div>
 
+<!-- Inclusion d'un script pour gérer l'affichage/masquage du mot de passe -->
+<script src="{% static 'js/password_viewer.js' %}"></script>
 {% endblock %}
