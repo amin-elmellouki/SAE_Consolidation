@@ -66,22 +66,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <script>
-        const cells = document.querySelectorAll('td[data-note]');
-        
-        cells.forEach(cell => {
-          const value = parseFloat(cell.getAttribute('data-note'));
-          
-          if (value >= 15) {
-            cell.style.color = 'green';
-          } else if (value >= 10) {
-            cell.style.color = '#9acd32';
-          } else if (value >= 5) {
-            cell.style.color = 'orange';
-          } else {
-            cell.style.color = 'red';
-          }
-        });
-    </script>
 </div>
 {% endblock %}
