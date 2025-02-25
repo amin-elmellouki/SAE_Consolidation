@@ -13,7 +13,7 @@ main {
     display: flex;
 }
 
-.drop_zone {
+#drop_zone {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,7 +26,7 @@ main {
     padding: 10px;
 }
 
-.drop_zone .material-symbols-rounded {
+#drop_zone .material-symbols-rounded {
     font-size: 3em;
 }
 
@@ -174,4 +174,38 @@ aside a {
 
 .bilan-button.asc::after {
     content: "▲";
+}
+
+table {
+    border-collapse: collapse;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    border-radius: 16px;
+    overflow: hidden; 
+}
+
+th, td {
+    text-align: left;
+}
+
+th:first-of-type {
+    border-top-left-radius: 16px;
+}
+
+th:last-of-type {
+    border-top-right-radius: 16px;
+}
+
+th {
+    background-color: #353048;
+    color: white;
+}
+
+tr {
+    background-color: #f0f0f0;
+}
+
+table * {
+    padding: 10px;
 }

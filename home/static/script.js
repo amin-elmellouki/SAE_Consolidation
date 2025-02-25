@@ -1,64 +1,103 @@
 var loadedFiles;
 
-function autoSetMat() {
-    var comboBox = document.getElementById('matiere-select') 
+function detectFileType(file) {
+    return new Promise((resolve) => {
+        let reader = new FileReader();
+        reader.readAsText(file);
+
+        reader.onload = () => {
+            if (reader.result.startsWith("Nom complet de l’utilisateur")) {
+                resolve("bilan");
+            } else {
+                resolve(detectMat(file.name))
+            }
+        };
+
+        reader.onerror = () => {
+            resolve("Erreur de lecture");
+        };
+    })
+}
+
+function detectMat(fileName) {
+    var comboBox = document.querySelector('.matiere-select-base') 
     var options = comboBox.options;
 
-    console.log(loadedFiles)
-    for (file in loadedFiles) {
-        for (option in options) {
-            if (options[option].innerText == "") {
-                continue;
-            }
+    for (option in options) {
+        if (options[option].innerText == "") {
+            continue;
+        }
 
-            if (loadedFiles[file].name.includes(options[option].innerText)) {
-                console.log(options[option])
-                comboBox.selectedIndex = option;
-                return;
-            }
+        if (fileName.includes(options[option].innerText)) {
+            return options[option].innerText;
         }
     }
 
     console.log("Pas trouvé")
 }
 
-function fileInputHandler(event, type) {
-    const files = event.target.files;
-    
-    if (type === 'bilan') {
-        uploadFiles(files, loadBilanUrl);
-    } else {
-        loadedFiles = files;
-        autoSetMat();
-    }
+// Boutton
+function fileInputHandler(event) {
+     showUploadedFiles(event.target.files)
 }
 
-function dropHandler(ev, type) {
-    console.log("File(s) dropped");
-    
-    ev.preventDefault();
+// Zone de drop
+function dropHandler(event) {
+    event.preventDefault();
 
     let files;
-    if (ev.dataTransfer.items) {
-        files = [...ev.dataTransfer.items].map(item => item.getAsFile());
+    if (event.dataTransfer.items) {JSON.stringify(bodyObject)
+        files = [...event.dataTransfer.items].map(item => item.getAsFile());
     } else {
-        files = [...ev.dataTransfer.files];
+        files = [...event.dataTransfer.files];
     }
     
-    console.log(type)
-    if (type === 'bilan') {
-        uploadFiles(files, loadBilanUrl);
-    } else {
-        loadedFiles = files;
-        autoSetMat();
-    }
+    showUploadedFiles(files);
 }
 
-function uploadFiles(files, url, mat=null) {
-    let formData = new FormData();
-    for (let file of files) {
-        formData.append('files', file);
+function showUploadedFiles(files) {
+    document.getElementById("drop_zone").style.display = "none";
+    document.getElementById("file_table").style.display = "block";
+
+    let option = document.querySelector(".matiere-select-base");
+    let body = document.getElementById("file_table_body");
+
+    for (let i = 0; i < files.length; i++) {
+        let tr = document.createElement("tr");
+        
+        let nameTd = document.createElement("td");
+        nameTd.innerText = files[i].name;
+
+        let typeTd = document.createElement("td");
+        
+
+        detectFileType(files[i]).then((type) => {
+            if (type === "bilan") {
+                typeTd.innerText = "Bilan";
+            } else {
+                let optpionClone = option.cloneNode(true);
+                optpionClone.value = detectMat(files[i].name)
+                typeTd.appendChild(optpionClone);
+                optpionClone.style.display = "block";
+            }
+        })
+        
+        let deleteTd = document.createElement("td");
+        deleteTd.innerText = "Le gros sexe a guigui";
+        
+        tr.appendChild(nameTd);
+        tr.appendChild(typeTd);
+        tr.appendChild(deleteTd);
+
+        body.appendChild(tr);
     }
+
+
+}
+
+function uploadFile(file, url, mat=null) {
+    let formData = new FormData();
+    formData.append('file', file);
 
     console.log(mat)
     if (mat) {
@@ -91,11 +130,6 @@ function showMessage(type, err) {
     setTimeout(() => {
         location.reload();
     }, 3000);
-}
-
-function sendQcm() {
-    var e = document.getElementById('matiere-select')
-    uploadFiles(loadedFiles, loadQcmUrl, e.options[e.selectedIndex].text);
 }
 
 function getCookie(name) {
