@@ -1,10 +1,12 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from .views import home, load_bilan, load_qcm
+from .views import home, load_bilan, load_qcm, settings, delete_bd
 
 urlpatterns = [
     path('', home, name='home'),
     path('load_bilan', load_bilan, name='load_bilan'),
     path('load_qcm', load_qcm, name='load_qcm'),
+    path('settings', settings, name='settings'),
+    path('delete_bd', delete_bd, name='delete_bd'),
 ]
