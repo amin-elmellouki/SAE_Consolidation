@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import redirect, render
 
-from home.models import get_etudiant
+from home.models import consolider_etudiant, get_etudiant
 
 
 def compte_rendu(request):
@@ -12,8 +12,11 @@ def compte_rendu(request):
     body = request.body.decode('utf-8') 
     data = json.loads(body)
     
-    for matiere, etudiants in data.items():
-        data[matiere] = [get_etudiant(numero) for numero in etudiants]
+    # Enregistre dans le bd
+    for matiere, etudiants in data["conso"].items():
+        for etudiant in etudiants:
+            consolider_etudiant(data["date"], matiere, etudiant)
     
-    return render(request, 'compte-rendu.html', {'data': data})
-
+    for matiere, etudiants in data["conso"].items():
+        data["conso"][matiere] = [get_etudiant(numero) for numero in etudiants]
+    return render(request, 'compte-rendu.html', {'data': data["conso"]})
