@@ -155,6 +155,29 @@ header * {
   margin: 0;
 }
 
+.h-form {
+  display: flex;
+  width: 8%;
+  justify-content: space-around;
+}
+
+.white-button-menu {
+  display: flex;
+  background-color: #f0f0f0;
+  color: #444;
+  margin: 3px;
+}
+
+.white-button-menu:hover {
+  filter: brightness(0.9);
+  transform: scale(1.05);
+}
+
+.logout:hover {
+  background-color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
+}
+
 .white-button {
   margin: 10px; 
   background-color: white; 
