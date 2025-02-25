@@ -113,6 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         semaineButton.addEventListener('click', function() {
             isAsc = !isAsc;
+            
+            // Mise à jour des classes pour le triangle
+            this.classList.toggle('asc', isAsc);
+            this.classList.toggle('desc', !isAsc);
+            
+            // Mise à jour de l'attribut data-sort (si nécessaire)
             this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
             
             const scrollable = document.querySelector('.bilan-scrollable');
