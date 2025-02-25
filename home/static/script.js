@@ -1,4 +1,4 @@
-var loadedFiles;
+var loadedFiles = new Array();
 
 function detectFileType(file) {
     return new Promise((resolve) => {
@@ -63,14 +63,16 @@ function showUploadedFiles(files) {
     let body = document.getElementById("file_table_body");
 
     for (let i = 0; i < files.length; i++) {
+        loadedFiles.push(files[i])
+
         let tr = document.createElement("tr");
         
+        // File name
         let nameTd = document.createElement("td");
         nameTd.innerText = files[i].name;
 
+        // File Type
         let typeTd = document.createElement("td");
-        
-
         detectFileType(files[i]).then((type) => {
             if (type === "bilan") {
                 typeTd.innerText = "Bilan";
@@ -82,17 +84,19 @@ function showUploadedFiles(files) {
             }
         })
         
-        let deleteTd = document.createElement("td");
-        deleteTd.innerText = "Le gros sexe a guigui";
-        
         tr.appendChild(nameTd);
         tr.appendChild(typeTd);
-        tr.appendChild(deleteTd);
-
         body.appendChild(tr);
     }
+}
 
+function submitFiles() {
+    table = document.getElementById("file_table")
+    rows = table.querySelectorAll("tr")
 
+    for (i = 1; i < rows.length; i++) { // i = 1 pour skip le header
+        
+    }
 }
 
 function uploadFile(file, url, mat=null) {
