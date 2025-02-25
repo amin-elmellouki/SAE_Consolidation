@@ -214,5 +214,10 @@ def get_bilan(date):
             'notes_by_mat': notes_by_mat,
         }
 
+
+def get_qcm_by_week(date):
+    return QCM.objects.filter(dateQ=date).count()
+
+
 def get_etudiant(numero_etudiant: str) -> Etudiant:
     return Etudiant.objects.get(numE=numero_etudiant)

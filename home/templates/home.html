@@ -67,8 +67,13 @@
     <aside class="bilan-list">
         <h2 class="bilan-title">Selectionner une semaine</h2>
         <div class="bilan-scrollable">
-            {% for date in semaines %}
-                <a href="/bilan/{{ date }}"> {{ date }} </a>
+            {% for date, nb_qcm in semaines.items %}
+                <a href="/bilan/{{ date }}">
+                    {{ date }}
+                    {% if nb_qcm > 0 %}
+                        ({{ nb_qcm }})
+                    {% endif %}
+                </a>
             {% endfor %}
         </div>
     </aside>
