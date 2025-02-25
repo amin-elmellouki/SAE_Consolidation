@@ -3,7 +3,8 @@ import csv
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect, render
 
-from .models import Matiere, get_weeks, load_bilan_into_db, load_qcm_into_db, get_qcm_by_week
+from .models import (Matiere, get_qcm_by_week, get_weeks, load_bilan_into_db,
+                     load_qcm_into_db)
 
 
 @login_required(login_url='/login/')
@@ -27,17 +28,15 @@ def home(request):
 
 @login_required(login_url="/login/")
 def load_bilan(request):
-    files = request.FILES.getlist('files')
-    for file in files:
-        load_bilan_into_db(file)
+    file = request.FILES.getlist('file')
+    load_bilan_into_db(file)
     
     return HttpResponseRedirect("/")
 
 
 @login_required(login_url="/login/")
 def load_qcm(request):
-    files = request.FILES.getlist('files')
-    for file in files:
-        load_qcm_into_db(file, request.POST.get('matiere'))
+    file = request.FILES.getlist('file')
+    load_qcm_into_db(file, request.POST.get('matiere'))
     
     return HttpResponseRedirect("/")
