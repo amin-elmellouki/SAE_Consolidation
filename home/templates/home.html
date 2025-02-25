@@ -65,7 +65,9 @@
     </div>
 
     <aside class="bilan-list">
-        <h2 class="bilan-title">Selectionner une semaine</h2>
+        <h2 class="bilan-title">
+            <button class="bilan-button" data-sort="desc">Semaine</button>
+        </h2>
         <div class="bilan-scrollable">
             {% for date, nb_qcm in semaines.items %}
                 <a href="/bilan/{{ date }}">
