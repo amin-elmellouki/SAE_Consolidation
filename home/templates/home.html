@@ -71,9 +71,10 @@
         <div class="bilan-scrollable">
             {% for date, nb_qcm in semaines.items %}
                 <a href="/bilan/{{ date }}">
-                    {{ date }}
+                    {{ date }}  
                     {% if nb_qcm > 0 %}
-                        ({{ nb_qcm }})
+                    <br>
+                        ({{ nb_qcm }} QCM)
                     {% endif %}
                 </a>
             {% endfor %}
