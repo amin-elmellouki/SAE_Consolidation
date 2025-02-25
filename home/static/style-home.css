@@ -71,7 +71,7 @@ aside a {
 .bilan-list {
     max-height: 1000px;
     overflow-y: auto;
-    padding: 10px;
+    padding: 20px;
     position: relative; 
 }
 
@@ -140,6 +140,40 @@ aside a {
 
 .error p {
     color: #692326;
+}
+
+.bilan-button::after {
+    content: "▲";
+    color: currentcolor;
+}
+
+.bilan-button::after {
+    content: "▼";
+    color: currentcolor;
+}
+
+.bilan-button {
+    background: none;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    color: inherit; /* Garde la couleur du texte parent */
+    padding: 5px 10px;
+}
+
+.bilan-button {
+    background: transparent;
+}
+
+.bilan-button::after {
+    content: "▼";
+    font-size: 0.8em;
+    margin-left: 5px;
+    color: currentcolor;
+}
+
+.bilan-button.asc::after {
+    content: "▲";
 }
 
 table {
