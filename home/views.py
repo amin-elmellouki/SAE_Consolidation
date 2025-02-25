@@ -1,10 +1,11 @@
 import csv
+from urllib.parse import urlparse
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import HttpResponseRedirect, render
+from django.shortcuts import HttpResponseRedirect, render, redirect
 
-from .models import (Matiere, get_qcm_by_week, get_weeks, load_bilan_into_db,
-                     load_qcm_into_db)
+from .models import Matiere, Etudiant, EstNote, Conso, Bilan, QCM, Participe, RepondreBilan, DemandeEn
+from .models import get_weeks, load_bilan_into_db, load_qcm_into_db, get_qcm_by_week
 
 
 @login_required(login_url='/login/')
@@ -40,3 +41,34 @@ def load_qcm(request):
     load_qcm_into_db(file, request.POST.get('matiere'))
     
     return HttpResponseRedirect("/")
+
+
+@login_required(login_url='/login/')
+def settings(request):
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    current_url = request.build_absolute_uri()
+    parsed_url = urlparse(previous_url).path if previous_url != current_url else '/'
+
+    context = {
+        'previous_url': parsed_url,
+    }
+    return render(request, 'settings.html', context)
+
+
+@login_required(login_url='/login/')
+def delete_bd(request):
+    try:
+        Participe.objects.all().delete()
+        EstNote.objects.all().delete()
+        RepondreBilan.objects.all().delete()
+        DemandeEn.objects.all().delete()
+        QCM.objects.all().delete()
+        Bilan.objects.all().delete()
+        Conso.objects.all().delete()
+        Matiere.objects.all().delete()
+        Etudiant.objects.all().delete()
+
+    except Exception as e:
+        print(e)
+
+    return redirect('settings')

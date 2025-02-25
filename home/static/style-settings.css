@@ -1,0 +1,48 @@
+* {
+    font-family: "Poppins", sans-serif;  
+}
+
+body {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.settings {
+    margin: 10px;
+}
+
+.bd {
+    padding: 20px;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 16px;
+    width: 25%;
+}
+
+.white-button {
+    margin: 10px; 
+    background-color: white; 
+    color:black; 
+    display:flex; 
+    justify-content: center; 
+    align-items: center;
+    margin-left: 0px;
+}
+
+.delete:hover, .white-button:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+}
+
+.delete {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    color: red;
+    font-weight: 600;
+}
+
+.delete:hover {
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+  }

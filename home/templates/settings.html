@@ -1,0 +1,30 @@
+{% extends "base-header.html" %}
+{% load static %}
+{% block title %} Settings {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-settings.css'%}" rel="stylesheet"/>
+<script>
+    function confirmerViderBase() {
+        if (confirm("Êtes-vous sûr de vouloir vider la base de données ? Cette action est irréversible.")) {
+            document.getElementById('vider-form').submit();
+        }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<main class="settings">
+    <div style="display: flex; align-items: center;">
+        <a href="{{ previous_url }}" class="white-button"><span class="material-symbols-rounded ">arrow_back</span>Retour</a>
+    </div>
+
+    <section class="bd">
+        <h2>Gestion de la base de données</h2>
+        <form id="vider-form" action="{% url 'delete_bd' %}" method="POST">
+            {% csrf_token %}
+            <button class="delete" type="button" onclick="confirmerViderBase()"><span class="material-symbols-rounded ">delete</span> Vider la base de données</button>
+        </form>
+    </section>
+</main>
+{% endblock %}
