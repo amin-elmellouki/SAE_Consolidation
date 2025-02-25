@@ -4,9 +4,9 @@ class SortableTable {
     this.columnHeaders = tableNode.querySelectorAll('thead th');
     this.sortColumns = [];
 
-    for (var i = 0; i < this.columnHeaders.length; i++) {
-      var ch = this.columnHeaders[i];
-      var buttonNode = ch.querySelector('button');
+    for (let i = 0; i < this.columnHeaders.length; i++) {
+      const ch = this.columnHeaders[i];
+      const buttonNode = ch.querySelector('button');
       if (buttonNode) {
         this.sortColumns.push(i);
         ch.setAttribute('aria-sort', 'none');
@@ -35,11 +35,11 @@ class SortableTable {
       columnIndex = parseInt(columnIndex);
     }
 
-    for (var i = 0; i < this.columnHeaders.length; i++) {
-      var ch = this.columnHeaders[i];
-      var buttonNode = ch.querySelector('button');
+    for (let i = 0; i < this.columnHeaders.length; i++) {
+      const ch = this.columnHeaders[i];
+      const buttonNode = ch.querySelector('button');
       if (i === columnIndex) {
-        var value = ch.getAttribute('aria-sort');
+        const value = ch.getAttribute('aria-sort');
         if (value === 'descending') {
           ch.setAttribute('aria-sort', 'ascending');
           this.sortColumn(
@@ -71,12 +71,12 @@ class SortableTable {
   }
 
   handleClick(event) {
-    var tgt = event.currentTarget;
+    const tgt = event.currentTarget;
     this.setColumnHeaderSort(tgt.getAttribute('data-column-index'));
   }
 
   handleOptionChange(event) {
-    var tgt = event.currentTarget;
+    const tgt = event.currentTarget;
     if (tgt.checked) {
       this.tableNode.classList.add('show-unsorted-icon');
     } else {
@@ -88,41 +88,47 @@ class SortableTable {
     const tbody = this.tableNode.querySelector('tbody');
     const rows = Array.from(tbody.rows);
 
+    const parseNumber = (str) => {
+      const cleaned = str.replace(/,/g, '').replace(/[^0-9.-]/g, '');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? null : num;
+    };
+
     rows.sort((rowA, rowB) => {
       const cellA = rowA.cells[columnIndex].textContent.trim();
       const cellB = rowB.cells[columnIndex].textContent.trim();
 
-      const isNumber = str => /^\d+(\.\d+)?$/.test(str);
-
-      if (isNumber(cellA) && isNumber(cellB)) {
-        const numA = parseFloat(cellA);
-        const numB = parseFloat(cellB);
+      if (isNumeric) {
+        const numA = parseNumber(cellA) || 0;
+        const numB = parseNumber(cellB) || 0;
         return direction === 'ascending' ? numA - numB : numB - numA;
       } else {
-        return direction === 'ascending'
-          ? cellA.localeCompare(cellB)
-          : cellB.localeCompare(cellA);
+        const numA = parseNumber(cellA);
+        const numB = parseNumber(cellB);
+
+        if (numA !== null && numB !== null) {
+          return direction === 'ascending' ? numA - numB : numB - numA;
+        } else {
+          return direction === 'ascending'
+            ? cellA.localeCompare(cellB)
+            : cellB.localeCompare(cellA);
+        }
       }
     });
 
-    // Remove existing rows
     while (tbody.firstChild) {
       tbody.removeChild(tbody.firstChild);
     }
 
-    // Append sorted rows
     rows.forEach(row => tbody.appendChild(row));
   }
 }
 
 function setUpTables() {
-  console.log("Tables set up")
-  var sortableTables = document.querySelectorAll('table.sortable');
-  for (var i = 0; i < sortableTables.length; i++) {
-    new SortableTable(sortableTables[i]);
+  const sortableTables = document.querySelectorAll('table.sortable');
+  for (const table of sortableTables) {
+    new SortableTable(table);
   }
 }
 
-window.addEventListener('load', () => {
-  setUpTables();
-});
+window.addEventListener('load', setUpTables);
