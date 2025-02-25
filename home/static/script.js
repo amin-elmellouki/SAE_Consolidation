@@ -103,3 +103,37 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const semaineButton = document.querySelector('.bilan-button');
+    
+    if (semaineButton) {
+        // État initial
+        let isAsc = false;
+        
+        semaineButton.addEventListener('click', function() {
+            isAsc = !isAsc;
+            this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
+            
+            const scrollable = document.querySelector('.bilan-scrollable');
+            const anchors = Array.from(scrollable.querySelectorAll('a'));
+            
+            anchors.sort((a, b) => {
+                // On extrait le texte de la date (avant la parenthèse s'il y en a une)
+                const getDateText = (element) => {
+                    return element.textContent.trim().split('(')[0].trim();
+                };
+                
+                const aDateText = getDateText(a);
+                const bDateText = getDateText(b);
+                
+                // Si vos dates sont au format YYYY-MM-DD ou similaire, cette comparaison simple fonctionnera
+                return isAsc ? aDateText.localeCompare(bDateText) : bDateText.localeCompare(aDateText);
+            });
+            
+            // Rafraîchir l'affichage
+            scrollable.innerHTML = '';
+            anchors.forEach(anchor => scrollable.appendChild(anchor));
+        });
+    }
+});
