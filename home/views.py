@@ -12,9 +12,9 @@ def home(request):
     bilans = get_weeks()
 
     for bilan in bilans:
-        date = bilan.dateB
-        qcm_count = get_qcm_by_week(date) 
-        semaines[date] = qcm_count 
+        date = str(bilan.dateB)
+        qcm_count = get_qcm_by_week(date)
+        semaines[date] = qcm_count
 
     context = {
         'message': "Bienvenue, vous êtes connecté !",
