@@ -143,12 +143,6 @@ aside a {
 }
 
 .bilan-button::after {
-    content: "▶";
-    font-size: 0.8em;
-    margin-left: 5px;
-}
-
-.bilan-button::after {
     content: "▲";
     color: currentcolor;
 }
