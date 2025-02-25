@@ -18,7 +18,7 @@
 </div>
 
 <div>
-    <table class="sortable">
+    <table data-date="{{date}}" class="sortable">
         <thead>
             <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
             <th><button>Nom <span aria-hidden="true"></span></button></th>
@@ -59,8 +59,8 @@
                     {% endfor %}
                     <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}</td>
                     <td>{{ bilan.desc }}</td>
-                    {% for note in bilan.notes %}
-                        <td><input type="checkbox"></td>
+                    {% for matiere, note in bilan.notes.items %}
+                        <td data-nume="{{bilan.numE}}" data-matiere="{{ matiere }}" class="checkbox-column"><input type="checkbox"></td>
                     {% endfor %}
                 </tr>
             {% endfor %}

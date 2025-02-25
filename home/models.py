@@ -24,9 +24,12 @@ class Etudiant(models.Model):
 
 
 class Conso(models.Model):
-    dateC = models.DateField(primary_key=True)
+    dateC = models.DateField()
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name="consos")
     etudiants = models.ManyToManyField(Etudiant, through="Participe")
+    
+    class Meta:
+        unique_together = ("dateC", "matiere")
 
 
 class Bilan(models.Model):
@@ -215,6 +218,21 @@ def get_bilan(date):
         }
 
 
+
+def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
+    print(matiere)
+    print(Matiere.objects.all())
+    conso, _created = Conso.objects.get_or_create(
+        dateC=date,
+        matiere=Matiere.objects.get(nomMat=matiere)
+    )
+    
+    Participe.objects.get_or_create(
+        etudiant=Etudiant.objects.get(numE=numero_etudiant),
+        conso=conso,
+    )
+
+ 
 def get_qcm_by_week(date):
     return QCM.objects.filter(dateQ=date).count()
 

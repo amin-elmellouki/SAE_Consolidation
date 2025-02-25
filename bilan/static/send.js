@@ -4,35 +4,41 @@ window.addEventListener('load', () => {
 })
 
 function sendToConso() {
-    let headers = table.querySelectorAll("th")
-    let lines = table.querySelectorAll("tbody tr");
+    let body = new Map();
+    body.set("date", table.dataset.date)
     
-    let consos = new Map();
+    let conso = new Map();
 
-    for (let i = 0; i < lines.length; i++) {
-        let columns = lines[i].querySelectorAll("td")
-        
-        for (let j = 0; j < columns.length; j++) {
-            let checkbox = columns[j].querySelector("input[type=checkbox]");
+    let checkboxColumns = table.querySelectorAll(".checkbox-column")
 
-            if (checkbox && checkbox.checked) {
-                if (consos.has(headers[j].innerText)) {
-                    consos.get(headers[j].innerText).push(columns[0].innerText);
-                } else {
-                    consos.set(headers[j].innerText, [columns[0].innerText]);
-                }
+    for (let i = 0; i < checkboxColumns.length; i++) {
+        let checkboxColumn = checkboxColumns[i]  
+        let checkbox = checkboxColumn.querySelector("input[type=checkbox]");
+    
+        if (checkbox.checked) {
+            let matiere = checkboxColumn.dataset.matiere
+            let numE = checkboxColumn.dataset.nume
+
+            if (conso.has(matiere)) {
+                conso.get(matiere).push(numE)
+            } else {
+                conso.set(matiere, new Array(numE))
             }
         }
-    }  
+    } 
+    
+    body.set("conso", Object.fromEntries(conso));
+    let bodyObject = Object.fromEntries(body);
 
-    let consosObject = Object.fromEntries(consos);
+    console.log(JSON.stringify(bodyObject))
+
     fetch('/compte_rendu/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             "X-CSRFToken": getCookie("csrftoken")
         },
-        body: JSON.stringify(consosObject),
+        body: JSON.stringify(bodyObject),
     })
     .then(response => {
         if (response.redirected) {
