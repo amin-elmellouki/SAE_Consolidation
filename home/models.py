@@ -230,7 +230,6 @@ def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
     )
 
 
-
 def get_qcm_by_week(date):
     return QCM.objects.filter(dateQ=date).count()
 
