@@ -126,6 +126,10 @@ table.sortable th[aria-sort="descending"] span::after {
     color: currentcolor;
 }
 
+table.sortable th.no-sort button span::after {
+    content: none;
+}
+
 .tag {
     padding-left: 20px;
     padding-right: 20px;
