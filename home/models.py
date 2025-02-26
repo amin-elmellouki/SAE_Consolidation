@@ -260,7 +260,8 @@ def get_historique_conso(numero_etudiant: str) -> dict:
         
         participe = Participe.objects.filter(
             etudiant__numE=numero_etudiant,
-            conso__dateC=note.qcm.dateQ
+            conso__dateC=note.qcm.dateQ,
+            conso__matiere=matiere,
         ).first()
         
         # Je m'excuse solennellement pour ce code.
@@ -286,4 +287,7 @@ def get_historique_conso(numero_etudiant: str) -> dict:
             else:
                 res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
 
+    if numero_etudiant=="num1":
+        print(res)
+    
     return res
