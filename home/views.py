@@ -28,7 +28,7 @@ def home(request):
 
 @login_required(login_url="/login/")
 def load_bilan(request):
-    file = request.FILES.getlist('file')
+    file = request.FILES.getlist('file')[0]
     load_bilan_into_db(file)
     
     return HttpResponseRedirect("/")
@@ -36,7 +36,7 @@ def load_bilan(request):
 
 @login_required(login_url="/login/")
 def load_qcm(request):
-    file = request.FILES.getlist('file')
+    file = request.FILES.getlist('file')[0]
     load_qcm_into_db(file, request.POST.get('matiere'))
     
     return HttpResponseRedirect("/")

@@ -24,11 +24,11 @@
                 {% endfor %}
             </select>
 
-            <div style="display: none;" id="succ-bilan" class="message success">
+            <div style="display: none;" id="succ" class="message success">
                 <p>Bilan chargé dans la base de données</p>
             </div>
 
-            <div style="display: none;" id="err-bilan" class="message error">
+            <div style="display: none;" id="err" class="message error">
                 <p>Erreur lors du chargement dans la base de données</p>
             </div>
 
@@ -48,6 +48,8 @@
                 <tbody id="file_table_body">
                 </tbody>
             </table>
+
+            <button style="display: none;" id="upload_button" onclick="submitFiles()">Envoyer</button>
         </section>
     </div>
 
