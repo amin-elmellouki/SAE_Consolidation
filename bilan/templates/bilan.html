@@ -63,17 +63,20 @@
                         <table class="info-table">
                             <thead>
                                 <tr>
-                                    <th colspan="4">Skibidi toilet</th>
+                                    <th colspan="4">Historique des conso.</th>
                                 </tr>
                             </thead>
                             
                             <tbody>
+                                {% for matiere, consos in bilan.historique.items %}
                                     <tr>
-                                        <td>Le</td>
-                                        <td>Sexe</td>
-                                        <td>a</td>
-                                        <td>Guigui</td>
+                                        <td>{{matiere}}</td>
+
+                                        {% for conso in consos %}
+                                            <td>{{conso|safe}}</td>
+                                        {% endfor %}
                                     </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 

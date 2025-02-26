@@ -40,7 +40,7 @@ class Bilan(models.Model):
 class Participe(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     conso = models.ForeignKey(Conso, on_delete=models.CASCADE)
-    absent = models.BooleanField()
+    estAbsent = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('etudiant', 'conso')
@@ -216,6 +216,7 @@ def get_bilan(date):
             'demande_en': matieres_demandees,
             'notes': notes_dict,
             'notes_by_mat': notes_by_mat,
+            'historique': get_historique_conso(reponse_bilan.etudiant.numE),
         }
 
 
@@ -244,7 +245,7 @@ def get_etudiant(numero_etudiant: str) -> Etudiant:
 
 def get_historique_conso(numero_etudiant: str) -> dict:
     notes = EstNote.objects.filter(
-        etudiant__numero_etudiant=numero_etudiant,
+        etudiant__numE=numero_etudiant,
     )
     
     res = {}
@@ -255,30 +256,34 @@ def get_historique_conso(numero_etudiant: str) -> dict:
         demande = DemandeEn.objects.filter(
             matiere=matiere,
             reponse__etudiant__numE=numero_etudiant
-        )
+        ).first()
         
         participe = Participe.objects.filter(
-            etudiant_numE=numero_etudiant,
+            etudiant__numE=numero_etudiant,
             conso__dateC=note.qcm.dateQ
-        )
+        ).first()
         
-        if participe.absent:
+        # Je m'excuse solennellement pour ce code.
+        # Je sais que c'est moche.
+        # Je sais que c'est possible de faire mieux.
+        # Mais je refuse de toucher à plus de JS
+        if participe and participe.estAbsent:
             if demande:
-                res[demande.matiere.nomMat].append("A demandé et a été absent")
+                res[matiere.nomMat].append("<span style='background-color: black; color: white;'>Oui</span>") # A demandé et a été absent
             else:
-                res[demande.matiere.nomMat].append("N'a pas demandé et a été absent")
+                res[matiere.nomMat].append("<span style='background-color: black; color: white;'>Non</span>") # N'a pas demandé et a été absent
 
         else:
             if participe and demande:
-                res[demande.matiere.nomMat].append("A demandé et est inscrit")
+                res[matiere.nomMat].append("<span style='background-color: green; color: black;'>Oui</span>") # A demandé et est inscrit
             
             elif participe:
-                res[demande.matiere.nomMat].append("Est inscrit sans avoir demandé")
+                res[matiere.nomMat].append("<span style='background-color: green; color: black;'>Non</span>") #Est inscrit sans avoir demandé
 
             elif demande:
-                res[demande.matiere.nomMat].append("A demandé sans avoir été inscrit")
+                res[matiere.nomMat].append("<span style='background-color: red; color: black;'>Oui</span>") #A demandé sans avoir été inscrit
             
             else:
-                res[demande.matiere.nomMat].append("N'est pas inscrit, n'a pas demandé")
+                res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
 
     return res
