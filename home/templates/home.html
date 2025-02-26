@@ -3,12 +3,12 @@
 {% block title %} Home {% endblock %}
 
 {% block styles %} 
-<link href="{% static 'style-home.css'%}" rel="stylesheet"/>
-<script src="{% static 'script.js'%}"></script>
+<link href="{% static 'style-home.css' %}" rel="stylesheet"/>
 <script>
     const loadBilanUrl = "{% url 'load_bilan' %}";
     const loadQcmUrl = "{% url 'load_qcm' %}";
 </script>
+<script src="{% static 'script.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -29,6 +29,9 @@
                 <p>Glissez déposez un bilan <strong>ici</strong>.</p>
                 <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event, 'bilan');">
                 <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
+            </div>
+            <div id="progress-bar-bilan" class="progress-bar">
+                <div class="progress"></div>
             </div>
         </section>
         
@@ -52,14 +55,16 @@
                 <div style="padding:10px;">
                     <select style="display:block" name="matieres" id="matiere-select">
                         <option value="">Choisissez une matière</option>
-                        
                         {% for matiere in matieres %}
-                            <option value="{{ matiere.nomMat }}">{{matiere.nomMat}}</option>
+                            <option value="{{ matiere.nomMat }}">{{ matiere.nomMat }}</option>
                         {% endfor %}
                     </select>
                 
                     <button onclick="sendQcm();">Envoyer QCM</button>
                 </div>
+            </div>
+            <div id="progress-bar-qcm" class="progress-bar">
+                <div class="progress"></div>
             </div>
         </section>
     </div>

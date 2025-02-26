@@ -141,3 +141,17 @@ aside a {
 .error p {
     color: #692326;
 }
+
+.progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress {
+    height: 10px;
+    background-color: #4caf50;
+    width: 0%;
+}
