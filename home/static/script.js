@@ -115,12 +115,15 @@ function uploadFile(file, url, mat=null) {
     let formData = new FormData();
     formData.append('file', file);
 
+    let loading = document.getElementById("loading")
+
     console.log(mat)
     if (mat) {
         console.log("Ajout de matiere dans le formulaire")
         formData.append('matiere', mat)
     }
 
+    loading.style.display = "flex"
     fetch(url, {
         method: 'POST',
         headers: {
@@ -128,6 +131,8 @@ function uploadFile(file, url, mat=null) {
         },
         body: formData
     }).then(response => {
+        loading.style.display = "none"
+        
         if (response.ok) {
             console.log("Files uploaded successfully.");
             showMessage(false)
