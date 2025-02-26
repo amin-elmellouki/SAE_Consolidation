@@ -27,7 +27,12 @@
             {% for matiere, note in bilans.0.notes.items %}
                 <th><button>QCM {{ matiere }} (/20) <span aria-hidden="true"></span></button></th>
             {% endfor %}
-            <th><button>Demande conso. <span aria-hidden="true"></span></button></th>
+            <th class="no-sort">
+                <button>
+                  Demande conso. 
+                  <span class="material-symbols-rounded" style="margin-right: 10px; font-size: 1.4em;">filter_alt</span>
+                </button>
+              </th>
             <th class="no-sort desc">Commentaires</th>
             {% for matiere, note in bilans.0.notes.items %}
                 <th>Conso. {{ matiere }}</th>

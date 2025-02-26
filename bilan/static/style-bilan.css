@@ -125,3 +125,8 @@ table.sortable th[aria-sort="descending"] span::after {
     content: "▼";
     color: currentcolor;
 }
+
+/* Ajoutez cette règle pour supprimer le triangle du filtre */
+table.sortable th.no-sort button span::after {
+    content: none;
+}
