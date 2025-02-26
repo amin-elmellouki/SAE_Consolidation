@@ -58,7 +58,7 @@ function dropHandler(event) {
 function showUploadedFiles(files) {
     document.getElementById("drop_zone").style.display = "none";
     document.getElementById("file_table").style.display = "block";
-    document.getElementById("upload_button").style.display = "block";
+    document.getElementById("upload_button").style.display = "flex";
 
 
     let option = document.querySelector(".matiere-select-base");
@@ -132,7 +132,7 @@ function uploadFile(file, url, mat=null) {
         body: formData
     }).then(response => {
         loading.style.display = "none"
-        
+
         if (response.ok) {
             console.log("Files uploaded successfully.");
             showMessage(false)
