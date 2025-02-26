@@ -186,3 +186,18 @@ header * {
   align-items: center;
   margin-left: 0px;
 }
+
+.bias-image {
+  position: absolute;
+  bottom: -80px ;
+  left: -30px;
+  max-width: 200px; /* Ajustez selon la taille souhaitée */
+  z-index: 1; /* Pour contrôler la superposition */
+  transform: rotate(45deg)
+}
+
+/* Assurez-vous que le conteneur parent a une position relative */
+.left-part {
+  position: relative;
+  /* Conservez les autres styles existants */
+}
