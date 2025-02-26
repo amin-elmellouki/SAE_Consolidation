@@ -270,19 +270,19 @@ def get_historique_conso(numero_etudiant: str) -> dict:
         # Mais je refuse de toucher à plus de JS
         if participe and participe.estAbsent:
             if demande:
-                res[matiere.nomMat].append("<span style='background-color: black; color: white;'>Oui</span>") # A demandé et a été absent
+                res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
             else:
-                res[matiere.nomMat].append("<span style='background-color: black; color: white;'>Non</span>") # N'a pas demandé et a été absent
+                res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
 
         else:
             if participe and demande:
-                res[matiere.nomMat].append("<span style='background-color: green; color: black;'>Oui</span>") # A demandé et est inscrit
+                res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
             
             elif participe:
-                res[matiere.nomMat].append("<span style='background-color: green; color: black;'>Non</span>") #Est inscrit sans avoir demandé
+                res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
 
             elif demande:
-                res[matiere.nomMat].append("<span style='background-color: red; color: black;'>Oui</span>") #A demandé sans avoir été inscrit
+                res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
             
             else:
                 res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
