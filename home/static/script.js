@@ -58,6 +58,8 @@ function dropHandler(event) {
 function showUploadedFiles(files) {
     document.getElementById("drop_zone").style.display = "none";
     document.getElementById("file_table").style.display = "block";
+    document.getElementById("upload_button").style.display = "block";
+
 
     let option = document.querySelector(".matiere-select-base");
     let body = document.getElementById("file_table_body");
@@ -95,7 +97,17 @@ function submitFiles() {
     rows = table.querySelectorAll("tr")
 
     for (i = 1; i < rows.length; i++) { // i = 1 pour skip le header
-        
+        console.log(rows[i])
+        option = rows[i].querySelector("select")
+
+        console.log(option)
+        if (option) {
+            console.log("Upload QCM")
+            uploadFile(loadedFiles[i-1], loadQcmUrl, option.value)
+        } else {
+            console.log("Upload Bilan")
+            uploadFile(loadedFiles[i-1], loadBilanUrl)
+        }
     }
 }
 
@@ -118,19 +130,19 @@ function uploadFile(file, url, mat=null) {
     }).then(response => {
         if (response.ok) {
             console.log("Files uploaded successfully.");
-            showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), false)
+            showMessage(false)
         } else {
             console.error("File upload failed.");
-            showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), true)
+            showMessage(true)
         }
     }).catch(error => {
         console.error("Error:", error);
-        showMessage((url == loadBilanUrl) ? ("bilan") : ("qcm"), true)
+        showMessage(true)
     });
 }
 
-function showMessage(type, err) {
-    document.getElementById(`${(err) ? ("err") : ("succ")}-${type}`).style.display = 'flex';
+function showMessage(err) {
+    document.getElementById(`${(err) ? ("err") : ("succ")}`).style.display = 'flex';
     setTimeout(() => {
         location.reload();
     }, 3000);
