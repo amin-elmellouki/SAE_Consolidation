@@ -46,7 +46,7 @@ function dropHandler(event) {
     event.preventDefault();
 
     let files;
-    if (event.dataTransfer.items) {JSON.stringify(bodyObject)
+    if (event.dataTransfer.items) {
         files = [...event.dataTransfer.items].map(item => item.getAsFile());
     } else {
         files = [...event.dataTransfer.files];
