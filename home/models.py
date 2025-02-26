@@ -40,6 +40,7 @@ class Bilan(models.Model):
 class Participe(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     conso = models.ForeignKey(Conso, on_delete=models.CASCADE)
+    absent = models.BooleanField()
 
     class Meta:
         unique_together = ('etudiant', 'conso')
@@ -239,3 +240,45 @@ def get_qcm_by_week(date):
 
 def get_etudiant(numero_etudiant: str) -> Etudiant:
     return Etudiant.objects.get(numE=numero_etudiant)
+
+
+def get_historique_conso(numero_etudiant: str) -> dict:
+    notes = EstNote.objects.filter(
+        etudiant__numero_etudiant=numero_etudiant,
+    )
+    
+    res = {}
+    for note in notes:
+        matiere = note.qcm.matiere
+        res[matiere.nomMat] = res.get(matiere.nomMat, [])
+        
+        demande = DemandeEn.objects.filter(
+            matiere=matiere,
+            reponse__etudiant__numE=numero_etudiant
+        )
+        
+        participe = Participe.objects.filter(
+            etudiant_numE=numero_etudiant,
+            conso__dateC=note.qcm.dateQ
+        )
+        
+        if participe.absent:
+            if demande:
+                res[demande.matiere.nomMat].append("A demandé et a été absent")
+            else:
+                res[demande.matiere.nomMat].append("N'a pas demandé et a été absent")
+
+        else:
+            if participe and demande:
+                res[demande.matiere.nomMat].append("A demandé et est inscrit")
+            
+            elif participe:
+                res[demande.matiere.nomMat].append("Est inscrit sans avoir demandé")
+
+            elif demande:
+                res[demande.matiere.nomMat].append("A demandé sans avoir été inscrit")
+            
+            else:
+                res[demande.matiere.nomMat].append("N'est pas inscrit, n'a pas demandé")
+
+    return res
