@@ -57,7 +57,30 @@
                             </table>
                         </td>
                     {% endfor %}
-                    <td>{% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}</td>
+                    <td class="student-info">
+                        {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
+                        
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th colspan=500>Historique des conso.</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                {% for matiere, consos in bilan.historique.items %}
+                                    <tr>
+                                        <td>{{matiere}}</td>
+
+                                        {% for conso in consos %}
+                                            <td style="padding:10px;">{{conso|safe}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </td>
                     <td>{{ bilan.desc }}</td>
                     {% for matiere, note in bilan.notes.items %}
                         <td data-nume="{{bilan.numE}}" data-matiere="{{ matiere }}" class="checkbox-column"><input type="checkbox"></td>
