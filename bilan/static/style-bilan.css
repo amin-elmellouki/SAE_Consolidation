@@ -126,7 +126,36 @@ table.sortable th[aria-sort="descending"] span::after {
     color: currentcolor;
 }
 
-/* Ajoutez cette règle pour supprimer le triangle du filtre */
 table.sortable th.no-sort button span::after {
     content: none;
+}
+
+.tag {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.tag:first-of-type {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.tag:last-of-type {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.red {
+    background-color: #f8d8e7;
+    color: #932753;
+}
+
+.black {
+    background-color: rgb(60, 60, 60);
+    color: rgb(170, 170, 170);
+}
+
+.green {
+    background-color: #b7eebe;
+    color: #336736;
 }

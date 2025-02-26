@@ -40,6 +40,7 @@ class Bilan(models.Model):
 class Participe(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     conso = models.ForeignKey(Conso, on_delete=models.CASCADE)
+    estAbsent = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('etudiant', 'conso')
@@ -215,6 +216,7 @@ def get_bilan(date):
             'demande_en': matieres_demandees,
             'notes': notes_dict,
             'notes_by_mat': notes_by_mat,
+            'historique': get_historique_conso(reponse_bilan.etudiant.numE),
         }
 
 
@@ -239,3 +241,53 @@ def get_qcm_by_week(date):
 
 def get_etudiant(numero_etudiant: str) -> Etudiant:
     return Etudiant.objects.get(numE=numero_etudiant)
+
+
+def get_historique_conso(numero_etudiant: str) -> dict:
+    notes = EstNote.objects.filter(
+        etudiant__numE=numero_etudiant,
+    )
+    
+    res = {}
+    for note in notes:
+        matiere = note.qcm.matiere
+        res[matiere.nomMat] = res.get(matiere.nomMat, [])
+        
+        demande = DemandeEn.objects.filter(
+            matiere=matiere,
+            reponse__etudiant__numE=numero_etudiant
+        ).first()
+        
+        participe = Participe.objects.filter(
+            etudiant__numE=numero_etudiant,
+            conso__dateC=note.qcm.dateQ,
+            conso__matiere=matiere,
+        ).first()
+        
+        # Je m'excuse solennellement pour ce code.
+        # Je sais que c'est moche.
+        # Je sais que c'est possible de faire mieux.
+        # Mais je refuse de toucher à plus de JS
+        if participe and participe.estAbsent:
+            if demande:
+                res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
+            else:
+                res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
+
+        else:
+            if participe and demande:
+                res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
+            
+            elif participe:
+                res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
+
+            elif demande:
+                res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
+            
+            else:
+                res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
+
+    if numero_etudiant=="num1":
+        print(res)
+    
+    return res
