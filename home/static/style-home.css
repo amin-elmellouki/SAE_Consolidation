@@ -68,22 +68,23 @@ aside a {
     display: block;
 }
 
-.bilan-list {
+.aside-list {
     max-height: 1000px;
     overflow-y: auto;
     padding: 20px;
     position: relative; 
 }
 
-.bilan-title {
-    position: sticky; 
+.aside-title {
+    position: sticky;
+    margin: 0;
     top: 0; 
     padding: 0px;
     z-index: 1; 
     text-align: center; 
 }
 
-.bilan-scrollable {
+.aside-scrollable {
     width: 100%; 
     max-height: 420px; /* Hauteur maximale déjà définie */
     overflow-y: auto; /* Défilement vertical déjà activé */
@@ -97,7 +98,7 @@ aside a {
     overflow-x: hidden; /* Empêcher le défilement horizontal */
 }
 
-.bilan-scrollable a {
+.aside-scrollable a {
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -148,17 +149,17 @@ aside a {
     color: #692326;
 }
 
-.bilan-button::after {
+.aside-button::after {
     content: "▲";
     color: currentcolor;
 }
 
-.bilan-button::after {
+.aside-button::after {
     content: "▼";
     color: currentcolor;
 }
 
-.bilan-button {
+.aside-button {
     background: none;
     border: none;
     font-size: 1em;
@@ -167,18 +168,18 @@ aside a {
     padding: 5px 10px;
 }
 
-.bilan-button {
+.aside-button {
     background: transparent;
 }
 
-.bilan-button::after {
+.aside-button::after {
     content: "▼";
     font-size: 0.8em;
     margin-left: 5px;
     color: currentcolor;
 }
 
-.bilan-button.asc::after {
+.aside-button.asc::after {
     content: "▲";
 }
 

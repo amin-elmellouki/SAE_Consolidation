@@ -220,10 +220,7 @@ def get_bilan(date):
         }
 
 
-
 def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
-    print(matiere)
-    print(Matiere.objects.all())
     conso, _created = Conso.objects.get_or_create(
         dateC=date,
         matiere=Matiere.objects.get(nomMat=matiere)
@@ -232,9 +229,10 @@ def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
     Participe.objects.get_or_create(
         etudiant=Etudiant.objects.get(numE=numero_etudiant),
         conso=conso,
+        estAbsent=False,
     )
 
- 
+
 def get_qcm_by_week(date):
     return QCM.objects.filter(dateQ=date).count()
 
