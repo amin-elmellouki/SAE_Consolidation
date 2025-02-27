@@ -147,37 +147,30 @@ class SortableTable {
   }
   
   applyFilter(matiere) {
-    if (this.filterColumnIndex === null) {
-      console.error("Filter column index not set");
-      return;
-    }
-  
     const rows = this.tableNode.querySelectorAll('tbody tr');
-    
+
+    if (matiere === "all"){
+      rows.forEach((row) => {
+        row.style.display = ''});
+    }
+
     rows.forEach(row => {
-      if (matiere === 'all') {
-        row.style.display = '';
-      } else {
-        // Trouver la cellule contenant les informations de demande de consommation
-        const demandeCell = row.cells[this.filterColumnIndex];
-        if (demandeCell) {
-          const demandeText = demandeCell.textContent.trim();
-          // Vérifier si la demande contient la matière sélectionnée
-          // On considère que la demande peut commencer par ✅ ou ❌
-          const cleanText = demandeText.replace('✅', '').replace('❌', '').trim();
-          
-          // S'il y a la matière dans la liste (séparée par des virgules)
-          if (cleanText.split(',').some(item => item.trim() === matiere)) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
+      const studentInfoCell = row.querySelector('.filtre');
+      if (studentInfoCell){
+        if (studentInfoCell.dataset.matiere_demande.includes(matiere) || matiere === 'all') {
+          row.style.display = '';
+        } 
+        else {
+            row.style.display = 'none'; 
           }
-        } else {
-          row.style.display = 'none';
         }
-      }
+        else {
+          row.style.display = 'none'; 
+        }
     });
     
+    
+    // Met à jour le texte du bouton de filtre
     if (this.filterButton) {
       if (matiere === 'all') {
         this.filterButton.innerHTML = 'Demande conso. <span style="margin-right: 10px; font-size: 1.4em;" class="material-symbols-rounded">filter_alt</span>';

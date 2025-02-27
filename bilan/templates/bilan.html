@@ -62,7 +62,7 @@
                             </table>
                         </td>
                     {% endfor %}
-                    <td class="student-info">
+                    <td class="student-info filtre" data-matiere_demande="{{bilan.demande_en}}">
                         {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
                         
                         <table class="info-table">
