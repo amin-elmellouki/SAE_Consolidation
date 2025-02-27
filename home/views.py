@@ -15,7 +15,12 @@ def home(request):
     for bilan in bilans:
         date = str(bilan.dateB)
         qcm_count = get_qcm_by_week(date)
-        semaines[date] = qcm_count
+        conso_exists = Conso.objects.filter(dateC=bilan.dateB).exists()
+
+        semaines[date] = {
+            'count_qcm': qcm_count,
+            'conso_exists': conso_exists
+        }
 
     context = {
         'message': "Bienvenue, vous êtes connecté !",
