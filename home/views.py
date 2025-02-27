@@ -2,8 +2,9 @@ import csv
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect, render, redirect
+from django.contrib import messages
 
-from .models import Matiere, Etudiant, EstNote, Conso, Bilan, QCM, Participe, RepondreBilan, DemandeEn
+from .models import Matiere, Etudiant, EstNote, Conso, Bilan, QCM, Participe, RepondreBilan, DemandeEn, MatiereForm
 from .models import get_weeks, load_bilan_into_db, load_qcm_into_db, get_qcm_by_week, get_prev_url
 
 
@@ -72,3 +73,19 @@ def delete_bd(request):
         print(e)
 
     return redirect('settings')
+
+
+def add_matiere(request):
+    if request.method == 'POST':
+        form = MatiereForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Matière ajoutée avec succès!')
+
+            return redirect('settings')
+        else:
+            messages.error(request, "Impossible d'ajouter cette matière, elle existe peut-être déjà !")
+    else:
+        form = MatiereForm()
+
+    return render(request, 'settings.html', {'form': form})

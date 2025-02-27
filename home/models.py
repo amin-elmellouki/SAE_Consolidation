@@ -5,7 +5,10 @@ import xlwt
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.shortcuts import get_object_or_404
-from xlwt import easyxf
+from django.db import models
+from django import forms
+from xlwt import easyxf, Workbook
+
 
 
 class Matiere(models.Model):
@@ -72,6 +75,15 @@ class RepondreBilan(models.Model):
 class DemandeEn(models.Model):
     reponse = models.ForeignKey(RepondreBilan, on_delete=models.CASCADE, related_name='matieres')
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='demandes')
+
+
+class MatiereForm(forms.ModelForm):
+    class Meta:
+        model = Matiere
+        fields = ['nomMat']
+        labels = {
+            'nomMat': 'Nom de la matière',
+        }
 
 
 MONTHS = {
@@ -333,7 +345,7 @@ def get_historique_conso(numero_etudiant: str) -> dict:
 
 
 def generate_excel(bilans):
-    wb = xlwt.Workbook(encoding='utf-8')
+    wb = Workbook(encoding='utf-8')
     ws = wb.add_sheet('Bilans Étudiants')
 
     header_style = easyxf(
