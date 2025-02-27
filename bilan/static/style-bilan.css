@@ -69,7 +69,7 @@ table * {
 
 input[type="checkbox"] {
     cursor: pointer;
-    transform: scale(1.3);
+    transform: scale(1.5);
 }
 
 tr:last-of-type {
