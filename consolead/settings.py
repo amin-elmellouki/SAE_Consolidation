@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home',
     'bilan',
     'compte_rendu',
+    'forgot_pwd',
 ]
 
 MIDDLEWARE = [
@@ -136,10 +137,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'  # Ou l'URL de votre choix
 LOGOUT_REDIRECT_URL = '/login/'  # Redirection après déconnexion
 
-
-
-from django.contrib.auth.hashers import make_password
-
-# Mot de passe "clé" pour accéder au site web
-UNIQUE_PASSWORD = '123'
-UNIQUE_PASSWORD_HASH = make_password(UNIQUE_PASSWORD)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
