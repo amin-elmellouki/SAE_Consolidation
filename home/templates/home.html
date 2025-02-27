@@ -60,17 +60,20 @@
 
     <aside class="aside-list">
         <h2 class="aside-title">
-            <button class="aside-button" data-sort="desc">Semaine   </button>
+            <button class="aside-button" data-sort="desc">Semaine </button>
         </h2>
         <div class="aside-scrollable">
             {% for date, nb_qcm in semaines.items %}
-                <a href="/bilan/{{ date }}">
-                    {{ date }}  
-                    {% if nb_qcm > 0 %}
-                    <br>
-                        ({{ nb_qcm }} QCM)
-                    {% endif %}
-                </a>
+                <div class="week">
+                    <a href="/bilan/{{ date }}">
+                        {{ date }}  
+                        {% if nb_qcm > 0 %}
+                        <br>
+                            ({{ nb_qcm }} QCM)
+                        {% endif %}
+                    </a>
+                    <a href="/conso/{{ date }}" class="material-symbols-rounded">event</a>
+                </div>
             {% endfor %}
         </div>
     </aside>

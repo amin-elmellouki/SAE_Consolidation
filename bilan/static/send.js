@@ -32,7 +32,7 @@ function sendToConso() {
 
     console.log(JSON.stringify(bodyObject))
 
-    fetch('/compte_rendu/', {
+    fetch('/conso/' + table.dataset.date + '/submit/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -41,8 +41,8 @@ function sendToConso() {
         body: JSON.stringify(bodyObject),
     })
     .then(response => {
-        if (response.redirected) {
-            window.location.href = response.url;
+        if (response.ok) {
+            window.location.href = '/conso/' + table.dataset.date + '/';
         } else {
             return response.text();
         }

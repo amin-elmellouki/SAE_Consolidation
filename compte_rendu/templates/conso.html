@@ -1,0 +1,60 @@
+{% extends "base-header.html" %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block styles %}
+<link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
+<link href="{% static 'style-conso.css'%}" rel="stylesheet"/>
+<script src="{% static 'sort.js' %}"></script>
+<script src="{% static 'delete.js' %}"></script>
+<script src="{% static 'absent.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; align-items: center;">
+    <a href="{{ previous_url }}" class="white-button"><span class="material-symbols-rounded ">arrow_back</span>Retour</a>
+    <button class="white-button" onclick="print()"><span style="margin-right: 10px;" class="material-symbols-rounded ">print</span> Imprimer</button>
+</div>
+
+<main style="display: flex; flex-wrap: wrap;">
+    {% for matiere, conso in data.items %}
+        <section style="margin: 10px;">
+            <h3 style="color: white;">Conso de {{ matiere }}</h3>
+
+            <table style="margin: 0px;" class="sortable" data-date="{{ date }}">
+                <thead>
+                    <tr>
+                        <th class="no-sort">Num. étud<span aria-hidden="true"></span></th>
+                        <th class="no-sort">Nom, prénom<span aria-hidden="true"></span></th>
+                        <th><button>Groupe <span aria-hidden="true"></span></button></th>
+                        <th class="no-sort">Absence</th><span aria-hidden="true"></span></th>
+                        <th class="no-sort"><span aria-hidden="true"></span></th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    {% for etudiant, absent in conso.students.items %}
+                        <tr data-id="{{ etudiant.numE }}">
+                            <td>{{ etudiant.numE }}</td>
+                            <td>{{ etudiant.nomPrenom }}</td>
+                            <td>{{ etudiant.groupe }}</td>
+                            <td>
+                                {% if absent %}
+                                    <button class="absence marked-absent" data-etudiant="{{ etudiant.numE }}" data-conso="{{ conso.id }}">Absent</button>
+                                {% else %}
+                                    <button class="absence" data-etudiant="{{ etudiant.numE }}" data-conso="{{ conso.id }}">Présent</button>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button class="delete" data-etudiant="{{ etudiant.numE }}" data-conso="{{ conso.id }}">
+                                    <span class="material-symbols-rounded">delete</span>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    {% endfor %}
+</main>
+{% endblock %}

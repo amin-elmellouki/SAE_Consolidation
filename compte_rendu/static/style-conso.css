@@ -1,0 +1,50 @@
+.delete {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 1px 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.delete:hover {
+    background-color: #ff1a1a;
+    transform: scale(1.05);
+}
+
+.delete .material-symbols-rounded {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.absence {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.absence.marked-absent {
+    background-color: #303030;
+}
+
+.absence:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.absence .material-symbols-rounded {
+    font-size: 16px;
+    margin-right: 5px;
+}

@@ -1,6 +1,8 @@
 import csv
+from urllib.parse import urlparse
 
 from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from django.db import models
 
 
@@ -225,11 +227,48 @@ def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
         matiere=Matiere.objects.get(nomMat=matiere)
     )
     
-    Participe.objects.get_or_create(
-        etudiant=Etudiant.objects.get(numE=numero_etudiant),
-        conso=conso,
-        estAbsent=False,
-    )
+    etudiant = Etudiant.objects.get(numE=numero_etudiant)
+    
+    if not Participe.objects.filter(etudiant=etudiant, conso=conso).exists():
+        Participe.objects.create(
+            etudiant=etudiant,
+            conso=conso,
+            estAbsent=False,
+        )
+
+
+def get_students_from_conso(date):
+    result = {}
+    consos = Conso.objects.filter(dateC=date).select_related('matiere')
+    
+    for conso in consos:
+        participations = Participe.objects.filter(conso=conso).select_related('etudiant')
+        
+        if not participations.exists():
+            conso.delete()
+            continue
+        
+        students_dict = {
+            participation.etudiant: participation.estAbsent
+            for participation in participations
+        }
+        
+        result[conso.matiere.nomMat] = {
+            'id': conso.id,
+            'students': students_dict
+        }
+
+    return result
+
+
+def delete_student_from_conso(etudiant_id, conso_id):
+    etudiant = get_object_or_404(Etudiant, numE=etudiant_id)
+    conso = get_object_or_404(Conso, id=conso_id)
+    
+    participation = Participe.objects.filter(etudiant=etudiant, conso=conso)
+    
+    if participation.exists():
+        participation.delete()
 
 
 def get_qcm_by_week(date):
@@ -238,3 +277,19 @@ def get_qcm_by_week(date):
 
 def get_etudiant(numero_etudiant: str) -> Etudiant:
     return Etudiant.objects.get(numE=numero_etudiant)
+
+
+def get_conso_by_date(date):
+    return Conso.objects.get(dateC=date)
+
+
+def get_date_conso(conso_id):
+    conso = get_object_or_404(Conso, id=conso_id)
+    return conso.dateC
+
+
+def get_prev_url(request):
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    current_url = request.build_absolute_uri()
+    parsed_url = urlparse(previous_url).path if previous_url != current_url else '/'
+    return parsed_url

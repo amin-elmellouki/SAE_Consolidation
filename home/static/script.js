@@ -161,34 +161,31 @@ function getCookie(name) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const weekButton = document.querySelector('.aside-button');
-
     if (weekButton) {
-        let isAsc = false;
+      let isAsc = false;
+      weekButton.addEventListener('click', function() {
+        isAsc = !isAsc;
+        this.classList.toggle('asc', isAsc);
+        this.classList.toggle('desc', !isAsc);
+        this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
         
-        weekButton.addEventListener('click', function() {
-            isAsc = !isAsc;
-            
-            this.classList.toggle('asc', isAsc);
-            this.classList.toggle('desc', !isAsc);
-            
-            this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
-            
-            const scrollable = document.querySelector('.aside-scrollable');
-            const anchors = Array.from(scrollable.querySelectorAll('a'));
-            
-            anchors.sort((a, b) => {
-                const getDateText = (element) => {
-                    return element.textContent.trim().split('(')[0].trim();
-                };
-                
-                const aDateText = getDateText(a);
-                const bDateText = getDateText(b);
-                
-                return isAsc ? aDateText.localeCompare(bDateText) : bDateText.localeCompare(aDateText);
-            });
-            
-            scrollable.innerHTML = '';
-            anchors.forEach(anchor => scrollable.appendChild(anchor));
+        const scrollable = document.querySelector('.aside-scrollable');
+        const weekElements = Array.from(scrollable.querySelectorAll('.week'));
+        
+        weekElements.sort((a, b) => {
+          const getDateText = (element) => {
+            const dateLink = element.querySelector('a:first-child');
+            return dateLink.textContent.trim().split('(')[0].trim();
+          };
+          
+          const aDateText = getDateText(a);
+          const bDateText = getDateText(b);
+          
+          return isAsc ? aDateText.localeCompare(bDateText) : bDateText.localeCompare(aDateText);
         });
+        
+        scrollable.innerHTML = '';
+        weekElements.forEach(weekElement => scrollable.appendChild(weekElement));
+      });
     }
-});
+  });

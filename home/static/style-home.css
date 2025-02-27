@@ -63,9 +63,9 @@ aside {
 }
 
 aside a {
-    width: 70%;
     text-align: center;
-    display: block;
+    display: inline-block;
+    width: 100%;
 }
 
 .aside-list {
@@ -104,6 +104,30 @@ aside a {
     height: 50px; 
     margin-bottom: 5px; 
     box-sizing: border-box; 
+}
+
+.week {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin-bottom: 5px;
+}
+
+.week a:first-child {
+    flex-grow: 1;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.week a.material-symbols-rounded {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .load {
