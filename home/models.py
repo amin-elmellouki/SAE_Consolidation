@@ -291,3 +291,65 @@ def get_historique_conso(numero_etudiant: str) -> dict:
         print(res)
     
     return res
+
+import xlwt
+from xlwt import easyxf
+
+
+def generate_excel(bilans):
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Bilans Étudiants')
+
+    header_style = easyxf(
+        'font: bold on; '
+        'align: wrap on, vert centre, horiz center; '
+        'pattern: pattern solid, fore_colour light_green;'
+    )
+
+    if not bilans:
+        return wb 
+
+    matieres = list(bilans[0]['notes'].keys())
+    
+    headers = [
+        'Numéro étudiant',
+        'Nom', 
+        'Prénom',
+        'Groupe'
+    ]
+    
+    headers += [f'QCM {matiere} (/20)' for matiere in matieres]
+    
+    headers += [
+        'Demande conso.',
+        'Commentaires',
+    ]
+    
+    headers += [f'Conso. {matiere}' for matiere in matieres]
+
+    for col, header in enumerate(headers):
+        ws.write(0, col, header, header_style)
+    
+        if header == 'Commentaires':
+            ws.col(col).width = 8000  
+        else:
+            ws.col(col).width = 3000  
+
+    normal_style = easyxf('align: vert centre')
+
+    for row_idx, bilan in enumerate(bilans, 1):
+        
+        ws.write(row_idx, 0, bilan['numE'], normal_style)
+        ws.write(row_idx, 1, bilan['nom'], normal_style)
+        ws.write(row_idx, 2, bilan['prenom'], normal_style)
+        ws.write(row_idx, 3, bilan['groupe'], normal_style)
+        
+        
+        for col_offset, matiere in enumerate(matieres, 4):
+            ws.write(row_idx, col_offset, bilan['notes'][matiere], normal_style)
+        
+        demande_col = 4 + len(matieres)
+        ws.write(row_idx, demande_col, bilan['demande_en'], normal_style)
+        ws.write(row_idx, demande_col + 1, bilan['desc'], normal_style)
+
+    return wb
