@@ -52,9 +52,9 @@
                                 <thead>
                                     <th>Historique QCM {{ matiere }}</th>
                                 </thead>
-                                <tbody>
+                                <tbody class="matiere-info">
                                     {% for note_mat in bilan.notes_by_mat|get:matiere %}
-                                        <tr>
+                                        <tr class="skibidi">
                                             <td data-note="{{ note }}">{{ note_mat }}</td>
                                         </tr>
                                     {% endfor %}

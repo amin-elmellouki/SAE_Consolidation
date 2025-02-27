@@ -75,19 +75,17 @@ class SortableTable {
     });
     filterPopup.appendChild(allOption);
     
+    // Récupérer les matières à partir des en-têtes du tableau
     const matieres = new Set();
-    const rows = this.tableNode.querySelectorAll('tbody tr');
+    const headers = this.tableNode.querySelectorAll('thead th');
     
-    rows.forEach(row => {
-      if (row.cells[columnIndex]) {
-        const demandeConso = row.cells[columnIndex].textContent.trim();
-        if (demandeConso && demandeConso !== '❌') {
-          const matieresText = demandeConso.replace('✅', '').trim();
-          if (matieresText) {
-            matieresText.split(',').forEach(matiere => {
-              matieres.add(matiere.trim());
-            });
-          }
+    headers.forEach(header => {
+      const buttonText = header.textContent.trim();
+      if (buttonText.startsWith('QCM ')) {
+        // Extraire le nom de la matière depuis l'en-tête
+        const matiere = buttonText.replace('QCM ', '').replace(' (/20)', '').trim();
+        if (matiere) {
+          matieres.add(matiere);
         }
       }
     });
@@ -153,21 +151,29 @@ class SortableTable {
       console.error("Filter column index not set");
       return;
     }
-
+  
     const rows = this.tableNode.querySelectorAll('tbody tr');
     
     rows.forEach(row => {
       if (matiere === 'all') {
         row.style.display = '';
       } else {
-        const cell = row.cells[this.filterColumnIndex];
-        if (cell) {
-          const demandeConso = cell.textContent.trim();
-          if (demandeConso.includes('✅') && demandeConso.includes(matiere)) {
+        // Trouver la cellule contenant les informations de demande de consommation
+        const demandeCell = row.cells[this.filterColumnIndex];
+        if (demandeCell) {
+          const demandeText = demandeCell.textContent.trim();
+          // Vérifier si la demande contient la matière sélectionnée
+          // On considère que la demande peut commencer par ✅ ou ❌
+          const cleanText = demandeText.replace('✅', '').replace('❌', '').trim();
+          
+          // S'il y a la matière dans la liste (séparée par des virgules)
+          if (cleanText.split(',').some(item => item.trim() === matiere)) {
             row.style.display = '';
           } else {
             row.style.display = 'none';
           }
+        } else {
+          row.style.display = 'none';
         }
       }
     });
