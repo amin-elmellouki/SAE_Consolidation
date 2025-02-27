@@ -160,41 +160,32 @@ function getCookie(name) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const semaineButton = document.querySelector('.bilan-button');
-    
-    if (semaineButton) {
-        // État initial
-        let isAsc = false;
+    const weekButton = document.querySelector('.aside-button');
+    if (weekButton) {
+      let isAsc = false;
+      weekButton.addEventListener('click', function() {
+        isAsc = !isAsc;
+        this.classList.toggle('asc', isAsc);
+        this.classList.toggle('desc', !isAsc);
+        this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
         
-        semaineButton.addEventListener('click', function() {
-            isAsc = !isAsc;
-            
-            // Mise à jour des classes pour le triangle
-            this.classList.toggle('asc', isAsc);
-            this.classList.toggle('desc', !isAsc);
-            
-            // Mise à jour de l'attribut data-sort (si nécessaire)
-            this.setAttribute('data-sort', isAsc ? 'asc' : 'desc');
-            
-            const scrollable = document.querySelector('.bilan-scrollable');
-            const anchors = Array.from(scrollable.querySelectorAll('a'));
-            
-            anchors.sort((a, b) => {
-                // On extrait le texte de la date (avant la parenthèse s'il y en a une)
-                const getDateText = (element) => {
-                    return element.textContent.trim().split('(')[0].trim();
-                };
-                
-                const aDateText = getDateText(a);
-                const bDateText = getDateText(b);
-                
-                // Si vos dates sont au format YYYY-MM-DD ou similaire, cette comparaison simple fonctionnera
-                return isAsc ? aDateText.localeCompare(bDateText) : bDateText.localeCompare(aDateText);
-            });
-            
-            // Rafraîchir l'affichage
-            scrollable.innerHTML = '';
-            anchors.forEach(anchor => scrollable.appendChild(anchor));
+        const scrollable = document.querySelector('.aside-scrollable');
+        const weekElements = Array.from(scrollable.querySelectorAll('.week'));
+        
+        weekElements.sort((a, b) => {
+          const getDateText = (element) => {
+            const dateLink = element.querySelector('a:first-child');
+            return dateLink.textContent.trim().split('(')[0].trim();
+          };
+          
+          const aDateText = getDateText(a);
+          const bDateText = getDateText(b);
+          
+          return isAsc ? aDateText.localeCompare(bDateText) : bDateText.localeCompare(aDateText);
         });
+        
+        scrollable.innerHTML = '';
+        weekElements.forEach(weekElement => scrollable.appendChild(weekElement));
+      });
     }
-});
+  });

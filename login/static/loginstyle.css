@@ -216,3 +216,12 @@ input.invalid {
     list-style: none;
     padding: 0;
 }
+
+a {
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+a:hover{
+    text-decoration: underline;
+}

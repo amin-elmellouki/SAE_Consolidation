@@ -1,11 +1,10 @@
 import csv
-from urllib.parse import urlparse
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect, render, redirect
 
 from .models import Matiere, Etudiant, EstNote, Conso, Bilan, QCM, Participe, RepondreBilan, DemandeEn
-from .models import get_weeks, load_bilan_into_db, load_qcm_into_db, get_qcm_by_week
+from .models import get_weeks, load_bilan_into_db, load_qcm_into_db, get_qcm_by_week, get_prev_url
 
 
 @login_required(login_url='/login/')
@@ -16,7 +15,12 @@ def home(request):
     for bilan in bilans:
         date = str(bilan.dateB)
         qcm_count = get_qcm_by_week(date)
-        semaines[date] = qcm_count
+        conso_exists = Conso.objects.filter(dateC=bilan.dateB).exists()
+
+        semaines[date] = {
+            'count_qcm': qcm_count,
+            'conso_exists': conso_exists
+        }
 
     context = {
         'message': "Bienvenue, vous êtes connecté !",
@@ -45,12 +49,8 @@ def load_qcm(request):
 
 @login_required(login_url='/login/')
 def settings(request):
-    previous_url = request.META.get('HTTP_REFERER', '/')
-    current_url = request.build_absolute_uri()
-    parsed_url = urlparse(previous_url).path if previous_url != current_url else '/'
-
     context = {
-        'previous_url': parsed_url,
+        'previous_url': get_prev_url(request),
     }
     return render(request, 'settings.html', context)
 

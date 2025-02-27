@@ -1,7 +1,11 @@
 import csv
+from urllib.parse import urlparse
 
 from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from django.db import models
+import xlwt
+from xlwt import easyxf
 
 
 class Matiere(models.Model):
@@ -220,21 +224,56 @@ def get_bilan(date):
         }
 
 
-
 def consolider_etudiant(date: str, matiere: str, numero_etudiant: str):
-    print(matiere)
-    print(Matiere.objects.all())
     conso, _created = Conso.objects.get_or_create(
         dateC=date,
         matiere=Matiere.objects.get(nomMat=matiere)
     )
     
-    Participe.objects.get_or_create(
-        etudiant=Etudiant.objects.get(numE=numero_etudiant),
-        conso=conso,
-    )
+    etudiant = Etudiant.objects.get(numE=numero_etudiant)
+    
+    if not Participe.objects.filter(etudiant=etudiant, conso=conso).exists():
+        Participe.objects.create(
+            etudiant=etudiant,
+            conso=conso,
+            estAbsent=False,
+        )
 
- 
+
+def get_students_from_conso(date):
+    result = {}
+    consos = Conso.objects.filter(dateC=date).select_related('matiere')
+    
+    for conso in consos:
+        participations = Participe.objects.filter(conso=conso).select_related('etudiant')
+        
+        if not participations.exists():
+            conso.delete()
+            continue
+        
+        students_dict = {
+            participation.etudiant: participation.estAbsent
+            for participation in participations
+        }
+        
+        result[conso.matiere.nomMat] = {
+            'id': conso.id,
+            'students': students_dict
+        }
+
+    return result
+
+
+def delete_student_from_conso(etudiant_id, conso_id):
+    etudiant = get_object_or_404(Etudiant, numE=etudiant_id)
+    conso = get_object_or_404(Conso, id=conso_id)
+    
+    participation = Participe.objects.filter(etudiant=etudiant, conso=conso)
+    
+    if participation.exists():
+        participation.delete()
+
+
 def get_qcm_by_week(date):
     return QCM.objects.filter(dateQ=date).count()
 
@@ -291,9 +330,6 @@ def get_historique_conso(numero_etudiant: str) -> dict:
         print(res)
     
     return res
-
-import xlwt
-from xlwt import easyxf
 
 
 def generate_excel(bilans):
@@ -353,3 +389,69 @@ def generate_excel(bilans):
         ws.write(row_idx, demande_col + 1, bilan['desc'], normal_style)
 
     return wb
+
+
+def get_historique_conso(numero_etudiant: str) -> dict:
+    notes = EstNote.objects.filter(
+        etudiant__numE=numero_etudiant,
+    )
+    
+    res = {}
+    for note in notes:
+        matiere = note.qcm.matiere
+        res[matiere.nomMat] = res.get(matiere.nomMat, [])
+        
+        demande = DemandeEn.objects.filter(
+            matiere=matiere,
+            reponse__etudiant__numE=numero_etudiant
+        ).first()
+        
+        participe = Participe.objects.filter(
+            etudiant__numE=numero_etudiant,
+            conso__dateC=note.qcm.dateQ,
+            conso__matiere=matiere,
+        ).first()
+        
+        # Je m'excuse solennellement pour ce code.
+        # Je sais que c'est moche.
+        # Je sais que c'est possible de faire mieux.
+        # Mais je refuse de toucher à plus de JS
+        if participe and participe.estAbsent:
+            if demande:
+                res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
+            else:
+                res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
+
+        else:
+            if participe and demande:
+                res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
+            
+            elif participe:
+                res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
+
+            elif demande:
+                res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
+            
+            else:
+                res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
+
+    if numero_etudiant=="num1":
+        print(res)
+    
+    return res
+
+
+def get_conso_by_date(date):
+    return Conso.objects.get(dateC=date)
+
+
+def get_date_conso(conso_id):
+    conso = get_object_or_404(Conso, id=conso_id)
+    return conso.dateC
+
+
+def get_prev_url(request):
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    current_url = request.build_absolute_uri()
+    parsed_url = urlparse(previous_url).path if previous_url != current_url else '/'
+    return parsed_url
