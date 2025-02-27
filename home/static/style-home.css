@@ -120,9 +120,9 @@ aside a {
     margin-bottom: 5px;
 }
 
-.week a:first-child {
+.week a {
     flex-grow: 1;
-    height: 50px;
+    min-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
