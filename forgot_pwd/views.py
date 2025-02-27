@@ -19,7 +19,7 @@ def forgot_password(request):
                 send_mail(
                     'Réinitialisation de mot de passe',
                     'Cliquez sur ce lien pour réinitialiser votre mot de passe.',
-                    'noreply@example.com',
+                    'consoleadstaff@gmail.com',
                     [email],
                     fail_silently=False,
                 )
