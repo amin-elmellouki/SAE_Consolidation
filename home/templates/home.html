@@ -68,7 +68,7 @@
         <div class="aside-scrollable">
             {% for date, data in semaines.items %}
                 <div class="week">
-                    <a href="/bilan/{{ date }}">
+                    <a onclick='document.getElementById("loading").style.display = "flex"' href="/bilan/{{ date }}">
                         {{ date }}  
                         {% if data.count_qcm > 0 %}
                         <br>

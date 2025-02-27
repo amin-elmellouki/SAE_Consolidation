@@ -4,13 +4,7 @@
 
 {% block styles %} 
 <link href="{% static 'style-settings.css'%}" rel="stylesheet"/>
-<script>
-    function confirmerViderBase() {
-        if (confirm("Êtes-vous sûr de vouloir vider la base de données ? Cette action est irréversible.")) {
-            document.getElementById('vider-form').submit();
-        }
-    }
-</script>
+<script src="{% static 'settings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,12 +13,30 @@
         <a href="{{ previous_url }}" class="white-button"><span class="material-symbols-rounded ">arrow_back</span>Retour</a>
     </div>
 
-    <section class="bd">
-        <h2>Gestion de la base de données</h2>
-        <form id="vider-form" action="{% url 'delete_bd' %}" method="POST">
-            {% csrf_token %}
-            <button class="delete" type="button" onclick="confirmerViderBase()"><span class="material-symbols-rounded ">delete</span> Vider la base de données</button>
-        </form>
-    </section>
+    <div class="settings-options">
+        <section class="bd">
+            <h2>Gestion de la base de données</h2>
+            <form id="vider-form" action="{% url 'delete_bd' %}" method="POST">
+                {% csrf_token %}
+                <button class="delete" type="button" onclick="confirmerViderBase()"><span class="material-symbols-rounded ">delete</span> Vider la base de données</button>
+            </form>
+        </section>
+
+        <section class="matieres">
+            <h2>Gestion des matières</h2>
+            <form id="add-matiere-form" action="{% url 'add_matiere' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" id="nomMat" name="nomMat" placeholder="Nom de la matière" required>
+                <button type="submit" class="add-button"><span class="material-symbols-rounded">add</span>Ajouter</button>
+            </form>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+    </div>
 </main>
 {% endblock %}

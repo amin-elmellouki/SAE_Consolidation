@@ -188,4 +188,4 @@ document.addEventListener('DOMContentLoaded', function() {
         weekElements.forEach(weekElement => scrollable.appendChild(weekElement));
       });
     }
-  });
+});
