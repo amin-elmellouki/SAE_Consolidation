@@ -71,10 +71,15 @@ function createConsoHistoryTable(historiqueData) {
 }
 
 function attachHoverEventListeners() {
-    document.querySelectorAll('.info-table').forEach(table => {
-        table.remove();
-    });
-    
+    let infoTableContainer = document.getElementById('info-table-container');
+    if (!infoTableContainer) {
+        infoTableContainer = document.createElement('div');
+        infoTableContainer.id = 'info-table-container';
+        infoTableContainer.style.position = 'fixed';
+        infoTableContainer.style.zIndex = '1000';
+        document.body.appendChild(infoTableContainer);
+    }
+
     document.querySelectorAll('.student-info').forEach(cell => {
         const newCell = cell.cloneNode(true);
         cell.parentNode.replaceChild(newCell, cell);
@@ -119,18 +124,20 @@ function attachHoverEventListeners() {
                     }
                     
                     if (infoTable) {
-                        infoTable.style.position = 'absolute';
-                        infoTable.style.zIndex = '2000';
+                        infoTable.style.position = 'fixed';
                         infoTable.style.display = 'table';
                         infoTable.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
-                        
-                        this.querySelectorAll('.info-table').forEach(table => table.remove());
-                        this.appendChild(infoTable);
+
+                        const rect = this.getBoundingClientRect();
+                        infoTable.style.left = rect.left + 'px';
+                        infoTable.style.top = rect.bottom + 5 + 'px';
+
+                        infoTableContainer.appendChild(infoTable);
                     }
                 });
             
                 cell.addEventListener('mouseleave', function() {
-                    const infoTables = this.querySelectorAll('.info-table');
+                    const infoTables = infoTableContainer.querySelectorAll('.info-table');
                     infoTables.forEach(table => {
                         table.style.display = 'none';
                     });
