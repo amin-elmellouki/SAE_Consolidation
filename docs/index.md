@@ -1,15 +1,16 @@
-# Documentation de ConsoLead
+# 📖 Bienvenue
+Bienvenue sur la documentation de Consolead. Ce wiki explique comment utiliser et déployer l'application.
 
 --- 
 
 ## Table des Matières
 
-1. [Inscription et connexion](login)
-2. [Upload des fichiers](upload)
-3. [Affichage des Bilan](affichage-dun-bilan)
-4. [Gestion des cours de consolidations](gestion-des-consolidations)
-5. [Paramétrage](parametrage)
-6. [Déploiement](deploiement)
+1. [Déploiement](deploy)
+2. [Inscription et connexion](login)
+3. [Upload des fichiers](upload)
+4. [Affichage des Bilan](affichage-dun-bilan)
+5. [Gestion des cours de consolidations](gestion-des-consolidations)
+6. [Paramétrage](parametrage)
 7. [Structure du Projet](structure-du-projet)
 
 ---
