@@ -1,5 +1,7 @@
 # 🤓 Gestion du compte
 
+--- 
+
 ## Création d'un compte
 Pour créer un compte, il suffit d'executer la commande suivante:
 === "Avec Docker" 
@@ -14,8 +16,12 @@ Pour créer un compte, il suffit d'executer la commande suivante:
 
 Et de remplir les champs demandés.
 
+--- 
+
 ## Connexion
 ![Page de connexion](images/login.png)
+
+--- 
 
 ## Mot de passe oublié
 TODO
