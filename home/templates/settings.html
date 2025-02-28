@@ -29,6 +29,17 @@
                 <input type="text" id="nomMat" name="nomMat" placeholder="Nom de la matière" required>
                 <button type="submit" class="add-button"><span class="material-symbols-rounded">add</span>Ajouter</button>
             </form>
+            
+            <form id="delete-matiere-form" action="{% url 'delete_matiere' %}" method="POST">
+                {% csrf_token %}
+                <select name="matiere" class="matiere-select-base">
+                    {% for matiere in matieres %}
+                        <option value="{{ matiere.nomMat }}">{{matiere.nomMat}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="del-button delete"><span class="material-symbols-rounded">delete</span> Supprimer</button>
+            </form>
+
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}

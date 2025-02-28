@@ -27,16 +27,62 @@ body {
 .white-button {
     margin: 10px; 
     background-color: white; 
-    color:black; 
-    display:flex; 
+    color: black; 
+    display: flex; 
     justify-content: center; 
     align-items: center;
     margin-left: 0px;
 }
 
-.delete:hover, .white-button:hover {
+.white-button:hover {
     filter: brightness(1.2);
     transform: scale(1.05);
+}
+
+#add-matiere-form, #delete-matiere-form {
+    display: flex;
+    gap: 1em;
+}
+
+#delete-matiere-form {
+    padding-top: 10px;
+}
+
+#add-matiere-form #nomMat {
+    border-radius: 8px;
+    padding-left: 10px;
+}
+
+/* Styles communs pour les deux boutons */
+.add-button, .del-button {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    height: 40px; /* Hauteur fixe pour les deux boutons */
+    border-radius: 8px; /* Coins arrondis */
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.add-button {
+    background-color: #4c6ef5; /* Couleur bleue comme sur l'image */
+    color: white;
+}
+
+.del-button.delete {
+    background-color: #f0f0f0;
+    color: red;
+}
+
+.del-button.delete:hover {
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+#nomMat, .matiere-select-base {
+    height: 40px;
+    border-radius: 8px;
 }
 
 .delete {
@@ -50,22 +96,6 @@ body {
 .delete:hover {
     background-color: rgb(255, 0, 0);
     color: rgb(255, 255, 255);
-}
-
-#add-matiere-form {
-    display: flex;
-    gap: 1em;
-}
-
-#add-matiere-form #nomMat {
-    border-radius: 10px;
-    padding-left: 10px;
-}
-
-.add-button {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
 }
 
 .messages {
@@ -110,4 +140,14 @@ body {
     background-color: #d1ecf1;
     color: #0c5460;
     border: 1px solid #bee5eb;
+}
+
+select {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    background: white;
+    outline: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
