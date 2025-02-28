@@ -67,7 +67,6 @@ def delete_bd(request):
         QCM.objects.all().delete()
         Bilan.objects.all().delete()
         Conso.objects.all().delete()
-        Matiere.objects.all().delete()
         Etudiant.objects.all().delete()
 
     except Exception as e:
