@@ -1,0 +1,19 @@
+site_name: ConsoLead
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Thème lumineux
+    
+    - scheme: slate
+      primary: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Thème sombre
+  
+  features:
+  - navigation.instant
+  - navigation.instant.prefetch
