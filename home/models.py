@@ -12,12 +12,19 @@ from xlwt import Workbook, easyxf
 class Matiere(models.Model):
     nomMat = models.CharField(max_length=100, primary_key=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['nomMat']),
+        ]
 
 class QCM(models.Model):
     dateQ = models.DateField()
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name="qcms")
 
     class Meta:
+        indexes = [
+            models.Index(fields=['dateQ']),
+        ]
         unique_together = ('dateQ', 'matiere')
 
 
@@ -26,6 +33,11 @@ class Etudiant(models.Model):
     nomPrenom = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     groupe = models.CharField(max_length=3)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['numE']),
+        ]
 
 
 class Conso(models.Model):
@@ -35,11 +47,20 @@ class Conso(models.Model):
     
     class Meta:
         unique_together = ("dateC", "matiere")
+        
+        indexes = [
+            models.Index(fields=['dateC']),
+        ]
 
 
 class Bilan(models.Model):
     dateB = models.DateField(primary_key=True)
     etudiants = models.ManyToManyField(Etudiant, through="RepondreBilan")
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['dateB']),
+        ]
 
 
 class Participe(models.Model):
@@ -49,6 +70,9 @@ class Participe(models.Model):
 
     class Meta:
         unique_together = ('etudiant', 'conso')
+        indexes = [
+            models.Index(fields=['etudiant', 'conso'])
+        ]
 
 
 class EstNote(models.Model):
@@ -57,6 +81,9 @@ class EstNote(models.Model):
     note = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
+        indexes = [
+            models.Index(fields=['etudiant'])
+        ]
         unique_together = ('etudiant', 'qcm')
 
 
@@ -67,12 +94,19 @@ class RepondreBilan(models.Model):
     demande = models.TextField()
 
     class Meta:
+        indexes = [
+            models.Index(fields=['etudiant', 'bilan'])
+        ]
         unique_together = ('etudiant', 'bilan')
 
 
 class DemandeEn(models.Model):
     reponse = models.ForeignKey(RepondreBilan, on_delete=models.CASCADE, related_name='matieres')
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='demandes')
+    
+    indexes = [
+        models.Index(fields=['matiere', 'reponse'])
+    ]
 
 
 class MatiereForm(forms.ModelForm):
