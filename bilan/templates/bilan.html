@@ -8,6 +8,10 @@
 <script src="{% static 'sort.js' %}"></script>
 <script src="{% static 'send.js' %}"></script>
 <script src="{% static 'histo.js' %}"></script>
+<script>
+    const temp = JSON.parse('{{ matieres|to_json|safe }}');
+    window.matieres = temp;
+</script>
 {% endblock %}
 
 {% block content %}
