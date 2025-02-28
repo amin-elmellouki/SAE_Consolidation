@@ -51,6 +51,7 @@ def load_qcm(request):
 @login_required(login_url='/login/')
 def settings(request):
     context = {
+        'matieres': Matiere.objects.all(),
         'previous_url': get_prev_url(request),
     }
     return render(request, 'settings.html', context)
@@ -89,3 +90,18 @@ def add_matiere(request):
         form = MatiereForm()
 
     return render(request, 'settings.html', {'form': form})
+
+
+def delete_matiere(request):
+    if request.method == 'POST':
+        matiere_nom = request.POST.get('matiere')
+        try:
+            matiere = Matiere.objects.get(nomMat=matiere_nom)
+            matiere.delete()
+            messages.success(request, f"La matière '{matiere_nom}' a été supprimée avec succès.")
+        except Matiere.DoesNotExist:
+            messages.error(request, f"La matière '{matiere_nom}' n'existe pas.")
+        except Exception as e:
+            messages.error(request, f"Erreur lors de la suppression de la matière: {str(e)}")
+    
+    return redirect('settings')

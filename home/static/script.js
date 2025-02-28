@@ -36,12 +36,10 @@ function detectMat(fileName) {
     console.log("Pas trouvé")
 }
 
-// Boutton
 function fileInputHandler(event) {
      showUploadedFiles(event.target.files)
 }
 
-// Zone de drop
 function dropHandler(event) {
     event.preventDefault();
 
@@ -69,11 +67,9 @@ function showUploadedFiles(files) {
 
         let tr = document.createElement("tr");
         
-        // File name
         let nameTd = document.createElement("td");
         nameTd.innerText = files[i].name;
 
-        // File Type
         let typeTd = document.createElement("td");
         detectFileType(files[i]).then((type) => {
             if (type === "bilan") {

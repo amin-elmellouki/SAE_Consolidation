@@ -85,12 +85,11 @@ tr:last-of-type td:last-of-type {
     border-bottom-right-radius: 16px;
 }
 
-/* Copier coller */
 table.sortable th button {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Gère l'espacement entre le texte et l'icône */
-    width: 100%; /* Assure que le bouton remplit la largeur de la cellule */
+    justify-content: space-between; 
+    width: 100%; 
     padding: 0;
     background: transparent;
     border: none;

@@ -75,14 +75,12 @@ class SortableTable {
     });
     filterPopup.appendChild(allOption);
     
-    // Récupérer les matières à partir des en-têtes du tableau
     const matieres = new Set();
     const headers = this.tableNode.querySelectorAll('thead th');
     
     headers.forEach(header => {
       const buttonText = header.textContent.trim();
       if (buttonText.startsWith('QCM ')) {
-        // Extraire le nom de la matière depuis l'en-tête
         const matiere = buttonText.replace('QCM ', '').replace(' (/20)', '').trim();
         if (matiere) {
           matieres.add(matiere);
@@ -170,7 +168,6 @@ class SortableTable {
     });
     
     
-    // Met à jour le texte du bouton de filtre
     if (this.filterButton) {
       if (matiere === 'all') {
         this.filterButton.innerHTML = 'Demande conso. <span style="margin-right: 10px; font-size: 1.4em;" class="material-symbols-rounded">filter_alt</span>';
