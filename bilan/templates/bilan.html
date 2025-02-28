@@ -53,47 +53,16 @@
                         <td class="student-info"
                             data-matiere="{{ matiere }}" 
                             data-current-note="{{ note }}"
-                            data-history="{{ bilan.notes_by_mat|get:matiere|to_json }}">
+                            data-history="{{ bilan.notes_by_mat|get:matiere|to_json }}"
+                            onclick="showInfoTable('{{ matiere }}', '{{ bilan.notes_by_mat|get:matiere|to_json }}')">
                             {{ note }}
-                            <table class="info-table">
-                                <thead>
-                                    <th>Historique QCM {{ matiere }}</th>
-                                </thead>
-                                <tbody class="matiere-info">
-                                    {% for note_mat in bilan.notes_by_mat|get:matiere %}
-                                        <tr class="skibidi">
-                                            <td data-note="{{ note }}">{{ note_mat }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
                         </td>
                     {% endfor %}
                     <td class="student-info filtre" 
                         data-matiere_demande="{{bilan.demande_en}}"
-                        data-historique="{{bilan.historique|to_json}}">
-                        {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
-                        
-                        <table class="info-table">
-                            <thead>
-                                <tr>
-                                    <th colspan=500>Historique des conso.</th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody>
-                                {% for matiere, consos in bilan.historique.items %}
-                                    <tr>
-                                        <td>{{matiere}}</td>
-
-                                        {% for conso in consos %}
-                                            <td>{{conso|safe}}</td>
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
+                        data-historique="{{bilan.historique|to_json}}"
+                        onclick="showInfoTable('{{ bilan.demande_en }}', '{{ bilan.historique|to_json }}')">
+                        {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
                     </td>
                     <td>{{ bilan.desc }}</td>
                     {% for matiere in matieres %}
@@ -101,6 +70,19 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="info-table-container" style="display: none; position: absolute; bottom: 0; width: 100%; z-index: 10;">
+    <table id="info-table" class="info-table">
+        <thead>
+            <tr>
+                <th colspan="500">Historique des conso.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Complété par JavaScript -->
         </tbody>
     </table>
 </div>

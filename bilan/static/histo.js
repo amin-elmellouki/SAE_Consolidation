@@ -1,3 +1,21 @@
+function showInfoTable(title, data) {
+    const container = document.getElementById('info-table-container');
+    const tbody = document.querySelector('#info-table tbody');
+    tbody.innerHTML = '';
+
+    const parsedData = JSON.parse(data);
+    for (const [matiere, consos] of Object.entries(parsedData)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${matiere}</td>`;
+        consos.forEach(conso => {
+            row.innerHTML += `<td>${conso}</td>`;
+        });
+        tbody.appendChild(row);
+    }
+
+    container.style.display = 'block';
+}
+
 function createQCMHistory(data) {
     const table = document.createElement('table');
     table.className = 'info-table';
