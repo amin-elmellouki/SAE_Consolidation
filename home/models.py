@@ -328,51 +328,51 @@ def get_etudiant(numero_etudiant: str) -> Etudiant:
 
 
 def get_historique_conso(numero_etudiant: str) -> dict:
-    notes = EstNote.objects.filter(
-        etudiant__numE=numero_etudiant,
-    )
+    matieres = Matiere.objects.all()
+    res = {matiere.nomMat: [] for matiere in matieres}
+    bilans = RepondreBilan.objects.filter(etudiant__numE=numero_etudiant)
+    max_len = bilans.count()
     
-    res = {}
-    for note in notes:
-        matiere = note.qcm.matiere
-        res[matiere.nomMat] = res.get(matiere.nomMat, [])
+    for repondre_bilan in bilans:
+        bilan_date = repondre_bilan.bilan.dateB
+        demandes = DemandeEn.objects.filter(reponse=repondre_bilan)
         
-        demande = DemandeEn.objects.filter(
-            matiere=matiere,
-            reponse__etudiant__numE=numero_etudiant
-        ).first()
-        
-        participe = Participe.objects.filter(
-            etudiant__numE=numero_etudiant,
-            conso__dateC=note.qcm.dateQ,
-            conso__matiere=matiere,
-        ).first()
-        
-        # Je m'excuse solennellement pour ce code.
-        # Je sais que c'est moche.
-        # Je sais que c'est possible de faire mieux.
-        # Mais je refuse de toucher à plus de JS
-        if participe and participe.estAbsent:
-            if demande:
-                res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
-            else:
-                res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
-
-        else:
-            if participe and demande:
-                res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
+        for demande in demandes:
+            matiere = demande.matiere
             
-            elif participe:
-                res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
+            participe = Participe.objects.filter(
+                etudiant__numE=numero_etudiant,
+                conso__dateC=bilan_date,
+                conso__matiere=matiere,
+            ).first()
+        
+            # Je m'excuse solennellement pour ce code.
+            # Je sais que c'est moche.
+            # Je sais que c'est possible de faire mieux.
+            # Mais je refuse de toucher à plus de JS
+            if participe and participe.estAbsent:
+                if demande:
+                    res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
+                else:
+                    res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
 
-            elif demande:
-                res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
-            
             else:
-                res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
+                if participe and demande:
+                    res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
+                
+                elif participe:
+                    res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
 
-    if numero_etudiant=="num1":
-        print(res)
+                elif demande:
+                    res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
+                
+                else:
+                    res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
+    
+    for matiere in matieres:
+        current_len = len(res[matiere.nomMat])
+        if current_len < max_len:
+            res[matiere.nomMat].extend(["<span>Non</span>"] * (max_len - current_len))
     
     return res
 
