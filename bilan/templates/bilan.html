@@ -37,8 +37,8 @@
                 </button>
               </th>
             <th class="no-sort desc">Commentaires</th>
-            {% for matiere, note in bilans.0.notes.items %}
-                <th>Conso. {{ matiere }}</th>
+            {% for matiere in matieres %}
+                <th>Conso. {{ matiere.nomMat }}</th>
             {% endfor %}
         </thead>
 
@@ -90,8 +90,8 @@
 
                     </td>
                     <td>{{ bilan.desc }}</td>
-                    {% for matiere, note in bilan.notes.items %}
-                        <td data-nume="{{bilan.numE}}" data-matiere="{{ matiere }}" class="checkbox-column"><input type="checkbox"></td>
+                    {% for matiere in matieres %}
+                        <td data-nume="{{bilan.numE}}" data-matiere="{{ matiere.nomMat }}" class="checkbox-column"><input type="checkbox"></td>
                     {% endfor %}
                 </tr>
             {% endfor %}

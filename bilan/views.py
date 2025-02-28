@@ -24,7 +24,9 @@ def export_bilan(request, date):
 
 def bilan(request, date):
     bilan = list(models.get_bilan(date))
+    
     return render(request, 'bilan.html', {
         'bilans': bilan,
         'date': date,
+        'matieres': models.Matiere.objects.all(),
     })

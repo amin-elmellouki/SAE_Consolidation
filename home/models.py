@@ -2,13 +2,11 @@ import csv
 from urllib.parse import urlparse
 
 import xlwt
+from django import forms
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.shortcuts import get_object_or_404
-from django.db import models
-from django import forms
-from xlwt import easyxf, Workbook
-
+from xlwt import Workbook, easyxf
 
 
 class Matiere(models.Model):
@@ -144,8 +142,9 @@ def load_bilan_into_db(file):
         
         if demande_conso:
             for matiere_name in row['Matière'].split("  "):
-                matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name.strip())
-                DemandeEn.objects.get_or_create(reponse=reponse, matiere=matiere)
+                if len(matiere_name.strip()) > 0: 
+                    matiere, _ = Matiere.objects.get_or_create(nomMat=matiere_name.strip())
+                    DemandeEn.objects.get_or_create(reponse=reponse, matiere=matiere)
 
 
 def load_qcm_into_db(file, nom_matiere):
