@@ -223,7 +223,7 @@ def get_notes_by_stu(num_etud):
     res = {}
     for est_note in notes_by_mat:
         matiere = est_note.qcm.matiere.nomMat
-        note = est_note.note
+        note = float(est_note.note)
         
         if matiere in res:
             res[matiere].append(note)
@@ -432,56 +432,6 @@ def generate_excel(bilans):
         ws.write(row_idx, demande_col + 1, bilan['desc'], normal_style)
 
     return wb
-
-
-def get_historique_conso(numero_etudiant: str) -> dict:
-    notes = EstNote.objects.filter(
-        etudiant__numE=numero_etudiant,
-    )
-    
-    res = {}
-    for note in notes:
-        matiere = note.qcm.matiere
-        res[matiere.nomMat] = res.get(matiere.nomMat, [])
-        
-        demande = DemandeEn.objects.filter(
-            matiere=matiere,
-            reponse__etudiant__numE=numero_etudiant
-        ).first()
-        
-        participe = Participe.objects.filter(
-            etudiant__numE=numero_etudiant,
-            conso__dateC=note.qcm.dateQ,
-            conso__matiere=matiere,
-        ).first()
-        
-        # Je m'excuse solennellement pour ce code.
-        # Je sais que c'est moche.
-        # Je sais que c'est possible de faire mieux.
-        # Mais je refuse de toucher à plus de JS
-        if participe and participe.estAbsent:
-            if demande:
-                res[matiere.nomMat].append("<span class='tag black'>Oui</span>") # A demandé et a été absent
-            else:
-                res[matiere.nomMat].append("<span class='tag black'>Non</span>") # N'a pas demandé et a été absent
-
-        else:
-            if participe and demande:
-                res[matiere.nomMat].append("<span class='tag green'>Oui</span>") # A demandé et est inscrit
-            
-            elif participe:
-                res[matiere.nomMat].append("<span class'tag green'>Non</span>") #Est inscrit sans avoir demandé
-
-            elif demande:
-                res[matiere.nomMat].append("<span class='tag red'>Oui</span>") #A demandé sans avoir été inscrit
-            
-            else:
-                res[matiere.nomMat].append("<span>Non</span>") # N'est pas inscrit, n'a pas demandé
-
-    if numero_etudiant=="num1":
-        print(res)
-    
-    return res
 
 
 def get_conso_by_date(date):

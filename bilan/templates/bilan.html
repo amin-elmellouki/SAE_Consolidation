@@ -6,8 +6,8 @@
 {% block styles %} 
 <link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
 <script src="{% static 'sort.js' %}"></script>
-<script src="{% static 'color.js' %}"></script>
 <script src="{% static 'send.js' %}"></script>
+<script src="{% static 'histo.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -50,7 +50,11 @@
                     <td>{{ bilan.prenom }}</td>
                     <td>{{ bilan.groupe }}</td>
                     {% for matiere, note in bilan.notes.items %}
-                        <td class="student-info">{{ note }}
+                        <td class="student-info"
+                            data-matiere="{{ matiere }}" 
+                            data-current-note="{{ note }}"
+                            data-history="{{ bilan.notes_by_mat|get:matiere|to_json }}">
+                            {{ note }}
                             <table class="info-table">
                                 <thead>
                                     <th>Historique QCM {{ matiere }}</th>
@@ -65,7 +69,9 @@
                             </table>
                         </td>
                     {% endfor %}
-                    <td class="student-info filtre" data-matiere_demande="{{bilan.demande_en}}">
+                    <td class="student-info filtre" 
+                        data-matiere_demande="{{bilan.demande_en}}"
+                        data-historique="{{bilan.historique|to_json}}">
                         {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
                         
                         <table class="info-table">

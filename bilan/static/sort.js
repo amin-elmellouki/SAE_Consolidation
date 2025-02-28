@@ -275,6 +275,7 @@ function setUpTables() {
   const sortableTables = document.querySelectorAll('table.sortable');
   for (const table of sortableTables) {
     new SortableTable(table);
+    attachHoverEventListeners();
   }
 }
 
