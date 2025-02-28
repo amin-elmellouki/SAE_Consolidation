@@ -159,3 +159,15 @@ table.sortable th.no-sort button span::after {
     background-color: #b7eebe;
     color: #336736;
 }
+
+table.sortable thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+table.sortable th {
+    background-color: #353048;
+    color: white;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
