@@ -151,6 +151,16 @@ table.sortable th.no-sort button span::after {
     color: #932753;
 }
 
+.yellow {
+    background-color: #fff8c4;
+    color: #806600;
+}
+
+.orange {
+    background-color: #ffe4c4;
+    color: #994d00;
+}
+
 .black {
     background-color: rgb(60, 60, 60);
     color: rgb(170, 170, 170);

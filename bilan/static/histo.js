@@ -19,9 +19,23 @@ function createQCMHistory(data) {
         row.className = 'skibidi';
         
         const cell = document.createElement('td');
-        cell.setAttribute('data-note', data.currentNote);
-        cell.textContent = note;
+        const span = document.createElement('span');
+        span.setAttribute('data-note', note);
+        span.classList.add('tag');
+        span.textContent = note;
         
+        const value = parseFloat(note);
+        if (value >= 15) {
+            span.classList.add('green');
+        } else if (value >= 10) {
+            span.classList.add('yellow');
+        } else if (value >= 5) {
+            span.classList.add('orange');
+        } else {
+            span.classList.add('red');
+        }
+        
+        cell.appendChild(span);
         row.appendChild(cell);
         tbody.appendChild(row);
     });
