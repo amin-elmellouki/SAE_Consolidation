@@ -1,21 +1,3 @@
-function showInfoTable(title, data) {
-    const container = document.getElementById('info-table-container');
-    const tbody = document.querySelector('#info-table tbody');
-    tbody.innerHTML = '';
-
-    const parsedData = JSON.parse(data);
-    for (const [matiere, consos] of Object.entries(parsedData)) {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${matiere}</td>`;
-        consos.forEach(conso => {
-            row.innerHTML += `<td>${conso}</td>`;
-        });
-        tbody.appendChild(row);
-    }
-
-    container.style.display = 'block';
-}
-
 function createQCMHistory(data) {
     const table = document.createElement('table');
     table.className = 'info-table';
@@ -37,9 +19,23 @@ function createQCMHistory(data) {
         row.className = 'skibidi';
         
         const cell = document.createElement('td');
-        cell.setAttribute('data-note', data.currentNote);
-        cell.textContent = note;
+        const span = document.createElement('span');
+        span.setAttribute('data-note', note);
+        span.classList.add('tag');
+        span.textContent = note;
         
+        const value = parseFloat(note);
+        if (value >= 15) {
+            span.classList.add('green');
+        } else if (value >= 10) {
+            span.classList.add('yellow');
+        } else if (value >= 5) {
+            span.classList.add('orange');
+        } else {
+            span.classList.add('red');
+        }
+        
+        cell.appendChild(span);
         row.appendChild(cell);
         tbody.appendChild(row);
     });
@@ -65,7 +61,6 @@ function createConsoHistoryTable(historiqueData) {
     
     Object.entries(historiqueData).forEach(([matiere, consos]) => {
         const row = document.createElement('tr');
-        
         const matiereCell = document.createElement('td');
         matiereCell.textContent = matiere;
         row.appendChild(matiereCell);
@@ -90,10 +85,15 @@ function createConsoHistoryTable(historiqueData) {
 }
 
 function attachHoverEventListeners() {
-    document.querySelectorAll('.info-table').forEach(table => {
-        table.remove();
-    });
-    
+    let infoTableContainer = document.getElementById('info-table-container');
+    if (!infoTableContainer) {
+        infoTableContainer = document.createElement('div');
+        infoTableContainer.id = 'info-table-container';
+        infoTableContainer.style.position = 'fixed';
+        infoTableContainer.style.zIndex = '1000';
+        document.body.appendChild(infoTableContainer);
+    }
+
     document.querySelectorAll('.student-info').forEach(cell => {
         const newCell = cell.cloneNode(true);
         cell.parentNode.replaceChild(newCell, cell);
@@ -126,8 +126,6 @@ function attachHoverEventListeners() {
                         }
                     }
 
-                    console.log("Historique Data:", historiqueData);
-
                     if (historiqueData) {
                         try {
                             const historique = JSON.parse(historiqueData);
@@ -140,18 +138,20 @@ function attachHoverEventListeners() {
                     }
                     
                     if (infoTable) {
-                        infoTable.style.position = 'absolute';
-                        infoTable.style.zIndex = '2000';
+                        infoTable.style.position = 'fixed';
                         infoTable.style.display = 'table';
                         infoTable.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.2)';
-                        
-                        this.querySelectorAll('.info-table').forEach(table => table.remove());
-                        this.appendChild(infoTable);
+
+                        const rect = this.getBoundingClientRect();
+                        infoTable.style.left = rect.left + 'px';
+                        infoTable.style.top = rect.bottom + 5 + 'px';
+
+                        infoTableContainer.appendChild(infoTable);
                     }
                 });
             
                 cell.addEventListener('mouseleave', function() {
-                    const infoTables = this.querySelectorAll('.info-table');
+                    const infoTables = infoTableContainer.querySelectorAll('.info-table');
                     infoTables.forEach(table => {
                         table.style.display = 'none';
                     });

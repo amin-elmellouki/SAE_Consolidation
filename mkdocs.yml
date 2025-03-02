@@ -1,4 +1,5 @@
 site_name: ConsoLead
+dev_addr: 127.0.0.1:8080
 theme:
   name: material
   palette:

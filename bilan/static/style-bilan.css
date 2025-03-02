@@ -3,6 +3,7 @@
 }
 
 body {
+    padding-bottom: 20%;
     padding-left: 5%;
     padding-right: 5%;
 }
@@ -34,7 +35,7 @@ th, td {
 
 .info-table {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
+    position: fixed;
     display: none;
     z-index: 1000;
 }
@@ -150,6 +151,16 @@ table.sortable th.no-sort button span::after {
     color: #932753;
 }
 
+.yellow {
+    background-color: #fff8c4;
+    color: #806600;
+}
+
+.orange {
+    background-color: #ffe4c4;
+    color: #994d00;
+}
+
 .black {
     background-color: rgb(60, 60, 60);
     color: rgb(170, 170, 170);
@@ -158,4 +169,16 @@ table.sortable th.no-sort button span::after {
 .green {
     background-color: #b7eebe;
     color: #336736;
+}
+
+table.sortable thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+table.sortable th {
+    background-color: #353048;
+    color: white;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }
