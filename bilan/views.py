@@ -28,5 +28,5 @@ def bilan(request, date):
     return render(request, 'bilan.html', {
         'bilans': bilan,
         'date': date,
-        'matieres': models.Matiere.objects.all(),
+        'matieres': list(models.Matiere.objects.all().values('nomMat')),
     })

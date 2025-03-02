@@ -74,24 +74,13 @@ class SortableTable {
       filterPopup.style.display = 'none';
     });
     filterPopup.appendChild(allOption);
+
+    const allMatieres = window.matieres || [];
     
-    const matieres = new Set();
-    const headers = this.tableNode.querySelectorAll('thead th');
-    
-    headers.forEach(header => {
-      const buttonText = header.textContent.trim();
-      if (buttonText.startsWith('QCM ')) {
-        const matiere = buttonText.replace('QCM ', '').replace(' (/20)', '').trim();
-        if (matiere) {
-          matieres.add(matiere);
-        }
-      }
-    });
-    
-    matieres.forEach(matiere => {
+    allMatieres.forEach(matiere => {
       const option = document.createElement('div');
       option.className = 'filter-option';
-      option.textContent = matiere;
+      option.textContent = matiere.nomMat;
       option.style.padding = '8px 12px';
       option.style.cursor = 'pointer';
       option.style.borderRadius = '4px';
@@ -102,7 +91,7 @@ class SortableTable {
         option.style.backgroundColor = 'transparent';
       });
       option.addEventListener('click', () => {
-        this.applyFilter(matiere);
+        this.applyFilter(matiere.nomMat);
         filterPopup.style.display = 'none';
       });
       filterPopup.appendChild(option);
