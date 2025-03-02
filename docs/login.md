@@ -24,4 +24,10 @@ Et de remplir les champs demandés.
 --- 
 
 ## Mot de passe oublié
-TODO
+La page de permettant de réinitialiser son mot de passe est accessible depuis la page de connexion, après un clique sur le bouton ```Mot de passe oublié ?``` :  
+
+![Mot de passe oublié](images/forgot_psw_0.png)
+
+Cette page permet à l'utilisateur de renseigner une adresse mail, qui permettra à l'application d'envoyer un mail de réinitialisation de mot de passe :  
+
+![Mot de passe oublié](images/forgot_psw_1.png)
