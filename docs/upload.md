@@ -16,6 +16,3 @@ Une fois que tout semble correct, clicz sur le bouton envoyer pour extraire les 
 
 ![Page d'accueil avec message](images/upload_2.png)
 Un message de confirmation s'affichera.
-
----
-[Consulter un bilan →](/bilan)

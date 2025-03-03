@@ -23,6 +23,3 @@ En mettant sa souris au dessus d'une demande de conso, on verra l'historique des
 - Vert, s'il a demandé conso. et qu'il y est allé.  
 * Rouge, s'il a demandé conso. mais qu'il n'y a pas été accepté  
 * Noir, s'il a été absent à un cours de conso.  
-
----
-[Consulter des cours de consolidation →](/manage)
