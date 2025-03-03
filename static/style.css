@@ -156,7 +156,6 @@ header * {
 
 .h-form {
   display: flex;
-  width: 8%;
   justify-content: space-around;
 }
 
