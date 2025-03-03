@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'loginstyle.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="left-part">
+        <img src="{% static 'images/ConsoLead2.png' %}" alt="Logo ConsoLead" class="logo">
+        <p class="description">
+            Conso<b>Lead</b> vous permet de gérer plus facilement<br>
+            le soutien hebdomadaire proposé aux étudiants de BUT1.
+        </p>
+        <img src="{% static 'images/Mascotte.png' %}" alt="Image décorative" class="bias-image">
+    </div>
+
+    <div class="right-part">
+        <h1>Bienvenue !</h1>
+        <form method="post" id="login-form">
+            {% csrf_token %}
+            <div id="global-errors" class="error-message" aria-live="polite" style="display: none;"></div>
+            <div>
+                <div id="field-errors" class="error-message">
+                    {{ form.non_field_errors }}
+                </div>                
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p>
+            <a href="/forgot-password">Mot de passe oublié ?</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header %}
+<header>
+    <h1>Bienvenue {{user.username}}</h1>
+    <form class="h-form" action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <a href="/settings" class="white-button-menu"><span class="material-symbols-rounded ">settings</span></a>
+        <button type="submit" class="logout white-button-menu"><span class="material-symbols-rounded ">logout</span></button>
+    </form>
+</header>
+{% endblock %}
+
+{% block content %}{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base-header.html" %}
+{% load static %}
+{% load bilan_filters %}
+{% block title %} Bilan {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-bilan.css'%}" rel="stylesheet"/>
+<script src="{% static 'sort.js' %}"></script>
+<script src="{% static 'send.js' %}"></script>
+<script src="{% static 'histo.js' %}"></script>
+<script>
+    const temp = JSON.parse('{{ matieres|to_json|safe }}');
+    window.matieres = temp;
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div style="display: flex; align-items: center;">
+    <button class="white-button" onclick="location.href = '/'"><span style="margin-right: 10px;" class="material-symbols-rounded ">arrow_back</span> Retour</button>
+    <form action="/export_bilans/{{date}}">
+        <button class="white-button" ><span style="margin-right: 10px;" class="material-symbols-rounded ">download</span>Télécharger</button>
+    </form>
+    <button class="white-button" onclick="sendToConso()"><span style="margin-right: 10px;" class="material-symbols-rounded ">send</span>Envoyer</button>
+</div>
+
+<div id="info-table-container"></div>
+    <table data-date="{{date}}" class="sortable">
+        <thead>
+            <th class="no-sort">Numéro étudiant <span aria-hidden="true"></span></th>
+            <th><button>Nom <span aria-hidden="true"></span></button></th>
+            <th><button>Prénom <span aria-hidden="true"></span></button></th>
+            <th><button>Groupe <span aria-hidden="true"></span></button></th>
+            {% for matiere, note in bilans.0.notes.items %}
+                <th><button>QCM {{ matiere }} (/20) <span aria-hidden="true"></span></button></th>
+            {% endfor %}
+            <th class="no-sort">
+                <button>
+                  Demande conso. 
+                  <span class="material-symbols-rounded" style="margin-right: 10px; font-size: 1.4em;">filter_alt</span>
+                </button>
+              </th>
+            <th class="no-sort desc">Commentaires</th>
+            {% for matiere in matieres %}
+                <th>Conso. {{ matiere.nomMat }}</th>
+            {% endfor %}
+        </thead>
+
+        <tbody>
+            {% for bilan in bilans %}
+                <tr>
+                    <td>{{ bilan.numE }}</td>
+                    <td>{{ bilan.nom }}</td>
+                    <td>{{ bilan.prenom }}</td>
+                    <td>{{ bilan.groupe }}</td>
+                    {% for matiere, note in bilan.notes.items %}
+                        <td class="student-info"
+                            data-matiere="{{ matiere }}" 
+                            data-current-note="{{ note }}"
+                            data-history="{{ bilan.notes_by_mat|get:matiere|to_json }}">
+                            {{ note }}
+                        </td>
+                    {% endfor %}
+                    <td class="student-info filtre"
+                        data-matiere_demande="{{bilan.demande_en}}"
+                        data-historique="{{bilan.historique|to_json}}">
+                        {% if bilan.demande == 'True' %} ✅ {% else %} ❌ {% endif %} {{ bilan.demande_en }}
+                    </td>
+                    <td>{{ bilan.desc }}</td>
+                    {% for matiere in matieres %}
+                        <td data-nume="{{bilan.numE}}" data-matiere="{{ matiere.nomMat }}" class="checkbox-column"><input type="checkbox"></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

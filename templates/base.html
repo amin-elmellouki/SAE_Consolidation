@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+  
+  {% block head %}
+  <title>{% block title %}Mon Projet{% endblock %}</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+  <link href="{% static 'style.css'%}" rel="stylesheet" />
+  {% block styles %} {% endblock %}
+
+  {% endblock%}
+</head>
+
+<body>
+    {% block header %} {% endblock %}
+    {% block content %}{% endblock %}
+</body>
+</html>

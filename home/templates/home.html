@@ -1,0 +1,85 @@
+{% extends "base-header.html" %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block styles %} 
+<link href="{% static 'style-home.css'%}" rel="stylesheet"/>
+<script src="{% static 'script.js'%}"></script>
+<script>
+    const loadBilanUrl = "{% url 'load_bilan' %}";
+    const loadQcmUrl = "{% url 'load_qcm' %}";
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="loading">
+    <img src="{% static 'loading.gif'%}" alt="">
+    <p>Chargement des données...</p>
+</div>
+
+<main>
+    <div class="load">
+        <section>
+            <h2>Zone de chargement</h2>
+
+            <select style="display:none" name="matieres" class="matiere-select-base">
+                {% for matiere in matieres %}
+                    <option value="{{ matiere.nomMat }}">{{matiere.nomMat}}</option>
+                {% endfor %}
+            </select>
+
+            <div style="display: none;" id="succ" class="message success">
+                <p>Bilan chargé dans la base de données</p>
+            </div>
+
+            <div style="display: none;" id="err" class="message error">
+                <p>Erreur lors du chargement dans la base de données</p>
+            </div>
+
+            <div id="drop_zone" ondrop="dropHandler(event);" ondragover="event.preventDefault();">
+                <span class="material-symbols-rounded">upload_file</span>
+                <p>Glissez déposez des fichiers <strong>ici</strong>.</p>
+                <input type="file" id="bilan_file_input" style="display: none;" multiple onchange="fileInputHandler(event);">
+                <button type="button" onclick="document.getElementById('bilan_file_input').click();">Choisir un fichier</button>
+            </div>
+            
+            <table id="file_table" style="display: none;">
+                <tr>
+                    <th>Nom du fichier</th>
+                    <th>Type</th>
+                </tr>
+                
+                <tbody id="file_table_body">
+                </tbody>
+            </table>
+
+            <button style="display: none;" id="upload_button" onclick="submitFiles()">
+                Envoyer
+                <span style="margin-left: 10px;" class="material-symbols-rounded">send</span>
+            </button>
+        </section>
+    </div>
+
+    <aside class="aside-list">
+        <h2 class="aside-title">
+            <button class="aside-button" data-sort="desc">Semaine </button>
+        </h2>
+        <div class="aside-scrollable">
+            {% for date, data in semaines.items %}
+                <div class="week">
+                    <a onclick='document.getElementById("loading").style.display = "flex"' href="/bilan/{{ date }}">
+                        {{ date }}  
+                        {% if data.count_qcm > 0 %}
+                        <br>
+                            ({{ data.count_qcm }} QCM)
+                        {% endif %}
+                    </a>
+                    {% if data.conso_exists %}
+                        <a href="/conso/{{ date }}" class="material-symbols-rounded">event</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </aside>
+</main>
+{% endblock %}
