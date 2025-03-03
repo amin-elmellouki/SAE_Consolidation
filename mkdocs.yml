@@ -1,0 +1,38 @@
+site_name: ConsoLead
+dev_addr: 127.0.0.1:8080
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Thème lumineux
+    
+    - scheme: slate
+      primary: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Thème sombre
+  
+  features:
+  - navigation.instant
+  - navigation.instant.prefetch
+  - content.code.copy
+  - content.tabs.link
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.snippets
+  - pymdownx.superfences
+  
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

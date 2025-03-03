@@ -28,4 +28,4 @@ def forgot_password(request):
 
         return HttpResponse("Si cet email est enregistré, un lien de réinitialisation a été envoyé.")
 
-    return render(request, 'forgot_password.html')
+    return render(request, 'forgot-password.html')
